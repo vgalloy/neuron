@@ -1,0 +1,67 @@
+package com.vgalloy.neuron.neuronlayer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import com.vgalloy.neuron.neuron.Neuron;
+
+/**
+ * Created by Vincent Galloy on 01/04/17.
+ *
+ * @author Vincent Galloy
+ */
+class NeuronLayerImpl implements NeuronLayer {
+
+    private final List<Neuron> neurons;
+
+    NeuronLayerImpl(List<Neuron> neurons) {
+        this.neurons = Objects.requireNonNull(neurons);
+    }
+
+    @Override
+    public List<Boolean> compute(List<Boolean> input) {
+        return neurons.stream()
+            .map(e -> e.apply(input))
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Long> trainWithLong(List<Boolean> input, List<Long> expectedResult) {
+        if (neurons.size() != expectedResult.size()) {
+            throw new IllegalArgumentException("ExpectedResult size must be equals to neuron layer size");
+        }
+
+        List<List<Long>> coefficientCorrectionList = new ArrayList<>();
+        for (int i = 0; i < neurons.size(); i++) {
+            Neuron neuron = neurons.get(i);
+            List<Long> correction = neuron.train(input, expectedResult.get(i));
+            coefficientCorrectionList.add(correction);
+        }
+
+        List<Long> result = IntStream.range(0, input.size())
+            .boxed()
+            .map(e -> 0L)
+            .collect(Collectors.toList());
+        for (List<Long> bigDecimals : coefficientCorrectionList) {
+            for (int i = 0; i < bigDecimals.size(); i++) {
+                result.set(i, result.get(i) + bigDecimals.get(i));
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public int size() {
+        return neurons.size();
+    }
+
+    @Override
+    public String toString() {
+        return "NeuronLayerImpl{" +
+            "neurons=" + neurons +
+            '}';
+    }
+}
