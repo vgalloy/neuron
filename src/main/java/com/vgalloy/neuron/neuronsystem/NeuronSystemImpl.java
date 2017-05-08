@@ -32,23 +32,20 @@ class NeuronSystemImpl implements NeuronSystem {
 
     @Override
     public void train(List<Boolean> input, List<Boolean> expectedSolution) {
-        List<Long> list = expectedSolution.stream()
+        List<Long> expectedSolutionAsLong = expectedSolution.stream()
             .map(e -> e ? Constant.ONE : Constant.MINUS_ONE)
             .collect(Collectors.toList());
 
+        List<List<Boolean>> middleResult = new ArrayList<>();
         for (NeuronLayer neuronLayer : neuronLayers) {
-            list = neuronLayer.trainWithLong(input, list);
+            middleResult.add(input);
+            input = neuronLayer.compute(input);
         }
 
-        if (expectedSolution.size() != list.size()) {
-            throw new IllegalArgumentException("Expected solution should have same length than result");
+        for (int i = 0; i < neuronLayers.size(); i++) {
+            int index = neuronLayers.size() - 1 - i;
+            expectedSolutionAsLong = neuronLayers.get(index).trainWithLong(middleResult.get(index), expectedSolutionAsLong);
         }
-
-        for (int i = 0; i < list.size(); i++) {
-
-        }
-
-//        List<Boolean> list = new ArrayList<>(expectedSolution);
     }
 
     public List<NeuronLayer> getNeuronLayers() {
