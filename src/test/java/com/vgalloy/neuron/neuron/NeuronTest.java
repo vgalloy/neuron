@@ -17,7 +17,7 @@ public final class NeuronTest {
     @Test
     public void correctMonoNeuron() {
         // GIVEN
-        Neuron neuron = Neurons.of(Collections.singletonList(Constant.ONE));
+        Neuron neuron = Neurons.of(Collections.singletonList(1L));
 
         // WHEN
         Boolean result = neuron.apply(Collections.singletonList(true));
@@ -29,7 +29,7 @@ public final class NeuronTest {
     @Test
     public void correctMonoNeuron2() {
         // GIVEN
-        Neuron neuron = Neurons.of(Collections.singletonList(2 * Constant.ONE));
+        Neuron neuron = Neurons.of(Collections.singletonList(2L));
 
         // WHEN
         Boolean result = neuron.apply(Collections.singletonList(true));

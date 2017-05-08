@@ -3,6 +3,8 @@ package com.vgalloy.neuron.neuron;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 import com.vgalloy.neuron.constant.Constant;
 
@@ -24,14 +26,14 @@ class SimpleNeuron implements Neuron {
         }
         List<Long> fullCoefficients = new ArrayList<>();
         fullCoefficients.add(Constant.MINUS_ONE);
-        fullCoefficients.addAll(coefficients);
+        fullCoefficients.addAll(coefficients.stream().map(e -> e * Constant.GLOBAL_MULTIPLICATOR).collect(Collectors.toList()));
         this.coefficients = fullCoefficients;
     }
 
     @Override
     public Boolean apply(List<Boolean> input) {
-        if (input.size() + 1 != coefficients.size()) {
-            throw new IllegalArgumentException("args size is not correct");
+        if (input.size() != coefficients.size() - 1) {
+            throw new IllegalArgumentException("You are train neuron with " + input.size() + " inputs. But this neuron needs " + (coefficients.size() - 1) + ".");
         }
 
         Long result = 0L;
@@ -44,21 +46,24 @@ class SimpleNeuron implements Neuron {
 
     @Override
     public List<Long> train(List<Boolean> input, Long expected) {
-        if (input.size() + 1 != coefficients.size()) {
-            throw new IllegalArgumentException("args size is not correct");
+        Objects.requireNonNull(input, "Input can not be null");
+        Objects.requireNonNull(expected, "Expected result can not be null");
+        if (input.size() != coefficients.size() - 1) {
+            throw new IllegalArgumentException("You are train neuron with " + input.size() + " inputs. But this neuron needs " + (coefficients.size() - 1) + ".");
         }
 
         Boolean result = apply(input);
         List<Long> coefficientCorrection = new ArrayList<>();
-        Long resultAsBigInteger = result ? Constant.ONE : 0L;
-        if (!resultAsBigInteger.equals(expected)) {
+        Long resultAsLong = result ? Constant.ONE : 0L;
+        if (!resultAsLong.equals(expected)) {
             for (int i = 0; i < coefficients.size(); i++) {
                 Long diff = (expected - compute(i, input)) * MULTIPLICATOR / Constant.GLOBAL_MULTIPLICATOR;
                 coefficientCorrection.add(diff);
                 coefficients.set(i, coefficients.get(i) + diff);
             }
+            return coefficientCorrection.subList(1, coefficientCorrection.size());
         }
-        return coefficientCorrection.subList(1, coefficientCorrection.size());
+        return LongStream.range(0, coefficients.size()).boxed().map(e -> 0L).collect(Collectors.toList());
     }
 
     private Long compute(int i, List<Boolean> input) {
@@ -66,7 +71,7 @@ class SimpleNeuron implements Neuron {
         if (i != 0) {
             valueAsLong = input.get(i - 1) ? Constant.ONE : 0L;
         }
-        return coefficients.get(i) * valueAsLong;
+        return coefficients.get(i) * valueAsLong / Constant.ONE;
     }
 
     @Override
