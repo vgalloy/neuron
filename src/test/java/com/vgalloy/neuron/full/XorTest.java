@@ -16,7 +16,28 @@ import org.junit.Test;
 public final class XorTest {
 
     @Test
-    public void test() {
+    public void testSimple() {
+        // GIVEN
+        NeuronSystem neuronSystem = new NeuronSystemBuilder(2)
+            .addLayer(3)
+            .addLayer(2)
+            .addLayer(1)
+            .build();
+
+        // WHEN
+        System.out.println(neuronSystem);
+        neuronSystem.train(Arrays.asList(Boolean.TRUE, Boolean.TRUE), Collections.singletonList(false));
+        System.out.println(neuronSystem);
+
+        // THEN
+        Assert.assertFalse(neuronSystem.compute(Arrays.asList(true, true)).get(0));
+        Assert.assertTrue(neuronSystem.compute(Arrays.asList(true, false)).get(0));
+        Assert.assertTrue(neuronSystem.compute(Arrays.asList(false, true)).get(0));
+        Assert.assertFalse(neuronSystem.compute(Arrays.asList(false, false)).get(0));
+    }
+
+    @Test
+    public void xor() {
         // GIVEN
         NeuronSystem neuronSystem = new NeuronSystemBuilder(2)
             .addLayer(3)

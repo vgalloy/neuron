@@ -48,13 +48,13 @@ class SimpleNeuron implements Neuron {
         NeuronAssert.checkState(input.size() != coefficients.size() - 1, "You are train neuron with " + input.size() + " inputs. But this neuron needs " + (coefficients.size() - 1) + ".");
 
         Boolean result = apply(input);
-        List<Long> coefficientCorrection = new ArrayList<>();
         Long resultAsLong = Constant.map(result);
+        List<Long> coefficientCorrection = new ArrayList<>();
         if (!resultAsLong.equals(expected)) {
             for (int i = 0; i < coefficients.size(); i++) {
                 Long diff = (expected - compute(i, input)) * MULTIPLICATOR / Constant.GLOBAL_MULTIPLICATOR;
+                coefficients.set(i, Math.max(Constant.MINUS_ONE, Math.min(Constant.ONE, coefficients.get(i) + diff)));
                 coefficientCorrection.add(diff);
-                coefficients.set(i, coefficients.get(i) + diff);
             }
             return coefficientCorrection.subList(1, coefficientCorrection.size());
         }
@@ -62,11 +62,14 @@ class SimpleNeuron implements Neuron {
     }
 
     private Long compute(int i, List<Boolean> input) {
-        Long valueAsLong = Constant.ONE;
-        if (i != 0) {
-            valueAsLong = input.get(i - 1) ? Constant.ONE : 0L;
+        return getValue(i, input) * coefficients.get(i) / Constant.ONE;
+    }
+
+    private Long getValue(int i, List<Boolean> input) {
+        if (i == 0) {
+            return Constant.ONE;
         }
-        return coefficients.get(i) * valueAsLong / Constant.ONE;
+        return Constant.map(input.get(i - 1));
     }
 
     @Override

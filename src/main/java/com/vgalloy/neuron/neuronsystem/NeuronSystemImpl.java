@@ -41,7 +41,15 @@ class NeuronSystemImpl implements NeuronSystem {
 
         for (int i = 0; i < neuronLayers.size(); i++) {
             int index = neuronLayers.size() - 1 - i;
-            expectedSolutionAsLong = neuronLayers.get(index).trainWithLong(middleResult.get(index), expectedSolutionAsLong);
+            NeuronLayer neuronLayer = neuronLayers.get(index);
+            List<Boolean> intermediateInput = middleResult.get(index);
+            System.out.println("neuronLayer" + neuronLayer);
+            System.out.println("intermediateInput" + intermediateInput);
+            System.out.println("expectedSolutionAsLong" + expectedSolutionAsLong);
+            List<Long> correctionAsLong = neuronLayer.trainWithLong(intermediateInput, expectedSolutionAsLong);
+            System.out.println("correction" + correctionAsLong);
+            System.out.println("neuronLayer corrected" + neuronLayer);
+            expectedSolutionAsLong = correctionAsLong;
         }
     }
 
