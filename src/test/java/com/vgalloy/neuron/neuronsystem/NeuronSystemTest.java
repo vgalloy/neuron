@@ -34,7 +34,7 @@ public final class NeuronSystemTest {
     @Test
     public void outputSize() {
         // GIVEN
-        NeuronSystemImpl neuronSystem = (NeuronSystemImpl) new NeuronSystemBuilder(3)
+        NeuronSystem neuronSystem = new NeuronSystemBuilder(3)
             .addLayer(10)
             .addLayer(2)
             .addLayer(2)

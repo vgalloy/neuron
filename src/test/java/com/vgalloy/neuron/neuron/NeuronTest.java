@@ -18,7 +18,7 @@ public final class NeuronTest {
     @Test
     public void correctMonoNeuron() {
         // GIVEN
-        Neuron neuron = Neurons.of(Collections.singletonList(Constant.ONE));
+        Neuron neuron = Neurons.of(Constant.MINUS_ONE, Collections.singletonList(Constant.ONE));
 
         // WHEN
         Boolean result = neuron.apply(Collections.singletonList(true));
@@ -30,7 +30,7 @@ public final class NeuronTest {
     @Test
     public void correctMonoNeuron2() {
         // GIVEN
-        Neuron neuron = Neurons.of(Collections.singletonList(Constant.ONE * 2L));
+        Neuron neuron = Neurons.of(Constant.MINUS_ONE, Collections.singletonList(Constant.ONE * 2L));
 
         // WHEN
         Boolean result = neuron.apply(Collections.singletonList(true));
@@ -42,7 +42,7 @@ public final class NeuronTest {
     @Test
     public void neuronTrain() {
         // GIVEN
-        Neuron neuron = Neurons.of(Collections.singletonList(Constant.ONE * 2L));
+        Neuron neuron = Neurons.of(Constant.MINUS_ONE, Collections.singletonList(Constant.ONE * 2L));
 
         // WHEN
         neuron.train(Collections.singletonList(true), false);
@@ -56,7 +56,7 @@ public final class NeuronTest {
     @Test
     public void neuronTrainResultSize() {
         // GIVEN
-        Neuron neuron = new SimpleNeuron(24L, Arrays.asList(-88L, -37L));
+        Neuron neuron = Neurons.of(24L, Arrays.asList(-88L, -37L));
 
         // WHEN
         List<Long> result = neuron.train(Arrays.asList(false, false), true);
@@ -68,15 +68,15 @@ public final class NeuronTest {
     @Test
     public void neuronTrainResult() {
         // GIVEN
-        Neuron neuron = Neurons.of(Collections.singletonList(Constant.ONE * 2L));
+        Neuron neuron = Neurons.of(Constant.MINUS_ONE, Collections.singletonList(Constant.ONE * 2L));
 
         // WHEN
         List<Long> result = neuron.train(Collections.singletonList(true), false);
 
         // THEN
         Assert.assertEquals(1, result.size());
-        for (int i = 0; i < result.size(); i++) {
-            Assert.assertEquals(6 * Constant.MINUS_ONE / 10, (long) result.get(i));
+        for (Long aResult : result) {
+            Assert.assertEquals(6 * Constant.MINUS_ONE / 10, (long) aResult);
         }
     }
 

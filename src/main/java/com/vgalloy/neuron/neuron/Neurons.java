@@ -27,13 +27,24 @@ public final class Neurons {
 
         List<Long> coefficient = IntStream.range(0, size)
             .boxed()
-            .map(e -> RANDOM.nextInt() > 0 ? Constant.ONE : Constant.MINUS_ONE)
+            .map(e -> random())
             .collect(Collectors.toList());
 
         return of(coefficient);
     }
 
-    public static Neuron of(List<Long> coefficient) {
-        return new SimpleNeuron(Constant.MINUS_ONE, coefficient);
+    public static Neuron of(List<Long> coefficients) {
+        return of(random(), coefficients);
+    }
+
+    public static Neuron of(Long firstCoefficient, List<Long> coefficients) {
+        return new SimpleNeuron(firstCoefficient, coefficients);
+    }
+
+    private static long random() {
+        if (RANDOM.nextInt() > 0) {
+            return Constant.ONE;
+        }
+        return Constant.MINUS_ONE;
     }
 }
