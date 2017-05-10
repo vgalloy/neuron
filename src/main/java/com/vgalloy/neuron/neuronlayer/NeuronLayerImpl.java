@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.vgalloy.neuron.neuron.Neuron;
+import com.vgalloy.neuron.util.NeuronAssert;
 
 /**
  * Created by Vincent Galloy on 01/04/17.
@@ -30,14 +31,13 @@ class NeuronLayerImpl implements NeuronLayer {
 
     @Override
     public List<Long> trainWithLong(List<Boolean> input, List<Long> expectedResult) {
-        if (neurons.size() != expectedResult.size()) {
-            throw new IllegalArgumentException("ExpectedResult size must be equals to neuron layer size");
-        }
+        NeuronAssert.checkState(neurons.size() != expectedResult.size(), "ExpectedResult size must be equals to neuron layer size.");
 
         List<List<Long>> coefficientCorrectionList = new ArrayList<>();
         for (int i = 0; i < neurons.size(); i++) {
             Neuron neuron = neurons.get(i);
             List<Long> correction = neuron.train(input, expectedResult.get(i));
+            NeuronAssert.checkState(correction.size() != input.size(), "Correction list size should be equals to input list size.");
             coefficientCorrectionList.add(correction);
         }
 
@@ -45,6 +45,7 @@ class NeuronLayerImpl implements NeuronLayer {
             .boxed()
             .map(e -> 0L)
             .collect(Collectors.toList());
+        NeuronAssert.checkState(result.size() != input.size(), "Result list size should be equals to input list size.");
         for (List<Long> bigDecimals : coefficientCorrectionList) {
             for (int i = 0; i < bigDecimals.size(); i++) {
                 result.set(i, result.get(i) + bigDecimals.get(i));

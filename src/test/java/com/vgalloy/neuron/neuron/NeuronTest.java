@@ -1,5 +1,6 @@
 package com.vgalloy.neuron.neuron;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public final class NeuronTest {
     @Test
     public void correctMonoNeuron() {
         // GIVEN
-        Neuron neuron = Neurons.of(Collections.singletonList(1L));
+        Neuron neuron = Neurons.of(Collections.singletonList(Constant.ONE));
 
         // WHEN
         Boolean result = neuron.apply(Collections.singletonList(true));
@@ -29,7 +30,7 @@ public final class NeuronTest {
     @Test
     public void correctMonoNeuron2() {
         // GIVEN
-        Neuron neuron = Neurons.of(Collections.singletonList(2L));
+        Neuron neuron = Neurons.of(Collections.singletonList(Constant.ONE * 2L));
 
         // WHEN
         Boolean result = neuron.apply(Collections.singletonList(true));
@@ -41,7 +42,7 @@ public final class NeuronTest {
     @Test
     public void neuronTrain() {
         // GIVEN
-        Neuron neuron = Neurons.of(Collections.singletonList(2L));
+        Neuron neuron = Neurons.of(Collections.singletonList(Constant.ONE * 2L));
 
         // WHEN
         neuron.train(Collections.singletonList(true), false);
@@ -53,9 +54,21 @@ public final class NeuronTest {
     }
 
     @Test
+    public void neuronTrainResultSize() {
+        // GIVEN
+        Neuron neuron = new SimpleNeuron(24L, Arrays.asList(-88L, -37L));
+
+        // WHEN
+        List<Long> result = neuron.train(Arrays.asList(false, false), true);
+
+        // THEN
+        Assert.assertEquals(2, result.size());
+    }
+
+    @Test
     public void neuronTrainResult() {
         // GIVEN
-        Neuron neuron = Neurons.of(Collections.singletonList(2L));
+        Neuron neuron = Neurons.of(Collections.singletonList(Constant.ONE * 2L));
 
         // WHEN
         List<Long> result = neuron.train(Collections.singletonList(true), false);
@@ -70,7 +83,7 @@ public final class NeuronTest {
     @Test
     public void noNamedTest() {
         // GIVEN
-        Neuron neuron = Neurons.of(Collections.singletonList(2L));
+        Neuron neuron = Neurons.of(Collections.singletonList(Constant.ONE * 2L));
 
         // WHEN
         neuron.train(Collections.singletonList(true), false);

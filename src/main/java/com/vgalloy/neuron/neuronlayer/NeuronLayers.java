@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 
 import com.vgalloy.neuron.neuron.Neuron;
 import com.vgalloy.neuron.neuron.Neurons;
+import com.vgalloy.neuron.util.NeuronAssert;
 
 /**
  * Created by Vincent Galloy on 01/04/17.
@@ -20,13 +21,8 @@ public final class NeuronLayers {
     }
 
     public static NeuronLayer of(int previousLayerSize, int layerSize) {
-        if (previousLayerSize <= 0) {
-            throw new IllegalArgumentException("Can not create a neuron layer with no entry");
-        }
-
-        if (layerSize <= 0) {
-            throw new IllegalArgumentException("Can not create a neuron layer with no neuron");
-        }
+        NeuronAssert.checkState(previousLayerSize <= 0, "Can not create a neuron layer with no entry");
+        NeuronAssert.checkState(layerSize <= 0, "Can not create a neuron layer with no neuron");
 
         List<Neuron> neurons = IntStream.range(0, layerSize)
             .boxed()

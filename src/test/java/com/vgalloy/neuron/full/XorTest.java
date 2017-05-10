@@ -25,7 +25,7 @@ public final class XorTest {
             .build();
 
         // WHEN
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             neuronSystem.train(Arrays.asList(Boolean.TRUE, Boolean.TRUE), Collections.singletonList(false));
             neuronSystem.train(Arrays.asList(Boolean.TRUE, Boolean.FALSE), Collections.singletonList(true));
             neuronSystem.train(Arrays.asList(Boolean.FALSE, Boolean.TRUE), Collections.singletonList(true));

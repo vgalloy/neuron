@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 import com.vgalloy.neuron.constant.Constant;
+import com.vgalloy.neuron.util.NeuronAssert;
 
 /**
  * Created by Vincent Galloy on 01/04/17.
@@ -19,22 +20,18 @@ class SimpleNeuron implements Neuron {
 
     private final List<Long> coefficients;
 
-    SimpleNeuron(List<Long> coefficients) {
+    SimpleNeuron(Long firstCoefficient, List<Long> coefficients) {
+        Objects.requireNonNull(firstCoefficient);
         Objects.requireNonNull(coefficients);
-        if (coefficients.isEmpty()) {
-            throw new IllegalArgumentException("Neuron must have at least on entry point");
-        }
-        List<Long> fullCoefficients = new ArrayList<>();
-        fullCoefficients.add(Constant.MINUS_ONE);
-        fullCoefficients.addAll(coefficients.stream().map(e -> e * Constant.GLOBAL_MULTIPLICATOR).collect(Collectors.toList()));
-        this.coefficients = fullCoefficients;
+        NeuronAssert.checkState(coefficients.isEmpty(), "Neuron must have at least on entry point");
+        this.coefficients = new ArrayList<>();
+        this.coefficients.add(firstCoefficient);
+        this.coefficients.addAll(coefficients);
     }
 
     @Override
     public Boolean apply(List<Boolean> input) {
-        if (input.size() != coefficients.size() - 1) {
-            throw new IllegalArgumentException("You are train neuron with " + input.size() + " inputs. But this neuron needs " + (coefficients.size() - 1) + ".");
-        }
+        NeuronAssert.checkState(input.size() != coefficients.size() - 1, "You are train neuron with " + input.size() + " inputs. But this neuron needs " + (coefficients.size() - 1) + ".");
 
         Long result = 0L;
         for (int i = 0; i < coefficients.size(); i++) {
@@ -48,9 +45,7 @@ class SimpleNeuron implements Neuron {
     public List<Long> train(List<Boolean> input, Long expected) {
         Objects.requireNonNull(input, "Input can not be null");
         Objects.requireNonNull(expected, "Expected result can not be null");
-        if (input.size() != coefficients.size() - 1) {
-            throw new IllegalArgumentException("You are train neuron with " + input.size() + " inputs. But this neuron needs " + (coefficients.size() - 1) + ".");
-        }
+        NeuronAssert.checkState(input.size() != coefficients.size() - 1, "You are train neuron with " + input.size() + " inputs. But this neuron needs " + (coefficients.size() - 1) + ".");
 
         Boolean result = apply(input);
         List<Long> coefficientCorrection = new ArrayList<>();
@@ -63,7 +58,7 @@ class SimpleNeuron implements Neuron {
             }
             return coefficientCorrection.subList(1, coefficientCorrection.size());
         }
-        return LongStream.range(0, coefficients.size()).boxed().map(e -> 0L).collect(Collectors.toList());
+        return LongStream.range(0, coefficients.size() - 1).boxed().map(e -> 0L).collect(Collectors.toList());
     }
 
     private Long compute(int i, List<Boolean> input) {

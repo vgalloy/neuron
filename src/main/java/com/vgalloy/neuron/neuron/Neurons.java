@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.vgalloy.neuron.constant.Constant;
+import com.vgalloy.neuron.util.NeuronAssert;
 
 /**
  * Created by Vincent Galloy on 01/04/17.
@@ -22,9 +23,7 @@ public final class Neurons {
     }
 
     public static Neuron of(int size) {
-        if (size <= 0) {
-            throw new IllegalArgumentException("Can not create a neuron with no connection");
-        }
+        NeuronAssert.checkState(size <= 0, "Can not create a neuron with no connection");
 
         List<Long> coefficient = IntStream.range(0, size)
             .boxed()
@@ -35,6 +34,6 @@ public final class Neurons {
     }
 
     public static Neuron of(List<Long> coefficient) {
-        return new SimpleNeuron(coefficient);
+        return new SimpleNeuron(Constant.MINUS_ONE, coefficient);
     }
 }
