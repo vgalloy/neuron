@@ -3,7 +3,6 @@ package com.vgalloy.neuron.neuronsystem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.neuronlayer.NeuronLayer;
@@ -32,9 +31,7 @@ class NeuronSystemImpl implements NeuronSystem {
 
     @Override
     public void train(List<Boolean> input, List<Boolean> expectedSolution) {
-        List<Long> expectedSolutionAsLong = expectedSolution.stream()
-            .map(e -> e ? Constant.ONE : Constant.MINUS_ONE)
-            .collect(Collectors.toList());
+        List<Long> expectedSolutionAsLong = Constant.map(expectedSolution);
 
         List<List<Boolean>> middleResult = new ArrayList<>();
         for (NeuronLayer neuronLayer : neuronLayers) {

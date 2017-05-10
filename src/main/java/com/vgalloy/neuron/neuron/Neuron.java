@@ -13,7 +13,7 @@ import com.vgalloy.neuron.constant.Constant;
 public interface Neuron extends Function<List<Boolean>, Boolean> {
 
     default List<Long> train(List<Boolean> input, Boolean expected) {
-        Long expectedAsLong = expected ? Constant.ONE : Constant.MINUS_ONE;
+        Long expectedAsLong = Constant.map(expected);
         return train(input, expectedAsLong);
     }
 

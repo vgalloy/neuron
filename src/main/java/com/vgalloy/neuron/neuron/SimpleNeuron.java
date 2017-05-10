@@ -49,7 +49,7 @@ class SimpleNeuron implements Neuron {
 
         Boolean result = apply(input);
         List<Long> coefficientCorrection = new ArrayList<>();
-        Long resultAsLong = result ? Constant.ONE : 0L;
+        Long resultAsLong = Constant.map(result);
         if (!resultAsLong.equals(expected)) {
             for (int i = 0; i < coefficients.size(); i++) {
                 Long diff = (expected - compute(i, input)) * MULTIPLICATOR / Constant.GLOBAL_MULTIPLICATOR;

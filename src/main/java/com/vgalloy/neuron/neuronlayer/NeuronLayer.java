@@ -1,7 +1,6 @@
 package com.vgalloy.neuron.neuronlayer;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.vgalloy.neuron.constant.Constant;
 
@@ -23,9 +22,7 @@ public interface NeuronLayer {
     List<Long> trainWithLong(List<Boolean> input, List<Long> expectedResult);
 
     default List<Long> trainWithBoolean(List<Boolean> input, List<Boolean> expectedResult) {
-        List<Long> list = expectedResult.stream()
-            .map(e -> e ? Constant.ONE : Constant.MINUS_ONE)
-            .collect(Collectors.toList());
+        List<Long> list = Constant.map(expectedResult);
         return trainWithLong(input, list);
     }
 
