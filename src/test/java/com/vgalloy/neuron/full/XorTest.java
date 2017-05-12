@@ -6,6 +6,7 @@ import java.util.Collections;
 import com.vgalloy.neuron.neuronsystem.NeuronSystem;
 import com.vgalloy.neuron.neuronsystem.NeuronSystemBuilder;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -13,6 +14,7 @@ import org.junit.Test;
  *
  * @author Vincent Galloy
  */
+@Ignore
 public final class XorTest {
 
     @Test

@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 
 import com.vgalloy.neuron.neuronlayer.NeuronLayer;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -13,7 +14,7 @@ import org.junit.Test;
  *
  * @author Vincent Galloy
  */
-public final class NeuronSystemTest {
+public final class NeuronSystemBuilderTest {
 
     @Test
     public void neuronSystemCreator() {

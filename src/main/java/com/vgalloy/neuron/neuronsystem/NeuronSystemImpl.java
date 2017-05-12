@@ -12,7 +12,7 @@ import com.vgalloy.neuron.neuronlayer.NeuronLayer;
  *
  * @author Vincent Galloy
  */
-class NeuronSystemImpl implements NeuronSystem {
+final class NeuronSystemImpl implements NeuronSystem {
 
     private final List<NeuronLayer> neuronLayers;
 

@@ -3,6 +3,7 @@ package com.vgalloy.neuron.neuron;
 import java.util.Arrays;
 
 import com.vgalloy.neuron.constant.Constant;
+
 import org.junit.Assert;
 import org.junit.Test;
 

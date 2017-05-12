@@ -1,8 +1,12 @@
 package com.vgalloy.neuron.neuron;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import com.vgalloy.neuron.constant.Constant;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -114,15 +118,14 @@ public final class NeuronAndTest {
     }
 
     private void train(Neuron neuron) {
-        for (int i = 0; i < 30; i++) {
-            neuron.train(Arrays.asList(true, true), true);
-            System.out.println(neuron);
-            neuron.train(Arrays.asList(false, true), false);
-            System.out.println(neuron);
-            neuron.train(Arrays.asList(true, false), false);
-            System.out.println(neuron);
-            neuron.train(Arrays.asList(false, false), false);
-            System.out.println(neuron);
+        List<List<Boolean>> training = new ArrayList<>();
+        training.add(Arrays.asList(true, true));
+        training.add(Arrays.asList(true, false));
+        training.add(Arrays.asList(false, true));
+        training.add(Arrays.asList(false, false));
+        for (int i = 0; i < 50; i++) {
+            Collections.shuffle(training);
+            training.forEach(e -> neuron.train(e, e.get(0) && e.get(1)));
         }
     }
 

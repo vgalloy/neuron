@@ -34,7 +34,7 @@ public final class Constant {
         if (value) {
             return Constant.ONE;
         }
-        return Constant.MINUS_ONE;
+        return 0L;
     }
 
     public static List<Long> map(List<Boolean> list) {

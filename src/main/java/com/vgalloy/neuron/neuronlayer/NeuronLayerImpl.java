@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.neuron.Neuron;
 import com.vgalloy.neuron.util.NeuronAssert;
 
@@ -36,7 +37,7 @@ class NeuronLayerImpl implements NeuronLayer {
         List<List<Long>> coefficientCorrectionList = new ArrayList<>();
         for (int i = 0; i < neurons.size(); i++) {
             Neuron neuron = neurons.get(i);
-            List<Long> correction = neuron.train(input, expectedResult.get(i));
+            List<Long> correction = neuron.train(input, expectedResult.get(i) > 0);
             NeuronAssert.checkState(correction.size() != input.size(), "Correction list size should be equals to input list size.");
             coefficientCorrectionList.add(correction);
         }

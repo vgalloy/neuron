@@ -12,10 +12,5 @@ import com.vgalloy.neuron.constant.Constant;
  */
 public interface Neuron extends Function<List<Boolean>, Boolean> {
 
-    default List<Long> train(List<Boolean> input, Boolean expected) {
-        Long expectedAsLong = Constant.map(expected);
-        return train(input, expectedAsLong);
-    }
-
-    List<Long> train(List<Boolean> input, Long expected);
+    List<Long> train(List<Boolean> input, Boolean expected);
 }
