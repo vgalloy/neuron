@@ -6,6 +6,7 @@ import java.util.Objects;
 
 /**
  * Created by Vincent Galloy on 12/05/2017.
+ * This class help for input management. Input get special behaviour for the first coefficient. It should be equals to ONE in any case.
  *
  * @author Vincent Galloy
  */

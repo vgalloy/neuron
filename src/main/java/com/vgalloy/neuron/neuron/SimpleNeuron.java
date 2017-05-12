@@ -68,7 +68,6 @@ final class SimpleNeuron implements Neuron {
             coefficientCorrection.add(diff);
         }
         return coefficientCorrection.subList(1, coefficientCorrection.size());
-
     }
 
     private Long compute(int i, NeuronInput input) {

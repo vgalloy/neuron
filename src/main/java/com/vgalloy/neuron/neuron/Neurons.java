@@ -9,6 +9,7 @@ import com.vgalloy.neuron.util.NeuronAssert;
 
 /**
  * Created by Vincent Galloy on 01/04/17.
+ * This class manage {@link Neuron} creation.
  *
  * @author Vincent Galloy
  */
