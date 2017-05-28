@@ -61,11 +61,12 @@ final class SimpleNeuron implements Neuron {
         List<Long> coefficientCorrection = new ArrayList<>();
         for (int i = 0; i < coefficients.size(); i++) {
             if (!neuronInput.get(i)) {
-                continue;
+                coefficientCorrection.add(0L);
+            } else {
+                Long diff = (expectedAsLong - compute(i, neuronInput)) * MULTIPLICATOR / Constant.GLOBAL_MULTIPLICATOR;
+                coefficients.set(i, Math.max(Constant.MINUS_ONE, Math.min(Constant.ONE, coefficients.get(i) + diff)));
+                coefficientCorrection.add(diff);
             }
-            Long diff = (expectedAsLong - compute(i, neuronInput)) * MULTIPLICATOR / Constant.GLOBAL_MULTIPLICATOR;
-            coefficients.set(i, Math.max(Constant.MINUS_ONE, Math.min(Constant.ONE, coefficients.get(i) + diff)));
-            coefficientCorrection.add(diff);
         }
         return coefficientCorrection.subList(1, coefficientCorrection.size());
     }
@@ -81,7 +82,7 @@ final class SimpleNeuron implements Neuron {
     @Override
     public String toString() {
         return "SimpleNeuron{" +
-                "coefficients=" + coefficients +
-                '}';
+            "coefficients=" + coefficients +
+            '}';
     }
 }

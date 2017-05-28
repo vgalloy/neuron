@@ -11,7 +11,7 @@ import com.vgalloy.neuron.constant.Constant;
  */
 public interface NeuronLayer {
 
-    List<Boolean> compute(List<Boolean> input);
+    List<Boolean> apply(List<Boolean> input);
 
     /**
      * Train the current neuron layer.

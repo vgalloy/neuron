@@ -24,7 +24,7 @@ final class NeuronSystemImpl implements NeuronSystem {
     public List<Boolean> compute(List<Boolean> input) {
         List<Boolean> list = new ArrayList<>(input);
         for (NeuronLayer neuronLayer : neuronLayers) {
-            list = neuronLayer.compute(list);
+            list = neuronLayer.apply(list);
         }
         return list;
     }
@@ -36,7 +36,7 @@ final class NeuronSystemImpl implements NeuronSystem {
         List<List<Boolean>> middleResult = new ArrayList<>();
         for (NeuronLayer neuronLayer : neuronLayers) {
             middleResult.add(input);
-            input = neuronLayer.compute(input);
+            input = neuronLayer.apply(input);
         }
 
         for (int i = 0; i < neuronLayers.size(); i++) {

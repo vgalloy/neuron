@@ -6,7 +6,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.neuron.Neuron;
 import com.vgalloy.neuron.util.NeuronAssert;
 
@@ -24,7 +23,7 @@ class NeuronLayerImpl implements NeuronLayer {
     }
 
     @Override
-    public List<Boolean> compute(List<Boolean> input) {
+    public List<Boolean> apply(List<Boolean> input) {
         return neurons.stream()
             .map(e -> e.apply(input))
             .collect(Collectors.toList());

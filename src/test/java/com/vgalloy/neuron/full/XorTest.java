@@ -14,6 +14,7 @@ import org.junit.Test;
  *
  * @author Vincent Galloy
  */
+@Ignore
 public final class XorTest {
 
     @Test

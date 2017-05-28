@@ -24,14 +24,14 @@ public final class Neurons {
 
         List<Long> coefficient = IntStream.range(0, size)
             .boxed()
-            .map(e -> Constant.random())
+            .map(e -> Constant.longRandom())
             .collect(Collectors.toList());
 
         return of(coefficient);
     }
 
     public static Neuron of(List<Long> coefficients) {
-        return of(Constant.random(), coefficients);
+        return of(Constant.longRandom(), coefficients);
     }
 
     public static Neuron of(Long firstCoefficient, List<Long> coefficients) {

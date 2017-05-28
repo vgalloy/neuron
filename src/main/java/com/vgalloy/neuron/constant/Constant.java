@@ -26,8 +26,12 @@ public final class Constant {
         throw new IllegalAccessError();
     }
 
-    public static long random() {
-        return map(RANDOM.nextBoolean());
+    public static boolean random() {
+        return RANDOM.nextBoolean();
+    }
+
+    public static long longRandom() {
+        return map(random());
     }
 
     public static long map(boolean value) {

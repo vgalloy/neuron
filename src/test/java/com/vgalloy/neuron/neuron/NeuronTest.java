@@ -81,7 +81,7 @@ public final class NeuronTest {
     }
 
     @Test
-    public void noNamedTest() {
+    public void simpleLearning() {
         // GIVEN
         Neuron neuron = Neurons.of(Collections.singletonList(Constant.ONE * 2L));
 
@@ -105,5 +105,17 @@ public final class NeuronTest {
     public void creationFail2() {
         // GIVEN
         Neurons.of(Collections.emptyList());
+    }
+
+    @Test
+    public void correctionListSize() {
+        // GIVEN
+        Neuron neuron = Neurons.of(1L, Arrays.asList(1L, 1L));
+
+        // WHEN
+        List<Long> result = neuron.train(Arrays.asList(true, false), false);
+
+        // THEN
+        Assert.assertEquals(2, result.size());
     }
 }

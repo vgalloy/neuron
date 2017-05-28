@@ -21,7 +21,7 @@ final class NeuronInput {
      * @param input the input
      */
     private NeuronInput(List<Boolean> input) {
-        Objects.requireNonNull(input, "input can not be null");
+        Objects.requireNonNull(input, "Input can not be null");
         List<Boolean> fullInput = new ArrayList<>();
         fullInput.add(true);
         fullInput.addAll(input);
