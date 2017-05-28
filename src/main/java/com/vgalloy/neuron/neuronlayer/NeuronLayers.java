@@ -3,7 +3,7 @@ package com.vgalloy.neuron.neuronlayer;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import com.vgalloy.neuron.neuron.Neuron;
 import com.vgalloy.neuron.neuron.Neurons;
@@ -24,9 +24,9 @@ public final class NeuronLayers {
         NeuronAssert.checkState(previousLayerSize <= 0, "Can not create a neuron layer with no entry");
         NeuronAssert.checkState(layerSize <= 0, "Can not create a neuron layer with no neuron");
 
-        List<Neuron> neurons = IntStream.range(0, layerSize)
-            .boxed()
-            .map(e -> Neurons.of(previousLayerSize))
+        List<Neuron> neurons = Stream
+            .generate(() -> Neurons.of(previousLayerSize))
+            .limit(layerSize)
             .collect(Collectors.toList());
 
         return of(neurons);

@@ -1,6 +1,7 @@
 package com.vgalloy.neuron.neuronlayer;
 
 import java.util.List;
+import java.util.function.Function;
 
 import com.vgalloy.neuron.constant.Constant;
 
@@ -9,9 +10,7 @@ import com.vgalloy.neuron.constant.Constant;
  *
  * @author Vincent Galloy
  */
-public interface NeuronLayer {
-
-    List<Boolean> apply(List<Boolean> input);
+public interface NeuronLayer extends Function<List<Boolean>, List<Boolean>> {
 
     /**
      * Train the current neuron layer.

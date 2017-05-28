@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.util.NeuronAssert;
@@ -52,7 +52,7 @@ final class SimpleNeuron implements Neuron {
 
         // Correct case
         if (result.equals(expected)) {
-            return LongStream.range(0, coefficients.size() - 1).boxed().map(e -> 0L).collect(Collectors.toList());
+            return Stream.generate(() -> 0L).limit(coefficients.size() - 1).collect(Collectors.toList());
         }
 
         // Learning phase

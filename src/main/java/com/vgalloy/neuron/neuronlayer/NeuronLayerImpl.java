@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import com.vgalloy.neuron.neuron.Neuron;
 import com.vgalloy.neuron.util.NeuronAssert;
@@ -41,9 +41,8 @@ class NeuronLayerImpl implements NeuronLayer {
             coefficientCorrectionList.add(correction);
         }
 
-        List<Long> result = IntStream.range(0, input.size())
-            .boxed()
-            .map(e -> 0L)
+        List<Long> result = Stream.generate(() -> 0L)
+            .limit(input.size())
             .collect(Collectors.toList());
         NeuronAssert.checkState(result.size() != input.size(), "Result list size should be equals to input list size.");
         for (List<Long> bigDecimals : coefficientCorrectionList) {
