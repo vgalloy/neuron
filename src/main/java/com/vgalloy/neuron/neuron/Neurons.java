@@ -20,7 +20,7 @@ public final class Neurons {
     }
 
     public static Neuron of(int size) {
-        NeuronAssert.checkState(size <= 0, "Can not create a neuron with no connection");
+        NeuronAssert.checkState(0 < size, "Can not create a neuron with no connection");
 
         List<Long> coefficient = IntStream.range(0, size)
             .boxed()

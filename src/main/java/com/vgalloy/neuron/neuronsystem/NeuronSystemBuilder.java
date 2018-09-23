@@ -18,13 +18,13 @@ public final class NeuronSystemBuilder {
     private final int neuronSystemParameterNumber;
 
     public NeuronSystemBuilder(int neuronSystemParameterNumber) {
-        NeuronAssert.checkState(neuronSystemParameterNumber < 1, "System should at least get one argument.");
+        NeuronAssert.checkState(0 < neuronSystemParameterNumber, "System should at least get one argument.");
 
         this.neuronSystemParameterNumber = neuronSystemParameterNumber;
     }
 
     public NeuronSystemBuilder addLayer(int numberOfNeuron) {
-        NeuronAssert.checkState(numberOfNeuron <= 0, "number of neuron must be > 0.");
+        NeuronAssert.checkState(0 < numberOfNeuron, "number of neuron must be > 0.");
         int size;
         if (neuronLayers.isEmpty()) {
             size = neuronSystemParameterNumber;

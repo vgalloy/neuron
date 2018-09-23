@@ -21,8 +21,8 @@ public final class NeuronLayers {
     }
 
     public static NeuronLayer of(int previousLayerSize, int layerSize) {
-        NeuronAssert.checkState(previousLayerSize <= 0, "Can not create a neuron layer with no entry");
-        NeuronAssert.checkState(layerSize <= 0, "Can not create a neuron layer with no neuron");
+        NeuronAssert.checkState(0 < previousLayerSize, "Can not create a neuron layer with no entry");
+        NeuronAssert.checkState(0 < layerSize, "Can not create a neuron layer with no neuron");
 
         List<Neuron> neurons = Stream
             .generate(() -> Neurons.of(previousLayerSize))

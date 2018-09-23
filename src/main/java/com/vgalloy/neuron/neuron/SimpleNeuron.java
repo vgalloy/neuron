@@ -26,7 +26,7 @@ final class SimpleNeuron implements Neuron {
     SimpleNeuron(final Long firstCoefficient, final List<Long> coefficients) {
         Objects.requireNonNull(firstCoefficient);
         Objects.requireNonNull(coefficients);
-        NeuronAssert.checkState(coefficients.isEmpty(), "Neuron must have at least on entry point");
+        NeuronAssert.checkState(!coefficients.isEmpty(), "Neuron must have at least on entry point");
         this.coefficients = new ArrayList<>();
         this.coefficients.add(firstCoefficient);
         this.coefficients.addAll(coefficients);
@@ -34,7 +34,7 @@ final class SimpleNeuron implements Neuron {
 
     @Override
     public boolean apply(final List<Boolean> input) {
-        NeuronAssert.checkState(input.size() != coefficients.size() - 1, "You are train neuron with " + input.size() + " inputs. But this neuron needs " + (coefficients.size() - 1) + ".");
+        NeuronAssert.checkState(input.size() == coefficients.size() - 1, "You are train neuron with " + input.size() + " inputs. But this neuron needs " + (coefficients.size() - 1) + ".");
         final NeuronInput neuronInput = NeuronInput.of(input);
 
         long result = 0L;
@@ -48,7 +48,7 @@ final class SimpleNeuron implements Neuron {
     @Override
     public List<Long> train(final List<Boolean> input, final boolean expected) {
         Objects.requireNonNull(input, "NeuronInput can not be null");
-        NeuronAssert.checkState(input.size() != coefficients.size() - 1, "You are train neuron with " + input.size() + " inputs. But this neuron needs " + (coefficients.size() - 1) + ".");
+        NeuronAssert.checkState(input.size() == coefficients.size() - 1, "You are train neuron with " + input.size() + " inputs. But this neuron needs " + (coefficients.size() - 1) + ".");
 
         final boolean result = apply(input);
 
