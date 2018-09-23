@@ -21,7 +21,7 @@ public final class NeuronTest {
         Neuron neuron = Neurons.of(Constant.MINUS_ONE, Collections.singletonList(Constant.ONE));
 
         // WHEN
-        Boolean result = neuron.apply(Collections.singletonList(true));
+        final boolean result = neuron.apply(Collections.singletonList(true));
 
         // THEN
         Assert.assertFalse(result);
@@ -33,7 +33,7 @@ public final class NeuronTest {
         Neuron neuron = Neurons.of(Constant.MINUS_ONE, Collections.singletonList(Constant.ONE * 2L));
 
         // WHEN
-        Boolean result = neuron.apply(Collections.singletonList(true));
+        final boolean result = neuron.apply(Collections.singletonList(true));
 
         // THEN
         Assert.assertTrue(result);
@@ -42,12 +42,12 @@ public final class NeuronTest {
     @Test
     public void neuronTrain() {
         // GIVEN
-        Neuron neuron = Neurons.of(Constant.MINUS_ONE, Collections.singletonList(Constant.ONE * 2L));
+        final Neuron neuron = Neurons.of(Constant.MINUS_ONE, Collections.singletonList(Constant.ONE * 2L));
 
         // WHEN
         neuron.train(Collections.singletonList(true), false);
         neuron.train(Collections.singletonList(true), false);
-        Boolean result = neuron.apply(Collections.singletonList(true));
+        final boolean result = neuron.apply(Collections.singletonList(true));
 
         // THEN
         Assert.assertFalse(result);
@@ -59,7 +59,7 @@ public final class NeuronTest {
         Neuron neuron = Neurons.of(24L, Arrays.asList(-88L, -37L));
 
         // WHEN
-        List<Long> result = neuron.train(Arrays.asList(false, false), true);
+        final List<Long> result = neuron.train(Arrays.asList(false, false), true);
 
         // THEN
         Assert.assertEquals(2, result.size());
@@ -71,7 +71,7 @@ public final class NeuronTest {
         Neuron neuron = Neurons.of(Constant.MINUS_ONE, Collections.singletonList(Constant.ONE * 2L));
 
         // WHEN
-        List<Long> result = neuron.train(Collections.singletonList(true), false);
+        final List<Long> result = neuron.train(Collections.singletonList(true), false);
 
         // THEN
         Assert.assertEquals(1, result.size());
@@ -89,7 +89,7 @@ public final class NeuronTest {
         neuron.train(Collections.singletonList(true), false);
         neuron.train(Collections.singletonList(true), false);
         neuron.train(Collections.singletonList(true), true);
-        Boolean result = neuron.apply(Collections.singletonList(true));
+        final boolean result = neuron.apply(Collections.singletonList(true));
 
         // THEN
         Assert.assertTrue(result);
@@ -113,7 +113,7 @@ public final class NeuronTest {
         Neuron neuron = Neurons.of(1L, Arrays.asList(1L, 1L));
 
         // WHEN
-        List<Long> result = neuron.train(Arrays.asList(true, false), false);
+        final List<Long> result = neuron.train(Arrays.asList(true, false), false);
 
         // THEN
         Assert.assertEquals(2, result.size());

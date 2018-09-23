@@ -10,7 +10,9 @@ import com.vgalloy.neuron.constant.Constant;
  *
  * @author Vincent Galloy
  */
-public interface Neuron extends Function<List<Boolean>, Boolean> {
+public interface Neuron {
 
-    List<Long> train(List<Boolean> input, Boolean expected);
+    boolean apply(final List<Boolean> input);
+
+    List<Long> train(List<Boolean> input, boolean expected);
 }

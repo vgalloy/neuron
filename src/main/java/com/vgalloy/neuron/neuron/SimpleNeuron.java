@@ -16,11 +16,14 @@ import com.vgalloy.neuron.util.NeuronAssert;
  */
 final class SimpleNeuron implements Neuron {
 
-    private static final Long MULTIPLICATOR = Constant.GLOBAL_MULTIPLICATOR * 2 / 10;
+	/**
+	 * Learning curve must be positive and lower than {@link Constant#ONE}.
+	 */
+    private static final Long LEARNING_MULTIPLICATOR = Constant.ONE * 2 / 10;
 
     private final List<Long> coefficients;
 
-    SimpleNeuron(Long firstCoefficient, List<Long> coefficients) {
+    SimpleNeuron(final Long firstCoefficient, final List<Long> coefficients) {
         Objects.requireNonNull(firstCoefficient);
         Objects.requireNonNull(coefficients);
         NeuronAssert.checkState(coefficients.isEmpty(), "Neuron must have at least on entry point");
@@ -30,40 +33,39 @@ final class SimpleNeuron implements Neuron {
     }
 
     @Override
-    public Boolean apply(List<Boolean> input) {
+    public boolean apply(final List<Boolean> input) {
         NeuronAssert.checkState(input.size() != coefficients.size() - 1, "You are train neuron with " + input.size() + " inputs. But this neuron needs " + (coefficients.size() - 1) + ".");
-        NeuronInput neuronInput = NeuronInput.of(input);
+        final NeuronInput neuronInput = NeuronInput.of(input);
 
-        Long result = 0L;
+        long result = 0L;
         for (int i = 0; i < coefficients.size(); i++) {
-            result += compute(i, neuronInput);
+            result += compute(neuronInput, i);
         }
 
         return result > 0;
     }
 
     @Override
-    public List<Long> train(List<Boolean> input, Boolean expected) {
+    public List<Long> train(final List<Boolean> input, final boolean expected) {
         Objects.requireNonNull(input, "NeuronInput can not be null");
-        Objects.requireNonNull(expected, "Expected result can not be null");
         NeuronAssert.checkState(input.size() != coefficients.size() - 1, "You are train neuron with " + input.size() + " inputs. But this neuron needs " + (coefficients.size() - 1) + ".");
 
-        Boolean result = apply(input);
+        final boolean result = apply(input);
 
         // Correct case
-        if (result.equals(expected)) {
+        if (result == expected) {
             return Stream.generate(() -> 0L).limit(coefficients.size() - 1).collect(Collectors.toList());
         }
 
         // Learning phase
-        NeuronInput neuronInput = NeuronInput.of(input);
-        Long expectedAsLong = expected ? Constant.ONE : Constant.MINUS_ONE;
-        List<Long> coefficientCorrection = new ArrayList<>();
+        final NeuronInput neuronInput = NeuronInput.of(input);
+        final List<Long> coefficientCorrection = new ArrayList<>();
         for (int i = 0; i < coefficients.size(); i++) {
             if (!neuronInput.get(i)) {
                 coefficientCorrection.add(0L);
             } else {
-                Long diff = (expectedAsLong - compute(i, neuronInput)) * MULTIPLICATOR / Constant.GLOBAL_MULTIPLICATOR;
+                final long expectedAsLong = expected ? Constant.ONE : Constant.MINUS_ONE;
+                final long diff = (expectedAsLong - compute(neuronInput, i))  * LEARNING_MULTIPLICATOR / Constant.ONE;
                 coefficients.set(i, Math.max(Constant.MINUS_ONE, Math.min(Constant.ONE, coefficients.get(i) + diff)));
                 coefficientCorrection.add(diff);
             }
@@ -71,12 +73,11 @@ final class SimpleNeuron implements Neuron {
         return coefficientCorrection.subList(1, coefficientCorrection.size());
     }
 
-    private Long compute(int i, NeuronInput input) {
-        return getValueAsLong(i, input) * coefficients.get(i) / Constant.ONE;
-    }
-
-    private Long getValueAsLong(int i, NeuronInput input) {
-        return Constant.map(input.get(i));
+    private long compute(final NeuronInput input, final int i) {
+        if(input.get(i)) {
+            return coefficients.get(i);
+        }
+        return 0L;
     }
 
     @Override
