@@ -19,10 +19,10 @@ public final class NeuronLayerTest {
     @Test
     public void simpleCreation() {
         // GIVEN
-        int layerSize = 5;
+        final int layerSize = 5;
 
         // WHEN
-        NeuronLayer result = NeuronLayers.of(3, layerSize);
+        final NeuronLayer result = NeuronLayers.of(3, layerSize);
 
         // THEN
         Assert.assertEquals(layerSize, result.size());
@@ -31,12 +31,12 @@ public final class NeuronLayerTest {
     @Test
     public void correctInputSize() {
         // GIVEN
-        int inputSize = 5;
-        int layerSize = 6;
-        NeuronLayer layer = NeuronLayers.of(inputSize, layerSize);
+        final int inputSize = 5;
+        final int layerSize = 6;
+        final NeuronLayer layer = NeuronLayers.of(inputSize, layerSize);
 
         // WHEN
-        List<Boolean> result = layer.apply(Arrays.asList(true, true, true, true, true));
+        final List<Boolean> result = layer.apply(Arrays.asList(true, true, true, true, true));
 
         // THEN
         Assert.assertEquals(layerSize, result.size());
@@ -45,8 +45,8 @@ public final class NeuronLayerTest {
     @Test(expected = IllegalArgumentException.class)
     public void wrongInputSize() {
         // GIVEN
-        int inputSize = 5;
-        NeuronLayer layer = NeuronLayers.of(inputSize, 5);
+        final int inputSize = 5;
+        final NeuronLayer layer = NeuronLayers.of(inputSize, 5);
 
         // WHEN
         layer.apply(Arrays.asList(true, true, true, true));
@@ -58,17 +58,17 @@ public final class NeuronLayerTest {
     @Test
     public void identityLayer() {
         // GIVEN
-        NeuronLayer layer = NeuronLayers.of(5, 5);
+        final NeuronLayer layer = NeuronLayers.of(5, 5);
 
         // WHEN
         for (int i = 0; i < 1_000; i++) {
-            List<Boolean> input = Stream.generate(Constant::random).limit(5).collect(Collectors.toList());
+            final List<Boolean> input = Stream.generate(Constant::random).limit(5).collect(Collectors.toList());
             layer.trainWithBoolean(input, input);
         }
 
         // THEN
         for (int i = 0; i < 100; i++) {
-            List<Boolean> input = Stream.generate(Constant::random).limit(5).collect(Collectors.toList());
+            final List<Boolean> input = Stream.generate(Constant::random).limit(5).collect(Collectors.toList());
             Assert.assertEquals(input, layer.apply(input));
         }
     }

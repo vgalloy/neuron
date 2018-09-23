@@ -19,14 +19,14 @@ public final class NeuronSystemBuilderTest {
     @Test
     public void neuronSystemCreator() {
         // GIVEN
-        NeuronSystemImpl neuronSystem = (NeuronSystemImpl) new NeuronSystemBuilder(2)
+        final NeuronSystemImpl neuronSystem = (NeuronSystemImpl) new NeuronSystemBuilder(2)
             .addLayer(3)
             .addLayer(2)
             .addLayer(1)
             .build();
 
         // WHEN
-        List<NeuronLayer> neuronLayers = neuronSystem.getNeuronLayers();
+        final List<NeuronLayer> neuronLayers = neuronSystem.getNeuronLayers();
 
         // THEN
         Assert.assertEquals(3, neuronLayers.size());
@@ -35,7 +35,7 @@ public final class NeuronSystemBuilderTest {
     @Test
     public void outputSize() {
         // GIVEN
-        NeuronSystem neuronSystem = new NeuronSystemBuilder(3)
+        final NeuronSystem neuronSystem = new NeuronSystemBuilder(3)
             .addLayer(10)
             .addLayer(2)
             .addLayer(2)
@@ -49,8 +49,8 @@ public final class NeuronSystemBuilderTest {
         }
     }
 
-    private void test(NeuronSystem neuronSystem, int inputSize, boolean shouldFail) {
-        List<Boolean> input = IntStream.range(0, inputSize)
+    private void test(final NeuronSystem neuronSystem, final int inputSize, final boolean shouldFail) {
+        final List<Boolean> input = IntStream.range(0, inputSize)
             .boxed()
             .map(e -> Boolean.FALSE)
             .collect(Collectors.toList());

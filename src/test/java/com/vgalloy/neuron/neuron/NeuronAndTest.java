@@ -20,7 +20,7 @@ public final class NeuronAndTest {
     @Test
     public void andTrueTrueTrue() {
         // GIVEN
-        Neuron neuron = build(true, true, true);
+        final Neuron neuron = build(true, true, true);
 
         // WHEN
         train(neuron);
@@ -32,7 +32,7 @@ public final class NeuronAndTest {
     @Test
     public void andTrueTrueFalse() {
         // GIVEN
-        Neuron neuron = build(true, true, false);
+        final Neuron neuron = build(true, true, false);
 
         // WHEN
         train(neuron);
@@ -44,7 +44,7 @@ public final class NeuronAndTest {
     @Test
     public void andTrueFalseTrue() {
         // GIVEN
-        Neuron neuron = build(true, false, true);
+        final Neuron neuron = build(true, false, true);
 
         // WHEN
         train(neuron);
@@ -56,7 +56,7 @@ public final class NeuronAndTest {
     @Test
     public void andTrueFalseFalse() {
         // GIVEN
-        Neuron neuron = build(true, false, false);
+        final Neuron neuron = build(true, false, false);
 
         // WHEN
         train(neuron);
@@ -68,7 +68,7 @@ public final class NeuronAndTest {
     @Test
     public void andFalseTrueTrue() {
         // GIVEN
-        Neuron neuron = build(false, true, true);
+        final Neuron neuron = build(false, true, true);
 
         // WHEN
         train(neuron);
@@ -80,7 +80,7 @@ public final class NeuronAndTest {
     @Test
     public void andFalseTrueFalse() {
         // GIVEN
-        Neuron neuron = build(false, true, false);
+        final Neuron neuron = build(false, true, false);
 
         // WHEN
         train(neuron);
@@ -92,7 +92,7 @@ public final class NeuronAndTest {
     @Test
     public void andFalseFalseTrue() {
         // GIVEN
-        Neuron neuron = build(false, false, true);
+        final Neuron neuron = build(false, false, true);
 
         // WHEN
         train(neuron);
@@ -104,7 +104,7 @@ public final class NeuronAndTest {
     @Test
     public void andFalseFalseFalse() {
         // GIVEN
-        Neuron neuron = build(false, false, false);
+        final Neuron neuron = build(false, false, false);
 
         // WHEN
         train(neuron);
@@ -117,8 +117,8 @@ public final class NeuronAndTest {
         return Neurons.of(Constant.map(value1), Constant.map(Arrays.asList(value2, value3)));
     }
 
-    private void train(Neuron neuron) {
-        List<List<Boolean>> training = new ArrayList<>();
+    private void train(final Neuron neuron) {
+        final List<List<Boolean>> training = new ArrayList<>();
         training.add(Arrays.asList(true, true));
         training.add(Arrays.asList(true, false));
         training.add(Arrays.asList(false, true));
@@ -129,7 +129,7 @@ public final class NeuronAndTest {
         }
     }
 
-    private void validate(Neuron neuron) {
+    private void validate(final Neuron neuron) {
         Assert.assertTrue(neuron.apply(Arrays.asList(true, true)));
         Assert.assertFalse(neuron.apply(Arrays.asList(false, true)));
         Assert.assertFalse(neuron.apply(Arrays.asList(true, false)));

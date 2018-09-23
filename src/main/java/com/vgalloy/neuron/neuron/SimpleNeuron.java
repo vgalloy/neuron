@@ -23,13 +23,13 @@ final class SimpleNeuron implements Neuron {
 
     private final List<Long> coefficients;
 
-    SimpleNeuron(final Long firstCoefficient, final List<Long> coefficients) {
-        Objects.requireNonNull(firstCoefficient);
+    SimpleNeuron(final long firstCoefficient, final List<Long> coefficients) {
         Objects.requireNonNull(coefficients);
         NeuronAssert.checkState(!coefficients.isEmpty(), "Neuron must have at least on entry point");
         this.coefficients = new ArrayList<>();
         this.coefficients.add(firstCoefficient);
         this.coefficients.addAll(coefficients);
+        this.coefficients.forEach(SimpleNeuron::checkCoefficient);
     }
 
     @Override
@@ -54,7 +54,9 @@ final class SimpleNeuron implements Neuron {
 
         // Correct case
         if (result == expected) {
-            return Stream.generate(() -> 0L).limit(coefficients.size() - 1).collect(Collectors.toList());
+            return Stream.generate(() -> 0L)
+                    .limit(coefficients.size() - 1)
+                    .collect(Collectors.toList());
         }
 
         // Learning phase
@@ -66,11 +68,18 @@ final class SimpleNeuron implements Neuron {
             } else {
                 final long expectedAsLong = expected ? Constant.ONE : Constant.MINUS_ONE;
                 final long diff = (expectedAsLong - compute(neuronInput, i))  * LEARNING_MULTIPLICATOR / Constant.ONE;
-                coefficients.set(i, Math.max(Constant.MINUS_ONE, Math.min(Constant.ONE, coefficients.get(i) + diff)));
+                final long newCoeff = coefficients.get(i) + diff;
+                checkCoefficient(newCoeff);
+                coefficients.set(i, newCoeff);
                 coefficientCorrection.add(diff);
             }
         }
         return coefficientCorrection.subList(1, coefficientCorrection.size());
+    }
+
+    private static void checkCoefficient(final long coefficient) {
+        NeuronAssert.checkState(coefficient <= Constant.ONE, "New coefficient is higher than 'ONE' : " + coefficient);
+        NeuronAssert.checkState(Constant.MINUS_ONE <= coefficient, "New coefficient is lower than 'MINUS_ONE' : " + coefficient);
     }
 
     private long compute(final NeuronInput input, final int i) {

@@ -30,7 +30,7 @@ public final class NeuronTest {
     @Test
     public void correctMonoNeuron2() {
         // GIVEN
-        Neuron neuron = Neurons.of(Constant.MINUS_ONE, Collections.singletonList(Constant.ONE * 2L));
+        Neuron neuron = Neurons.of(0L, Collections.singletonList(Constant.ONE));
 
         // WHEN
         final boolean result = neuron.apply(Collections.singletonList(true));
@@ -42,7 +42,7 @@ public final class NeuronTest {
     @Test
     public void neuronTrain() {
         // GIVEN
-        final Neuron neuron = Neurons.of(Constant.MINUS_ONE, Collections.singletonList(Constant.ONE * 2L));
+        final Neuron neuron = Neurons.of(Constant.MINUS_ONE, Collections.singletonList(Constant.ONE));
 
         // WHEN
         neuron.train(Collections.singletonList(true), false);
@@ -56,7 +56,7 @@ public final class NeuronTest {
     @Test
     public void neuronTrainResultSize() {
         // GIVEN
-        Neuron neuron = Neurons.of(24L, Arrays.asList(-88L, -37L));
+        final Neuron neuron = Neurons.of(24L, Arrays.asList(-88L, -37L));
 
         // WHEN
         final List<Long> result = neuron.train(Arrays.asList(false, false), true);
@@ -68,22 +68,22 @@ public final class NeuronTest {
     @Test
     public void neuronTrainResult() {
         // GIVEN
-        Neuron neuron = Neurons.of(Constant.MINUS_ONE, Collections.singletonList(Constant.ONE * 2L));
+        final Neuron neuron = Neurons.of(0L, Collections.singletonList(Constant.ONE));
 
         // WHEN
         final List<Long> result = neuron.train(Collections.singletonList(true), false);
 
         // THEN
         Assert.assertEquals(1, result.size());
-        for (Long aResult : result) {
-            Assert.assertEquals(6 * Constant.MINUS_ONE / 10, (long) aResult);
+        for (final long aResult : result) {
+            Assert.assertEquals(4 * Constant.MINUS_ONE / 10, aResult);
         }
     }
 
     @Test
     public void simpleLearning() {
         // GIVEN
-        Neuron neuron = Neurons.of(Collections.singletonList(Constant.ONE * 2L));
+        final Neuron neuron = Neurons.of(Collections.singletonList(Constant.ONE));
 
         // WHEN
         neuron.train(Collections.singletonList(true), false);
@@ -110,7 +110,7 @@ public final class NeuronTest {
     @Test
     public void correctionListSize() {
         // GIVEN
-        Neuron neuron = Neurons.of(1L, Arrays.asList(1L, 1L));
+        Neuron neuron = Neurons.of(Constant.ONE, Arrays.asList(Constant.ONE, Constant.ONE));
 
         // WHEN
         final List<Long> result = neuron.train(Arrays.asList(true, false), false);

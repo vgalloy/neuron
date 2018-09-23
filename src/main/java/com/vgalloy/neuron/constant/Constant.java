@@ -42,6 +42,8 @@ public final class Constant {
     }
 
     public static List<Long> map(List<Boolean> list) {
-        return list.stream().map(Constant::map).collect(Collectors.toList());
+        return list.stream()
+                .map(Constant::map)
+                .collect(Collectors.toList());
     }
 }

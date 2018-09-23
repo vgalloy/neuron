@@ -16,7 +16,7 @@ final class NeuronSystemImpl implements NeuronSystem {
 
     private final List<NeuronLayer> neuronLayers;
 
-    NeuronSystemImpl(List<NeuronLayer> neuronLayers) {
+    NeuronSystemImpl(final List<NeuronLayer> neuronLayers) {
         this.neuronLayers = Objects.requireNonNull(neuronLayers);
     }
 
@@ -34,21 +34,16 @@ final class NeuronSystemImpl implements NeuronSystem {
         List<Long> expectedSolutionAsLong = Constant.map(expectedSolution);
 
         List<List<Boolean>> middleResult = new ArrayList<>();
-        for (NeuronLayer neuronLayer : neuronLayers) {
+        for (final NeuronLayer neuronLayer : neuronLayers) {
             middleResult.add(input);
             input = neuronLayer.apply(input);
         }
 
         for (int i = 0; i < neuronLayers.size(); i++) {
             int index = neuronLayers.size() - 1 - i;
-            NeuronLayer neuronLayer = neuronLayers.get(index);
-            List<Boolean> intermediateInput = middleResult.get(index);
-            System.out.println("neuronLayer" + neuronLayer);
-            System.out.println("intermediateInput" + intermediateInput);
-            System.out.println("expectedSolutionAsLong" + expectedSolutionAsLong);
-            List<Long> correctionAsLong = neuronLayer.trainWithLong(intermediateInput, expectedSolutionAsLong);
-            System.out.println("correction" + correctionAsLong);
-            System.out.println("neuronLayer corrected" + neuronLayer);
+            final NeuronLayer neuronLayer = neuronLayers.get(index);
+            final List<Boolean> intermediateInput = middleResult.get(index);
+            final List<Long> correctionAsLong = neuronLayer.trainWithLong(intermediateInput, expectedSolutionAsLong);
             expectedSolutionAsLong = correctionAsLong;
         }
     }
