@@ -75,9 +75,7 @@ public final class NeuronTest {
 
         // THEN
         Assert.assertEquals(1, result.size());
-        for (final long aResult : result) {
-            Assert.assertEquals(4 * Constant.MINUS_ONE / 10, aResult);
-        }
+        Assert.assertEquals(2 * Constant.MINUS_ONE, (long) result.get(0));
     }
 
     @Test
@@ -117,5 +115,25 @@ public final class NeuronTest {
 
         // THEN
         Assert.assertEquals(2, result.size());
+    }
+
+    @Test
+    public void and() {
+        NeuronTestHelper.buildTest((a, b) -> a && b);
+    }
+
+    @Test
+    public void or() {
+        NeuronTestHelper.buildTest((a, b) -> a || b);
+    }
+
+    @Test
+    public void first() {
+        NeuronTestHelper.buildTest((a, b) -> a);
+    }
+
+    @Test
+    public void notSecond() {
+        NeuronTestHelper.buildTest((a, b) -> !b);
     }
 }

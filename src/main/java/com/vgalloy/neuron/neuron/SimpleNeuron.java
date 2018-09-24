@@ -67,11 +67,11 @@ final class SimpleNeuron implements Neuron {
                 coefficientCorrection.add(0L);
             } else {
                 final long expectedAsLong = expected ? Constant.ONE : Constant.MINUS_ONE;
-                final long diff = (expectedAsLong - compute(neuronInput, i))  * LEARNING_MULTIPLICATOR / Constant.ONE;
-                final long newCoeff = coefficients.get(i) + diff;
+                final long error = (expectedAsLong - compute(neuronInput, i));
+                final long newCoeff = coefficients.get(i) + error * LEARNING_MULTIPLICATOR / Constant.ONE;
                 checkCoefficient(newCoeff);
+                coefficientCorrection.add(error * coefficients.get(i) / Constant.ONE);
                 coefficients.set(i, newCoeff);
-                coefficientCorrection.add(diff);
             }
         }
         return coefficientCorrection.subList(1, coefficientCorrection.size());
