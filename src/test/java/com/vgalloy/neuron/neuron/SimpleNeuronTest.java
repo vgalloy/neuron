@@ -4,16 +4,17 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import com.vgalloy.neuron.constant.Constant;
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.vgalloy.neuron.constant.Constant;
 
 /**
  * Created by Vincent Galloy on 01/04/17.
  *
  * @author Vincent Galloy
  */
-public final class NeuronTest {
+public final class SimpleNeuronTest {
 
     @Test
     public void correctMonoNeuron() {
@@ -59,7 +60,7 @@ public final class NeuronTest {
         final Neuron neuron = Neurons.of(24L, Arrays.asList(-88L, -37L));
 
         // WHEN
-        final List<Long> result = neuron.train(Arrays.asList(false, false), true);
+        final List<Double> result = neuron.train(Arrays.asList(false, false), true);
 
         // THEN
         Assert.assertEquals(2, result.size());
@@ -71,11 +72,11 @@ public final class NeuronTest {
         final Neuron neuron = Neurons.of(0L, Collections.singletonList(Constant.ONE));
 
         // WHEN
-        final List<Long> result = neuron.train(Collections.singletonList(true), false);
+        final List<Double> result = neuron.train(Collections.singletonList(true), false);
 
         // THEN
         Assert.assertEquals(1, result.size());
-        Assert.assertEquals(2 * Constant.MINUS_ONE, (long) result.get(0));
+        Assert.assertEquals(2d * Constant.MINUS_ONE, result.get(0), 0.0001);
     }
 
     @Test
@@ -111,7 +112,7 @@ public final class NeuronTest {
         Neuron neuron = Neurons.of(Constant.ONE, Arrays.asList(Constant.ONE, Constant.ONE));
 
         // WHEN
-        final List<Long> result = neuron.train(Arrays.asList(true, false), false);
+        final List<Double> result = neuron.train(Arrays.asList(true, false), false);
 
         // THEN
         Assert.assertEquals(2, result.size());

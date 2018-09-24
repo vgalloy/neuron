@@ -34,16 +34,29 @@ public final class Constant {
         return map(random());
     }
 
-    public static long map(boolean value) {
+    public static long map(final boolean value) {
         if (value) {
             return Constant.ONE;
         }
         return 0L;
     }
 
-    public static List<Long> map(List<Boolean> list) {
+    public static List<Long> map(final List<Boolean> list) {
         return list.stream()
-                .map(Constant::map)
-                .collect(Collectors.toList());
+            .map(Constant::map)
+            .collect(Collectors.toList());
+    }
+
+    public static double mapBoolean(final boolean value) {
+        if (value) {
+            return 1d;
+        }
+        return 0L;
+    }
+
+    public static List<Double> mapBoolean(final List<Boolean> list) {
+        return list.stream()
+            .map(Constant::mapBoolean)
+            .collect(Collectors.toList());
     }
 }

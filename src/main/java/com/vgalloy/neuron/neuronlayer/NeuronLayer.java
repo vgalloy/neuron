@@ -18,11 +18,11 @@ public interface NeuronLayer extends Function<List<Boolean>, List<Boolean>> {
      * @param expectedResult the list of
      * @return the
      */
-    List<Long> trainWithLong(List<Boolean> input, List<Long> expectedResult);
+    List<Double> trainWithDouble(List<Boolean> input, List<Double> expectedResult);
 
-    default List<Long> trainWithBoolean(List<Boolean> input, List<Boolean> expectedResult) {
-        final List<Long> list = Constant.map(expectedResult);
-        return trainWithLong(input, list);
+    default List<Double> trainWithBoolean(List<Boolean> input, List<Boolean> expectedResult) {
+        final List<Double> list = Constant.mapBoolean(expectedResult);
+        return trainWithDouble(input, list);
     }
 
     int size();

@@ -31,7 +31,7 @@ final class NeuronSystemImpl implements NeuronSystem {
 
     @Override
     public void train(List<Boolean> input, List<Boolean> expectedSolution) {
-        List<Long> expectedSolutionAsLong = Constant.map(expectedSolution);
+        List<Double> expectedSolutionAsLong = Constant.mapBoolean(expectedSolution);
 
         List<List<Boolean>> middleResult = new ArrayList<>();
         for (final NeuronLayer neuronLayer : neuronLayers) {
@@ -43,8 +43,7 @@ final class NeuronSystemImpl implements NeuronSystem {
             int index = neuronLayers.size() - 1 - i;
             final NeuronLayer neuronLayer = neuronLayers.get(index);
             final List<Boolean> intermediateInput = middleResult.get(index);
-            final List<Long> correctionAsLong = neuronLayer.trainWithLong(intermediateInput, expectedSolutionAsLong);
-            expectedSolutionAsLong = correctionAsLong;
+            expectedSolutionAsLong = neuronLayer.trainWithDouble(intermediateInput, expectedSolutionAsLong);
         }
     }
 

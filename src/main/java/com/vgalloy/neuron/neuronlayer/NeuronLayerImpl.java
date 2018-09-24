@@ -30,22 +30,22 @@ class NeuronLayerImpl implements NeuronLayer {
     }
 
     @Override
-    public List<Long> trainWithLong(List<Boolean> input, List<Long> expectedResult) {
+    public List<Double> trainWithDouble(List<Boolean> input, List<Double> expectedResult) {
         NeuronAssert.checkState(neurons.size() == expectedResult.size(), "ExpectedResult size must be equals to neuron layer size.");
 
-        List<List<Long>> coefficientCorrectionList = new ArrayList<>();
+        List<List<Double>> coefficientCorrectionList = new ArrayList<>();
         for (int i = 0; i < neurons.size(); i++) {
             Neuron neuron = neurons.get(i);
-            List<Long> correction = neuron.train(input, expectedResult.get(i) > 0);
+            List<Double> correction = neuron.train(input, expectedResult.get(i) > 0);
             NeuronAssert.checkState(correction.size() == input.size(), "Correction list size should be equals to input list size.");
             coefficientCorrectionList.add(correction);
         }
 
-        List<Long> result = Stream.generate(() -> 0L)
+        List<Double> result = Stream.generate(() -> 0d)
             .limit(input.size())
             .collect(Collectors.toList());
         NeuronAssert.checkState(result.size() == input.size(), "Result list size should be equals to input list size.");
-        for (List<Long> bigDecimals : coefficientCorrectionList) {
+        for (List<Double> bigDecimals : coefficientCorrectionList) {
             for (int i = 0; i < bigDecimals.size(); i++) {
                 result.set(i, result.get(i) + bigDecimals.get(i));
             }
