@@ -120,21 +120,25 @@ public final class SimpleNeuronTest {
 
     @Test
     public void and() {
-        NeuronTestHelper.buildTest((a, b) -> a && b);
+        NeuronTestHelper.buildTest((a, b) -> a && b, SimpleNeuronTest::build);
     }
 
     @Test
     public void or() {
-        NeuronTestHelper.buildTest((a, b) -> a || b);
+        NeuronTestHelper.buildTest((a, b) -> a || b,  SimpleNeuronTest::build);
     }
 
     @Test
     public void first() {
-        NeuronTestHelper.buildTest((a, b) -> a);
+        NeuronTestHelper.buildTest((a, b) -> a,  SimpleNeuronTest::build);
     }
 
     @Test
     public void notSecond() {
-        NeuronTestHelper.buildTest((a, b) -> !b);
+        NeuronTestHelper.buildTest((a, b) -> !b,  SimpleNeuronTest::build);
+    }
+
+    private static Neuron build(final boolean value1, final boolean value2, final boolean value3) {
+        return Neurons.of(Constant.map(value1), Constant.map(Arrays.asList(value2, value3)));
     }
 }

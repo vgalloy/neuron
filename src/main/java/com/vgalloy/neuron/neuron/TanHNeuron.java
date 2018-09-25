@@ -14,22 +14,24 @@ import com.vgalloy.neuron.util.NeuronAssert;
  */
 final class TanHNeuron implements Neuron {
 
-	/**
-	 * Learning curve must be positive and lower than {@link Constant#ONE}.
-	 */
+    /**
+     * Learning curve must be positive and lower than {@link Constant#ONE}.
+     */
     private static final double LEARNING_MULTIPLICATOR = 2d / 10;
 
     private final List<Double> coefficients;
 
-    TanHNeuron(final List<Double> coefficients) {
+    TanHNeuron(final double firstCoefficient, final List<Double> coefficients) {
         Objects.requireNonNull(coefficients);
         NeuronAssert.checkState(!coefficients.isEmpty(), "Neuron must have at least on entry point");
-        this.coefficients = new ArrayList<>(coefficients);
+        this.coefficients = new ArrayList<>();
+        this.coefficients.add(firstCoefficient);
+        this.coefficients.addAll(coefficients);
     }
 
     @Override
     public boolean apply(final List<Boolean> input) {
-        NeuronAssert.checkState(input.size() == coefficients.size(), "You are train neuron with " + input.size() + " inputs. But this neuron needs " + coefficients.size() + ".");
+        checkInputSize(input);
 
         final double result = compute(input);
         return Math.tanh(result) > 0;
@@ -38,7 +40,7 @@ final class TanHNeuron implements Neuron {
     @Override
     public List<Double> train(final List<Boolean> input, final boolean expected) {
         Objects.requireNonNull(input, "NeuronInput can not be null");
-        NeuronAssert.checkState(input.size() == coefficients.size(), "You are train neuron with " + input.size() + " inputs. But this neuron needs " + coefficients.size() + ".");
+        checkInputSize(input);
 
         final boolean resultBoolean = apply(input);
         return train(input, Constant.mapBoolean(expected) - Constant.mapBoolean(resultBoolean));
@@ -46,16 +48,16 @@ final class TanHNeuron implements Neuron {
 
     public List<Double> train(final List<Boolean> input, final double diff) {
         Objects.requireNonNull(input, "NeuronInput can not be null");
-        NeuronAssert.checkState(input.size() == coefficients.size(), "You are train neuron with " + input.size() + " inputs. But this neuron needs " + coefficients.size() + ".");
 
         final double result = compute(input);
         final double error = tanhDerivate(result) * diff;
 
         final List<Double> coefficientCorrection = new ArrayList<>();
-        for (int i = 0; i < coefficients.size(); i++) {
+        final NeuronInput neuronInput = NeuronInput.of(input);
+        for (int i = 0; i < neuronInput.size(); i++) {
             final double errorPerInput = error * coefficients.get(i);
             coefficientCorrection.add(errorPerInput);
-            final double newCoefficient = coefficients.get(i) + error * Constant.mapBoolean(input.get(i)) * LEARNING_MULTIPLICATOR;
+            final double newCoefficient = coefficients.get(i) + error * Constant.mapBoolean(neuronInput.get(i)) * LEARNING_MULTIPLICATOR;
             coefficients.set(i, newCoefficient);
         }
         return coefficientCorrection;
@@ -63,7 +65,7 @@ final class TanHNeuron implements Neuron {
 
     private static double tanhDerivate(final double value) {
         final double tanh = Math.tanh(value);
-        final double pow = Math.pow(tanh, tanh);
+        final double pow = Math.pow(tanh, 2);
         if (Double.isNaN(pow)) {
             return 1;
         }
@@ -71,17 +73,21 @@ final class TanHNeuron implements Neuron {
     }
 
     private double compute(final List<Boolean> input) {
-        double result = 0L;
-        for (int i = 0; i < coefficients.size(); i++) {
-            result += Constant.mapBoolean(input.get(i)) * coefficients.get(i);
+        double result = this.coefficients.get(0);
+        for (int i = 0; i < input.size(); i++) {
+            result += Constant.mapBoolean(input.get(i)) * coefficients.get(i + 1);
         }
         return result;
+    }
+
+    private void checkInputSize(List<Boolean> input) {
+        NeuronAssert.checkState(input.size() == coefficients.size() - 1, "You are training neuron with " + input.size() + " inputs. But this neuron needs " + (coefficients.size() - 1) + ".");
     }
 
     @Override
     public String toString() {
         return "TanHNeuron{" +
-            "coefficients=" + coefficients +
-            '}';
+                "coefficients=" + coefficients +
+                '}';
     }
 }

@@ -1,48 +1,38 @@
 package com.vgalloy.neuron.neuron;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.BiFunction;
-
-import org.junit.Ignore;
 import org.junit.Test;
+import java.util.Arrays;
+
+import com.vgalloy.neuron.constant.Constant;
 
 /**
  * Created by Vincent Galloy on 01/04/17.
  *
  * @author Vincent Galloy
  */
-@Ignore
 public final class TanHNeuronTest {
 
     @Test
     public void and() {
-        buildTest((a, b) -> a && b);
+        NeuronTestHelper.buildTest((a, b) -> a && b, TanHNeuronTest::build);
     }
 
     @Test
     public void or() {
-        buildTest((a, b) -> a || b);
+        NeuronTestHelper.buildTest((a, b) -> a || b, TanHNeuronTest::build);
     }
 
     @Test
     public void first() {
-        buildTest((a, b) -> a);
+        NeuronTestHelper.buildTest((a, b) -> a, TanHNeuronTest::build);
     }
 
     @Test
     public void notSecond() {
-        buildTest((a, b) -> !b);
+        NeuronTestHelper.buildTest((a, b) -> !b, TanHNeuronTest::build);
     }
 
-    private static void buildTest(final BiFunction<Boolean, Boolean, Boolean> biFunction) {
-        Objects.requireNonNull(biFunction);
-        for (int i = 0; i < 4; i++) {
-            final List<Double> coefficients = Arrays.asList(2d, 3d);
-            final Neuron neuron = new TanHNeuron(coefficients);
-            NeuronTestHelper.train(neuron, biFunction);
-            NeuronTestHelper.validate(neuron, biFunction);
-        }
+    private static Neuron build(final boolean value1, final boolean value2, final boolean value3) {
+        return new TanHNeuron(Constant.mapBoolean(value1), Constant.mapBoolean(Arrays.asList(value2, value3)));
     }
 }
