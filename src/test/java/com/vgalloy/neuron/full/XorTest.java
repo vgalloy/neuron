@@ -30,10 +30,10 @@ public final class XorTest {
         neuronSystem.train(Arrays.asList(Boolean.TRUE, Boolean.TRUE), Collections.singletonList(false));
 
         // THEN
-        Assert.assertFalse(neuronSystem.compute(Arrays.asList(true, true)).get(0));
-        Assert.assertTrue(neuronSystem.compute(Arrays.asList(true, false)).get(0));
-        Assert.assertTrue(neuronSystem.compute(Arrays.asList(false, true)).get(0));
-        Assert.assertFalse(neuronSystem.compute(Arrays.asList(false, false)).get(0));
+        Assert.assertFalse(neuronSystem.apply(Arrays.asList(true, true)).get(0));
+        Assert.assertTrue(neuronSystem.apply(Arrays.asList(true, false)).get(0));
+        Assert.assertTrue(neuronSystem.apply(Arrays.asList(false, true)).get(0));
+        Assert.assertFalse(neuronSystem.apply(Arrays.asList(false, false)).get(0));
     }
 
     @Test
@@ -55,9 +55,9 @@ public final class XorTest {
         }
 
         // THEN
-        Assert.assertFalse(neuronSystem.compute(Arrays.asList(true, true)).get(0));
-        Assert.assertTrue(neuronSystem.compute(Arrays.asList(true, false)).get(0));
-        Assert.assertTrue(neuronSystem.compute(Arrays.asList(false, true)).get(0));
-        Assert.assertFalse(neuronSystem.compute(Arrays.asList(false, false)).get(0));
+        Assert.assertFalse(neuronSystem.apply(Arrays.asList(true, true)).get(0));
+        Assert.assertTrue(neuronSystem.apply(Arrays.asList(true, false)).get(0));
+        Assert.assertTrue(neuronSystem.apply(Arrays.asList(false, true)).get(0));
+        Assert.assertFalse(neuronSystem.apply(Arrays.asList(false, false)).get(0));
     }
 }

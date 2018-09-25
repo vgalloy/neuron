@@ -21,7 +21,7 @@ final class NeuronSystemImpl implements NeuronSystem {
     }
 
     @Override
-    public List<Boolean> compute(List<Boolean> input) {
+    public List<Boolean> apply(List<Boolean> input) {
         List<Boolean> list = new ArrayList<>(input);
         for (NeuronLayer neuronLayer : neuronLayers) {
             list = neuronLayer.apply(list);

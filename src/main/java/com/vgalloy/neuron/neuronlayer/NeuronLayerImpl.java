@@ -35,19 +35,19 @@ class NeuronLayerImpl implements NeuronLayer {
 
         List<List<Double>> coefficientCorrectionList = new ArrayList<>();
         for (int i = 0; i < neurons.size(); i++) {
-            Neuron neuron = neurons.get(i);
-            List<Double> correction = neuron.train(input, expectedResult.get(i) > 0);
+            final Neuron neuron = neurons.get(i);
+            final List<Double> correction = neuron.train(input, 0 < expectedResult.get(i));
             NeuronAssert.checkState(correction.size() == input.size(), "Correction list size should be equals to input list size.");
             coefficientCorrectionList.add(correction);
         }
 
-        List<Double> result = Stream.generate(() -> 0d)
+        final List<Double> result = Stream.generate(() -> 0d)
             .limit(input.size())
             .collect(Collectors.toList());
         NeuronAssert.checkState(result.size() == input.size(), "Result list size should be equals to input list size.");
-        for (List<Double> bigDecimals : coefficientCorrectionList) {
-            for (int i = 0; i < bigDecimals.size(); i++) {
-                result.set(i, result.get(i) + bigDecimals.get(i));
+        for (List<Double> coefficientCorrection : coefficientCorrectionList) {
+            for (int i = 0; i < coefficientCorrection.size(); i++) {
+                result.set(i, result.get(i) + coefficientCorrection.get(i));
             }
         }
         return result;

@@ -1,13 +1,14 @@
 package com.vgalloy.neuron.neuronlayer;
 
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.vgalloy.neuron.constant.Constant;
-import org.junit.Assert;
-import org.junit.Test;
 
 /**
  * Created by Vincent Galloy on 28/05/17.
@@ -71,5 +72,11 @@ public final class NeuronLayerTest {
             final List<Boolean> input = Stream.generate(Constant::random).limit(5).collect(Collectors.toList());
             Assert.assertEquals(input, layer.apply(input));
         }
+    }
+
+    @Ignore
+    @Test
+    public void add() {
+        NeuronLayerTestHelper.test((a, b) -> a + b);
     }
 }

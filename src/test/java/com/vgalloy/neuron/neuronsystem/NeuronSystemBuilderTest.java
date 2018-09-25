@@ -55,7 +55,7 @@ public final class NeuronSystemBuilderTest {
             .map(e -> Boolean.FALSE)
             .collect(Collectors.toList());
         try {
-            neuronSystem.compute(input);
+            neuronSystem.apply(input);
             if (shouldFail) {
                 Assert.fail("Should fail");
             }
