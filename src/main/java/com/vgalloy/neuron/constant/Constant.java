@@ -12,9 +12,8 @@ import java.util.stream.Collectors;
  */
 public final class Constant {
 
-    public static final long GLOBAL_MULTIPLICATOR = 1_000;
-    public static final long ONE = GLOBAL_MULTIPLICATOR;
-    public static final long MINUS_ONE = -1 * GLOBAL_MULTIPLICATOR;
+    public static final double TRUE = 1;
+    public static final double FALSE = -1d;
 
     private static final Random RANDOM = new SecureRandom();
 
@@ -30,21 +29,8 @@ public final class Constant {
         return RANDOM.nextBoolean();
     }
 
-    public static long longRandom() {
-        return map(random());
-    }
-
-    public static long map(final boolean value) {
-        if (value) {
-            return Constant.ONE;
-        }
-        return 0L;
-    }
-
-    public static List<Long> map(final List<Boolean> list) {
-        return list.stream()
-            .map(Constant::map)
-            .collect(Collectors.toList());
+    public static double doubleRandom() {
+        return mapBoolean(random());
     }
 
     public static double mapBoolean(final boolean value) {

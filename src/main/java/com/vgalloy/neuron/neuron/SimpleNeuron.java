@@ -14,14 +14,14 @@ import com.vgalloy.neuron.util.NeuronAssert;
  *
  * @author Vincent Galloy
  */
-final class SimpleNeuron extends AbstractNeuron<Long> {
+final class SimpleNeuron extends AbstractNeuron<Double> {
 
     /**
-     * Learning curve must be positive and lower than {@link Constant#ONE}.
+     * Learning curve must be positive and lower than 1.
      */
-    private static final Long LEARNING_MULTIPLICATOR = Constant.ONE * 2 / 10;
+    private static final double LEARNING_MULTIPLICATOR =  2d / 10;
 
-    SimpleNeuron(final long firstCoefficient, final List<Long> coefficients) {
+    SimpleNeuron(final Double firstCoefficient, final List<Double> coefficients) {
         super(firstCoefficient, coefficients, a -> a > 0);
     }
 
@@ -46,33 +46,33 @@ final class SimpleNeuron extends AbstractNeuron<Long> {
             if (!neuronInput.get(i)) {
                 coefficientCorrection.add(0d);
             } else {
-                final long expectedAsLong = expected ? Constant.ONE : Constant.MINUS_ONE;
-                final long error = (expectedAsLong - compute(neuronInput, i));
-                final long newCoeff = getCoefficients().get(i) + error * LEARNING_MULTIPLICATOR / Constant.ONE;
+                final double expectedAsLong = expected ? 1d : -1d;
+                final double error = (expectedAsLong - compute(neuronInput, i));
+                final double newCoeff = getCoefficients().get(i) + error * LEARNING_MULTIPLICATOR;
                 checkCoefficient(newCoeff);
-                coefficientCorrection.add((double) error * getCoefficients().get(i) / Constant.ONE);
+                coefficientCorrection.add(error * getCoefficients().get(i));
                 getCoefficients().set(i, newCoeff);
             }
         }
         return coefficientCorrection.subList(1, coefficientCorrection.size());
     }
 
-    protected Long compute(final List<Boolean> input) {
+    protected Double compute(final List<Boolean> input) {
         final NeuronInput neuronInput = NeuronInput.of(input);
-        long result = 0;
+        double result = 0;
         for (int i = 0; i < getCoefficients().size(); i++) {
             result += compute(neuronInput, i);
         }
         return result;
     }
 
-    protected long compute(final NeuronInput input, final int i) {
-        return Constant.map(input.get(i)) * getCoefficients().get(i) / Constant.ONE;
+    protected double compute(final NeuronInput input, final int i) {
+        return Constant.mapBoolean(input.get(i)) * getCoefficients().get(i);
     }
 
-    private static void checkCoefficient(final long coefficient) {
-        NeuronAssert.checkState(coefficient <= Constant.ONE, "New coefficient is higher than 'ONE' : " + coefficient);
-        NeuronAssert.checkState(Constant.MINUS_ONE <= coefficient, "New coefficient is lower than 'MINUS_ONE' : " + coefficient);
+    private static void checkCoefficient(final double coefficient) {
+        NeuronAssert.checkState(coefficient <= 1, "New coefficient is higher than 1 : " + coefficient);
+        NeuronAssert.checkState(-1 <= coefficient, "New coefficient is lower than -1 : " + coefficient);
     }
 
     @Override

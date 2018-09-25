@@ -22,19 +22,19 @@ public final class Neurons {
     public static Neuron of(int size) {
         NeuronAssert.checkState(0 < size, "Can not create a neuron with no connection");
 
-        List<Long> coefficient = IntStream.range(0, size)
+        List<Double> coefficient = IntStream.range(0, size)
             .boxed()
-            .map(e -> Constant.longRandom())
+            .map(e -> Constant.doubleRandom())
             .collect(Collectors.toList());
 
         return of(coefficient);
     }
 
-    public static Neuron of(List<Long> coefficients) {
-        return of(Constant.longRandom(), coefficients);
+    public static Neuron of(List<Double> coefficients) {
+        return of(Constant.doubleRandom(), coefficients);
     }
 
-    public static Neuron of(Long firstCoefficient, List<Long> coefficients) {
+    public static Neuron of(Double firstCoefficient, List<Double> coefficients) {
         return new SimpleNeuron(firstCoefficient, coefficients);
     }
 }

@@ -14,7 +14,7 @@ import com.vgalloy.neuron.constant.Constant;
 final class TanHNeuron extends AbstractNeuron<Double> {
 
     /**
-     * Learning curve must be positive and lower than {@link Constant#ONE}.
+     * Learning curve must be positive and lower than 1.
      */
     private static final double LEARNING_MULTIPLICATOR = 2d / 10;
 
