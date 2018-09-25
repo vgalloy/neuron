@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
+import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.util.NeuronAssert;
 
 /**
@@ -12,12 +13,12 @@ import com.vgalloy.neuron.util.NeuronAssert;
  *
  * @author Vincent Galloy
  */
-abstract class AbstractNeuron<T extends Number> implements Neuron {
+abstract class AbstractNeuron implements Neuron {
 
-    private final List<T> coefficients;
-    private final Function<T, Boolean> activationFunction;
+    private final List<Double> coefficients;
+    private final Function<Double, Boolean> activationFunction;
 
-    AbstractNeuron(final T firstCoefficient, final List<T> coefficients, final Function<T, Boolean> activationFunction) {
+    AbstractNeuron(final Double firstCoefficient, final List<Double> coefficients, final Function<Double, Boolean> activationFunction) {
         NeuronAssert.checkState(!coefficients.isEmpty(), "Neuron must have at least on entry point");
         this.coefficients = new ArrayList<>();
         this.coefficients.add(firstCoefficient);
@@ -25,8 +26,16 @@ abstract class AbstractNeuron<T extends Number> implements Neuron {
         this.activationFunction = Objects.requireNonNull(activationFunction, "activationFunction");
     }
 
-    protected abstract T compute(final List<Boolean> input);
+    protected Double compute(final List<Boolean> input) {
+        final NeuronInput neuronInput = NeuronInput.of(input);
+        double result = 0;
+        for (int i = 0; i < getCoefficients().size(); i++) {
+            result +=  compute(neuronInput, i);
+        }
+        return result;
+    }
 
+    protected abstract double compute(final NeuronInput neuronInput, final int i);
 //
 //    private T compute(final List<Boolean> input) {
 //        final NeuronInput neuronInput = NeuronInput.of(input);
@@ -42,7 +51,7 @@ abstract class AbstractNeuron<T extends Number> implements Neuron {
     public boolean apply(final List<Boolean> input) {
         checkInputSize(input);
 
-        final T result = compute(input);
+        final Double result = compute(input);
         return getActivationFunction().apply(result);
     }
 //
@@ -57,11 +66,11 @@ abstract class AbstractNeuron<T extends Number> implements Neuron {
         return coefficients.size() - 1;
     }
 
-    protected List<T> getCoefficients() {
+    protected List<Double> getCoefficients() {
         return coefficients;
     }
 
-    protected Function<T, Boolean> getActivationFunction() {
+    protected Function<Double, Boolean> getActivationFunction() {
         return activationFunction;
     }
 

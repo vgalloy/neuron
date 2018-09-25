@@ -11,7 +11,7 @@ import com.vgalloy.neuron.constant.Constant;
  *
  * @author Vincent Galloy
  */
-final class TanHNeuron extends AbstractNeuron<Double> {
+final class TanHNeuron extends AbstractNeuron {
 
     /**
      * Learning curve must be positive and lower than 1.
@@ -27,8 +27,8 @@ final class TanHNeuron extends AbstractNeuron<Double> {
         Objects.requireNonNull(input, "NeuronInput can not be null");
         checkInputSize(input);
 
-        final boolean resultBoolean = apply(input);
-        return train(input, Constant.mapBoolean(expected) - Constant.mapBoolean(resultBoolean));
+        final boolean result = apply(input);
+        return train(input, Constant.mapBoolean(expected) - Constant.mapBoolean(result));
     }
 
     public List<Double> train(final List<Boolean> input, final double diff) {
@@ -55,15 +55,6 @@ final class TanHNeuron extends AbstractNeuron<Double> {
             throw new IllegalStateException("Nan unsupported");
         }
         return 1 - pow;
-    }
-
-    protected Double compute(final List<Boolean> input) {
-        final NeuronInput neuronInput = NeuronInput.of(input);
-        double result = 0d;
-        for (int i = 0; i < getCoefficients().size(); i++) {
-            result += compute(neuronInput, i);
-        }
-        return result;
     }
 
     protected double compute(final NeuronInput input, final int i) {

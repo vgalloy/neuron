@@ -14,7 +14,7 @@ import com.vgalloy.neuron.util.NeuronAssert;
  *
  * @author Vincent Galloy
  */
-final class SimpleNeuron extends AbstractNeuron<Double> {
+final class SimpleNeuron extends AbstractNeuron {
 
     /**
      * Learning curve must be positive and lower than 1.
@@ -55,15 +55,6 @@ final class SimpleNeuron extends AbstractNeuron<Double> {
             }
         }
         return coefficientCorrection.subList(1, coefficientCorrection.size());
-    }
-
-    protected Double compute(final List<Boolean> input) {
-        final NeuronInput neuronInput = NeuronInput.of(input);
-        double result = 0;
-        for (int i = 0; i < getCoefficients().size(); i++) {
-            result += compute(neuronInput, i);
-        }
-        return result;
     }
 
     protected double compute(final NeuronInput input, final int i) {
