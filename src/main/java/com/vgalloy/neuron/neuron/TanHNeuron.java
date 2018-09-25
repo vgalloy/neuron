@@ -63,6 +63,12 @@ final class TanHNeuron implements Neuron {
         return coefficientCorrection;
     }
 
+
+    @Override
+    public int inputSize() {
+        return coefficients.size() - 1;
+    }
+
     private static double tanhDerivate(final double value) {
         final double tanh = Math.tanh(value);
         final double pow = Math.pow(tanh, 2);
@@ -80,14 +86,12 @@ final class TanHNeuron implements Neuron {
         return result;
     }
 
-    private void checkInputSize(List<Boolean> input) {
-        NeuronAssert.checkState(input.size() == coefficients.size() - 1, "You are training neuron with " + input.size() + " inputs. But this neuron needs " + (coefficients.size() - 1) + ".");
+    private void checkInputSize(final List<Boolean> input) {
+        NeuronAssert.checkState(input.size() == inputSize(), "You are training neuron with " + input.size() + " inputs. But this neuron needs " + inputSize() + ".");
     }
 
     @Override
     public String toString() {
-        return "TanHNeuron{" +
-                "coefficients=" + coefficients +
-                '}';
+        return "TanH" + coefficients;
     }
 }

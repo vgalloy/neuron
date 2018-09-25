@@ -26,7 +26,7 @@ public final class NeuronLayerTest {
         final NeuronLayer result = NeuronLayers.of(3, layerSize);
 
         // THEN
-        Assert.assertEquals(layerSize, result.size());
+        Assert.assertEquals(layerSize, result.neuronNumber());
     }
 
     @Test

@@ -15,25 +15,22 @@ import com.vgalloy.neuron.util.NeuronAssert;
 public final class NeuronSystemBuilder {
 
     private final List<NeuronLayer> neuronLayers = new ArrayList<>();
-    private final int neuronSystemParameterNumber;
 
-    public NeuronSystemBuilder(int neuronSystemParameterNumber) {
+    /**
+     * @param neuronSystemParameterNumber the number of input
+     * @param numberOfNeuron              the number of neuron in the first layer
+     */
+    public NeuronSystemBuilder(int neuronSystemParameterNumber, int numberOfNeuron) {
         NeuronAssert.checkState(0 < neuronSystemParameterNumber, "System should at least get one argument.");
-
-        this.neuronSystemParameterNumber = neuronSystemParameterNumber;
+        final NeuronLayer neuronLayer = NeuronLayers.of(neuronSystemParameterNumber, numberOfNeuron);
+        neuronLayers.add(neuronLayer);
     }
 
     public NeuronSystemBuilder addLayer(int numberOfNeuron) {
         NeuronAssert.checkState(0 < numberOfNeuron, "number of neuron must be > 0.");
-        int size;
-        if (neuronLayers.isEmpty()) {
-            size = neuronSystemParameterNumber;
-        } else {
-            size = neuronLayers.get(neuronLayers.size() - 1).size();
-        }
 
-        NeuronLayer neuronLayer = NeuronLayers.of(size, numberOfNeuron);
-
+        final int size = neuronLayers.get(neuronLayers.size() - 1).inputSize();
+        final NeuronLayer neuronLayer = NeuronLayers.of(size, numberOfNeuron);
         neuronLayers.add(neuronLayer);
 
         return this;

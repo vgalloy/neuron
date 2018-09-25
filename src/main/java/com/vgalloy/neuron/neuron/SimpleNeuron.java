@@ -34,7 +34,7 @@ final class SimpleNeuron implements Neuron {
 
     @Override
     public boolean apply(final List<Boolean> input) {
-        NeuronAssert.checkState(input.size() == coefficients.size() - 1, "You are train neuron with " + input.size() + " inputs. But this neuron needs " + (coefficients.size() - 1) + ".");
+        checkInputSize(input);
         final NeuronInput neuronInput = NeuronInput.of(input);
 
         long result = 0L;
@@ -48,14 +48,14 @@ final class SimpleNeuron implements Neuron {
     @Override
     public List<Double> train(final List<Boolean> input, final boolean expected) {
         Objects.requireNonNull(input, "NeuronInput can not be null");
-        NeuronAssert.checkState(input.size() == coefficients.size() - 1, "You are train neuron with " + input.size() + " inputs. But this neuron needs " + (coefficients.size() - 1) + ".");
+        checkInputSize(input);
 
         final boolean result = apply(input);
 
         // Correct case
         if (result == expected) {
             return Stream.generate(() -> 0d)
-                    .limit(coefficients.size() - 1)
+                    .limit(inputSize())
                     .collect(Collectors.toList());
         }
 
@@ -77,9 +77,9 @@ final class SimpleNeuron implements Neuron {
         return coefficientCorrection.subList(1, coefficientCorrection.size());
     }
 
-    private static void checkCoefficient(final long coefficient) {
-        NeuronAssert.checkState(coefficient <= Constant.ONE, "New coefficient is higher than 'ONE' : " + coefficient);
-        NeuronAssert.checkState(Constant.MINUS_ONE <= coefficient, "New coefficient is lower than 'MINUS_ONE' : " + coefficient);
+    @Override
+    public int inputSize() {
+        return coefficients.size() - 1;
     }
 
     private long compute(final NeuronInput input, final int i) {
@@ -89,10 +89,17 @@ final class SimpleNeuron implements Neuron {
         return 0L;
     }
 
+    private void checkInputSize(final List<Boolean> input) {
+        NeuronAssert.checkState(input.size() == inputSize(), "You are training neuron with " + input.size() + " inputs. But this neuron needs " + inputSize() + ".");
+    }
+
+    private static void checkCoefficient(final long coefficient) {
+        NeuronAssert.checkState(coefficient <= Constant.ONE, "New coefficient is higher than 'ONE' : " + coefficient);
+        NeuronAssert.checkState(Constant.MINUS_ONE <= coefficient, "New coefficient is lower than 'MINUS_ONE' : " + coefficient);
+    }
+
     @Override
     public String toString() {
-        return "SimpleNeuron{" +
-            "coefficients=" + coefficients +
-            '}';
+        return "Simple" + coefficients;
     }
 }

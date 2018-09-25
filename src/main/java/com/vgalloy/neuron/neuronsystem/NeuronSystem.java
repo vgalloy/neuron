@@ -11,4 +11,8 @@ import java.util.function.Function;
 public interface NeuronSystem extends Function<List<Boolean>, List<Boolean>> {
 
     void train(List<Boolean> input, List<Boolean> expectedSolution);
+
+    int inputSize();
+
+    int outputSize();
 }

@@ -12,4 +12,6 @@ public interface Neuron {
     boolean apply(final List<Boolean> input);
 
     List<Double> train(List<Boolean> input, boolean expected);
+
+    int inputSize();
 }

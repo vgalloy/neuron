@@ -20,8 +20,7 @@ public final class XorTest {
     @Ignore
     public void testSimple() {
         // GIVEN
-        final NeuronSystem neuronSystem = new NeuronSystemBuilder(2)
-            .addLayer(3)
+        final NeuronSystem neuronSystem = new NeuronSystemBuilder(2, 3)
             .addLayer(2)
             .addLayer(1)
             .build();
@@ -40,8 +39,7 @@ public final class XorTest {
     @Ignore
     public void xor() {
         // GIVEN
-       final NeuronSystem neuronSystem = new NeuronSystemBuilder(2)
-            .addLayer(3)
+       final NeuronSystem neuronSystem = new NeuronSystemBuilder(2, 3)
             .addLayer(2)
             .addLayer(1)
             .build();

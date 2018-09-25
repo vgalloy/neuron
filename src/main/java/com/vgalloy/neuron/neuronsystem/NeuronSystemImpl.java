@@ -47,6 +47,16 @@ final class NeuronSystemImpl implements NeuronSystem {
         }
     }
 
+    @Override
+    public int inputSize() {
+        return neuronLayers.get(0).inputSize();
+    }
+
+    @Override
+    public int outputSize() {
+        return neuronLayers.get(neuronLayers.size() - 1).inputSize();
+    }
+
     public List<NeuronLayer> getNeuronLayers() {
         return neuronLayers;
     }

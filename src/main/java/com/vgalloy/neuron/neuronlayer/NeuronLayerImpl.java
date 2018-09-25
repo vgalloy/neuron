@@ -54,7 +54,12 @@ class NeuronLayerImpl implements NeuronLayer {
     }
 
     @Override
-    public int size() {
+    public int inputSize() {
+        return neurons.get(0).inputSize();
+    }
+
+    @Override
+    public int neuronNumber() {
         return neurons.size();
     }
 
