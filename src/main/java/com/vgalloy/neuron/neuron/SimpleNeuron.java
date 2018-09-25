@@ -14,35 +14,15 @@ import com.vgalloy.neuron.util.NeuronAssert;
  *
  * @author Vincent Galloy
  */
-final class SimpleNeuron implements Neuron {
+final class SimpleNeuron extends AbstractNeuron<Long> {
 
-	/**
-	 * Learning curve must be positive and lower than {@link Constant#ONE}.
-	 */
+    /**
+     * Learning curve must be positive and lower than {@link Constant#ONE}.
+     */
     private static final Long LEARNING_MULTIPLICATOR = Constant.ONE * 2 / 10;
 
-    private final List<Long> coefficients;
-
     SimpleNeuron(final long firstCoefficient, final List<Long> coefficients) {
-        Objects.requireNonNull(coefficients);
-        NeuronAssert.checkState(!coefficients.isEmpty(), "Neuron must have at least on entry point");
-        this.coefficients = new ArrayList<>();
-        this.coefficients.add(firstCoefficient);
-        this.coefficients.addAll(coefficients);
-        this.coefficients.forEach(SimpleNeuron::checkCoefficient);
-    }
-
-    @Override
-    public boolean apply(final List<Boolean> input) {
-        checkInputSize(input);
-        final NeuronInput neuronInput = NeuronInput.of(input);
-
-        long result = 0L;
-        for (int i = 0; i < coefficients.size(); i++) {
-            result += compute(neuronInput, i);
-        }
-
-        return result > 0;
+        super(firstCoefficient, coefficients, a -> a > 0);
     }
 
     @Override
@@ -55,42 +35,39 @@ final class SimpleNeuron implements Neuron {
         // Correct case
         if (result == expected) {
             return Stream.generate(() -> 0d)
-                    .limit(inputSize())
-                    .collect(Collectors.toList());
+                .limit(inputSize())
+                .collect(Collectors.toList());
         }
 
         // Learning phase
         final NeuronInput neuronInput = NeuronInput.of(input);
         final List<Double> coefficientCorrection = new ArrayList<>();
-        for (int i = 0; i < coefficients.size(); i++) {
+        for (int i = 0; i < getCoefficients().size(); i++) {
             if (!neuronInput.get(i)) {
                 coefficientCorrection.add(0d);
             } else {
                 final long expectedAsLong = expected ? Constant.ONE : Constant.MINUS_ONE;
                 final long error = (expectedAsLong - compute(neuronInput, i));
-                final long newCoeff = coefficients.get(i) + error * LEARNING_MULTIPLICATOR / Constant.ONE;
+                final long newCoeff = getCoefficients().get(i) + error * LEARNING_MULTIPLICATOR / Constant.ONE;
                 checkCoefficient(newCoeff);
-                coefficientCorrection.add((double) error * coefficients.get(i) / Constant.ONE);
-                coefficients.set(i, newCoeff);
+                coefficientCorrection.add((double) error * getCoefficients().get(i) / Constant.ONE);
+                getCoefficients().set(i, newCoeff);
             }
         }
         return coefficientCorrection.subList(1, coefficientCorrection.size());
     }
 
-    @Override
-    public int inputSize() {
-        return coefficients.size() - 1;
-    }
-
-    private long compute(final NeuronInput input, final int i) {
-        if(input.get(i)) {
-            return coefficients.get(i);
+    protected Long compute(final List<Boolean> input) {
+        final NeuronInput neuronInput = NeuronInput.of(input);
+        long result = 0;
+        for (int i = 0; i < getCoefficients().size(); i++) {
+            result += compute(neuronInput, i);
         }
-        return 0L;
+        return result;
     }
 
-    private void checkInputSize(final List<Boolean> input) {
-        NeuronAssert.checkState(input.size() == inputSize(), "You are training neuron with " + input.size() + " inputs. But this neuron needs " + inputSize() + ".");
+    protected long compute(final NeuronInput input, final int i) {
+        return Constant.map(input.get(i)) * getCoefficients().get(i) / Constant.ONE;
     }
 
     private static void checkCoefficient(final long coefficient) {
@@ -100,6 +77,6 @@ final class SimpleNeuron implements Neuron {
 
     @Override
     public String toString() {
-        return "Simple" + coefficients;
+        return "Simple" + getCoefficients();
     }
 }
