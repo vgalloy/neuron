@@ -13,5 +13,7 @@ public interface Neuron {
 
     List<Double> train(List<Boolean> input, boolean expected);
 
+    List<Double> train(final List<Boolean> input, final double diff);
+
     int inputSize();
 }

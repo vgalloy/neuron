@@ -3,7 +3,6 @@ package com.vgalloy.neuron.neuron;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Function;
 
 import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.util.NeuronAssert;
@@ -15,15 +14,20 @@ import com.vgalloy.neuron.util.NeuronAssert;
  */
 abstract class AbstractNeuron implements Neuron {
 
-    private final List<Double> coefficients;
-    private final Function<Double, Boolean> activationFunction;
+    /**
+     * Learning curve must be positive and lower than 1.
+     */
+    private static final double LEARNING_MULTIPLICATOR = 2d / 10;
 
-    AbstractNeuron(final Double firstCoefficient, final List<Double> coefficients, final Function<Double, Boolean> activationFunction) {
+    private final List<Double> coefficients;
+    private final AggregationFunction aggregationFunction;
+
+    AbstractNeuron(final Double firstCoefficient, final List<Double> coefficients, final AggregationFunction aggregationFunction) {
         NeuronAssert.checkState(!coefficients.isEmpty(), "Neuron must have at least on entry point");
         this.coefficients = new ArrayList<>();
         this.coefficients.add(firstCoefficient);
         this.coefficients.addAll(coefficients);
-        this.activationFunction = Objects.requireNonNull(activationFunction, "activationFunction");
+        this.aggregationFunction = Objects.requireNonNull(aggregationFunction, "aggregationFunction");
     }
 
     protected Double compute(final List<Boolean> input) {
@@ -35,31 +39,47 @@ abstract class AbstractNeuron implements Neuron {
         return result;
     }
 
-    protected abstract double compute(final NeuronInput neuronInput, final int i);
-//
-//    private T compute(final List<Boolean> input) {
-//        final NeuronInput neuronInput = NeuronInput.of(input);
-//        T result = (T) (Number) 0;
-//        for (int i = 0; i < getCoefficients().size(); i++) {
-//            T value = compute(neuronInput, i);
-//            result = result + value;
-//        }
-//        return result;
-//    }
+    protected double compute(final NeuronInput neuronInput, final int i) {
+        return Constant.mapBoolean(neuronInput.get(i)) * getCoefficients().get(i);
+    }
 
     @Override
     public boolean apply(final List<Boolean> input) {
         checkInputSize(input);
 
         final Double result = compute(input);
-        return getActivationFunction().apply(result);
+        return getAggregationFunction().apply(result) > 0;
     }
-//
-//    @Override
-//    public List<Double> train(final List<Boolean> input, final boolean expected) {
-//        checkInputSize(input);
-//        return null;
-//    }
+
+    @Override
+    public List<Double> train(final List<Boolean> input, final boolean expected) {
+        Objects.requireNonNull(input, "NeuronInput can not be null");
+        checkInputSize(input);
+
+        final boolean result = apply(input);
+
+        final double diff = Constant.mapBoolean(expected) - Constant.mapBoolean(result);
+        return train(input, diff);
+    }
+
+
+    @Override
+    public List<Double> train(final List<Boolean> input, final double diff) {
+        Objects.requireNonNull(input, "NeuronInput can not be null");
+
+        final double result = compute(input);
+        final double error = getAggregationFunction().applyDerived(result) * diff;
+
+        final List<Double> coefficientCorrection = new ArrayList<>();
+        final NeuronInput neuronInput = NeuronInput.of(input);
+        for (int i = 0; i < neuronInput.size(); i++) {
+            final double errorPerInput = error * getCoefficients().get(i);
+            coefficientCorrection.add(errorPerInput);
+            final double newCoefficient = getCoefficients().get(i) + error * Constant.mapBoolean(neuronInput.get(i)) * LEARNING_MULTIPLICATOR;
+            getCoefficients().set(i, newCoefficient);
+        }
+        return coefficientCorrection.subList(1, coefficientCorrection.size());
+    }
 
     @Override
     public int inputSize() {
@@ -70,8 +90,8 @@ abstract class AbstractNeuron implements Neuron {
         return coefficients;
     }
 
-    protected Function<Double, Boolean> getActivationFunction() {
-        return activationFunction;
+    protected AggregationFunction getAggregationFunction() {
+        return aggregationFunction;
     }
 
     protected void checkInputSize(final List<Boolean> input) {
