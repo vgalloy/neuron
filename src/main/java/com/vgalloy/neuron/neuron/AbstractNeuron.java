@@ -30,16 +30,16 @@ abstract class AbstractNeuron implements Neuron {
         this.aggregationFunction = Objects.requireNonNull(aggregationFunction, "aggregationFunction");
     }
 
-    protected Double compute(final List<Boolean> input) {
+    private Double compute(final List<Boolean> input) {
         final NeuronInput neuronInput = NeuronInput.of(input);
         double result = 0;
         for (int i = 0; i < getCoefficients().size(); i++) {
-            result +=  compute(neuronInput, i);
+            result += compute(neuronInput, i);
         }
         return result;
     }
 
-    protected double compute(final NeuronInput neuronInput, final int i) {
+    private double compute(final NeuronInput neuronInput, final int i) {
         return Constant.mapBoolean(neuronInput.get(i)) * getCoefficients().get(i);
     }
 
@@ -61,7 +61,6 @@ abstract class AbstractNeuron implements Neuron {
         final double diff = Constant.mapBoolean(expected) - Constant.mapBoolean(result);
         return train(input, diff);
     }
-
 
     @Override
     public List<Double> train(final List<Boolean> input, final double diff) {

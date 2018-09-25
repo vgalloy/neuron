@@ -29,7 +29,7 @@ public final class NeuronSystemBuilder {
     public NeuronSystemBuilder addLayer(int numberOfNeuron) {
         NeuronAssert.checkState(0 < numberOfNeuron, "number of neuron must be > 0.");
 
-        final int size = neuronLayers.get(neuronLayers.size() - 1).inputSize();
+        final int size = neuronLayers.get(neuronLayers.size() - 1).neuronNumber();
         final NeuronLayer neuronLayer = NeuronLayers.of(size, numberOfNeuron);
         neuronLayers.add(neuronLayer);
 

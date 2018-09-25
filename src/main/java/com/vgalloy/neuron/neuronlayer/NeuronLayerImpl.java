@@ -23,7 +23,7 @@ class NeuronLayerImpl implements NeuronLayer {
     }
 
     @Override
-    public List<Boolean> apply(List<Boolean> input) {
+    public List<Boolean> apply(final List<Boolean> input) {
         return neurons.stream()
             .map(e -> e.apply(input))
             .collect(Collectors.toList());
@@ -65,8 +65,6 @@ class NeuronLayerImpl implements NeuronLayer {
 
     @Override
     public String toString() {
-        return "NeuronLayerImpl{" +
-            "neurons=" + neurons +
-            '}';
+        return "Layer" + neurons;
     }
 }

@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.neuronlayer.NeuronLayer;
+import com.vgalloy.neuron.util.NeuronAssert;
 
 /**
  * Created by Vincent Galloy on 01/04/17.
@@ -30,20 +31,23 @@ final class NeuronSystemImpl implements NeuronSystem {
     }
 
     @Override
-    public void train(List<Boolean> input, List<Boolean> expectedSolution) {
-        List<Double> expectedSolutionAsLong = Constant.mapBoolean(expectedSolution);
-
-        List<List<Boolean>> middleResult = new ArrayList<>();
+    public void trainWithBoolean(List<Boolean> input, final List<Boolean> expectedSolution) {
+        final List<List<Boolean>> middleResult = new ArrayList<>();
         for (final NeuronLayer neuronLayer : neuronLayers) {
             middleResult.add(input);
             input = neuronLayer.apply(input);
         }
+        NeuronAssert.checkState(input.size() == expectedSolution.size(), "Expected solutions size is : " + expectedSolution.size() + " must be " + input.size());
+        List<Double> diff = new ArrayList<>();
+        for (int i = 0; i < expectedSolution.size(); i++) {
+            diff.add(Constant.mapBoolean(expectedSolution.get(i)) - Constant.mapBoolean(input.get(i)));
+        }
 
         for (int i = 0; i < neuronLayers.size(); i++) {
-            int index = neuronLayers.size() - 1 - i;
+            final int index = neuronLayers.size() - 1 - i;
             final NeuronLayer neuronLayer = neuronLayers.get(index);
             final List<Boolean> intermediateInput = middleResult.get(index);
-            expectedSolutionAsLong = neuronLayer.trainWithDouble(intermediateInput, expectedSolutionAsLong);
+            diff = neuronLayer.trainWithDouble(intermediateInput, diff);
         }
     }
 

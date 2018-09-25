@@ -1,4 +1,4 @@
-package com.vgalloy.neuron.neuronlayer;
+package com.vgalloy.neuron.neuronsystem;
 
 import org.junit.Assert;
 import java.util.ArrayList;
@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
 
-import com.vgalloy.neuron.neuronsystem.NeuronSystem;
-import com.vgalloy.neuron.neuronsystem.NeuronSystemBuilder;
 import com.vgalloy.neuron.util.NeuronAssert;
 
 /**
@@ -17,34 +15,38 @@ import com.vgalloy.neuron.util.NeuronAssert;
  *
  * @author Vincent Galloy
  */
-final class NeuronLayerTestHelper {
+final class NeuronSystemTestHelper {
 
     /**
      * Constructor.
      * Private to avoid instantiation
      */
-    private NeuronLayerTestHelper() {
+    private NeuronSystemTestHelper() {
         throw new AssertionError();
     }
 
     static void test(BiFunction<Integer, Integer, Integer> biFunction) {
-        final NeuronLayer neuronLayer = NeuronLayers.of(4, 3);
+        final NeuronSystem neuronSystem = new NeuronSystemBuilder(4, 4)
+            .addLayer(3)
+            .addLayer(3)
+            .addLayer(3)
+            .build();
 
-        train(neuronLayer, biFunction);
-        validate(neuronLayer, biFunction);
+        train(neuronSystem, biFunction);
+        validate(neuronSystem, biFunction);
     }
 
-    private static void validate(NeuronLayer neuronLayer, BiFunction<Integer, Integer, Integer> biFunction) {
+    private static void validate(NeuronSystem neuronSystem, BiFunction<Integer, Integer, Integer> biFunction) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                final List<Boolean> result = neuronLayer.apply(toArgs(i, j));
+                final List<Boolean> result = neuronSystem.apply(toArgs(i, j));
                 final Integer value = toInt(result);
                 Assert.assertEquals(biFunction.apply(i, j), value);
             }
         }
     }
 
-    private static void train(NeuronLayer neuronLayer, BiFunction<Integer, Integer, Integer> biFunction) {
+    private static void train(NeuronSystem neuronSystem, BiFunction<Integer, Integer, Integer> biFunction) {
         List<List<Integer>> trainings = buildTrainings();
         for (int i = 0; i < 500; i++) {
             Collections.shuffle(trainings);
@@ -53,8 +55,8 @@ final class NeuronLayerTestHelper {
                 final Integer second = input.get(1);
                 final List<Boolean> args = toArgs(first, second);
                 final List<Boolean> result = toBoolean(biFunction.apply(first, second), 3);
-                neuronLayer.trainWithBoolean(args, result);
-                System.out.println(neuronLayer);
+                neuronSystem.trainWithBoolean(args, result);
+//                System.out.println(neuronSystem);
             }
         }
     }
@@ -72,7 +74,7 @@ final class NeuronLayerTestHelper {
     static List<Boolean> toBoolean(final int i, int size) {
         NeuronAssert.checkState(i < Math.pow(2, size), "Number " + i + " is higher than 2^" + size);
         final List<Boolean> result = new ArrayList<>();
-        for(int j = 0; j < size; j++) {
+        for (int j = 0; j < size; j++) {
             result.add(i / (int) Math.pow(2, j) % 2 != 0);
         }
         return result;

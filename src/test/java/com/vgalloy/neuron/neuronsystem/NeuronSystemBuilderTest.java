@@ -54,4 +54,22 @@ public final class NeuronSystemBuilderTest {
         // THEN
         neuronSystem.apply(input);
     }
+
+    @Test
+    public void correctOutputSize() {
+        // GIVEN
+        final NeuronSystem neuronSystem = new NeuronSystemBuilder(3, 10)
+            .addLayer(4)
+            .addLayer(4)
+            .addLayer(4)
+            .addLayer(2)
+            .build();
+        final List<Boolean> input = IntStream.range(0, 3)
+            .boxed()
+            .map(e -> Boolean.FALSE)
+            .collect(Collectors.toList());
+
+        // THEN
+        neuronSystem.apply(input);
+    }
 }
