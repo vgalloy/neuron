@@ -19,7 +19,7 @@ public final class SimpleNeuronTest {
     @Test
     public void correctMonoNeuron() {
         // GIVEN
-        final Neuron neuron = Neurons.of(Constant.FALSE, Collections.singletonList(Constant.TRUE));
+        final Neuron neuron = new SimpleNeuron(Constant.FALSE, Collections.singletonList(Constant.TRUE));
 
         // WHEN
         final boolean result = neuron.apply(Collections.singletonList(true));
@@ -31,7 +31,7 @@ public final class SimpleNeuronTest {
     @Test
     public void correctMonoNeuron2() {
         // GIVEN
-        final Neuron neuron = Neurons.of(0d, Collections.singletonList(Constant.TRUE));
+        final Neuron neuron = new SimpleNeuron(0d, Collections.singletonList(Constant.TRUE));
 
         // WHEN
         final boolean result = neuron.apply(Collections.singletonList(true));
@@ -43,7 +43,7 @@ public final class SimpleNeuronTest {
     @Test
     public void neuronTrain() {
         // GIVEN
-        final Neuron neuron = Neurons.of(Constant.FALSE, Collections.singletonList(Constant.TRUE));
+        final Neuron neuron = new SimpleNeuron(Constant.FALSE, Collections.singletonList(Constant.TRUE));
 
         // WHEN
         neuron.train(Collections.singletonList(true), false);
@@ -57,7 +57,7 @@ public final class SimpleNeuronTest {
     @Test
     public void neuronTrainResultSize() {
         // GIVEN
-        final Neuron neuron = Neurons.of(0.24d, Arrays.asList(-0.88d, -0.37d));
+        final Neuron neuron = new SimpleNeuron(0.24d, Arrays.asList(-0.88d, -0.37d));
 
         // WHEN
         final List<Double> result = neuron.train(Arrays.asList(false, false), true);
@@ -69,7 +69,7 @@ public final class SimpleNeuronTest {
     @Test
     public void neuronTrainResult() {
         // GIVEN
-        final Neuron neuron = Neurons.of(0d, Collections.singletonList(Constant.TRUE));
+        final Neuron neuron = new SimpleNeuron(0d, Collections.singletonList(Constant.TRUE));
 
         // WHEN
         final List<Double> result = neuron.train(Collections.singletonList(true), false);
@@ -82,7 +82,7 @@ public final class SimpleNeuronTest {
     @Test
     public void simpleLearning() {
         // GIVEN
-        final Neuron neuron = Neurons.of(Collections.singletonList(1d));
+        final Neuron neuron = new SimpleNeuron(Constant.doubleRandom(), Collections.singletonList(1d));
 
         // WHEN
         neuron.train(Collections.singletonList(true), false);
@@ -94,22 +94,10 @@ public final class SimpleNeuronTest {
         Assert.assertTrue(result);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void creationFail() {
-        // GIVEN
-        Neurons.of(null);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void creationFail2() {
-        // GIVEN
-        Neurons.of(Collections.emptyList());
-    }
-
     @Test
     public void correctionListSize() {
         // GIVEN
-        Neuron neuron = Neurons.of(1d, Arrays.asList(1d, 1d));
+        Neuron neuron = new SimpleNeuron(1d, Arrays.asList(1d, 1d));
 
         // WHEN
         final List<Double> result = neuron.train(Arrays.asList(true, false), false);
@@ -139,6 +127,6 @@ public final class SimpleNeuronTest {
     }
 
     private static Neuron build(final boolean value1, final boolean value2, final boolean value3) {
-        return Neurons.of(Constant.mapBoolean(value1), Constant.mapBoolean(Arrays.asList(value2, value3)));
+        return new SimpleNeuron(Constant.mapBoolean(value1), Constant.mapBoolean(Arrays.asList(value2, value3)));
     }
 }

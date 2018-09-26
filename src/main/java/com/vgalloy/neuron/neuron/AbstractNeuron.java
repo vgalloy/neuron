@@ -57,7 +57,6 @@ abstract class AbstractNeuron implements Neuron {
         checkInputSize(input);
 
         final boolean result = apply(input);
-
         final double diff = Constant.mapBoolean(expected) - Constant.mapBoolean(result);
         return train(input, diff);
     }

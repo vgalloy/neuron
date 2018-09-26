@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.neuron.Neuron;
 import com.vgalloy.neuron.util.NeuronAssert;
 
@@ -31,13 +32,13 @@ class NeuronLayerImpl implements NeuronLayer {
     }
 
     @Override
-    public List<Double> trainWithDouble(List<Boolean> input, List<Double> expectedResult) {
-        NeuronAssert.checkState(neurons.size() == expectedResult.size(), "ExpectedResult size must be equals to neuron layer size.");
+    public List<Double> trainWithDouble(final List<Boolean> input, final List<Double> error) {
+        NeuronAssert.checkState(neurons.size() == error.size(), "Error vector size must be equals to neuron layer size.");
 
         List<List<Double>> coefficientCorrectionList = new ArrayList<>();
         for (int i = 0; i < neurons.size(); i++) {
             final Neuron neuron = neurons.get(i);
-            final List<Double> correction = neuron.train(input, 0 < expectedResult.get(i));
+            final List<Double> correction = neuron.train(input, error.get(i));
             NeuronAssert.checkState(correction.size() == input.size(), "Correction list size should be equals to input list size.");
             coefficientCorrectionList.add(correction);
         }
@@ -46,12 +47,22 @@ class NeuronLayerImpl implements NeuronLayer {
             .limit(input.size())
             .collect(Collectors.toList());
         NeuronAssert.checkState(result.size() == input.size(), "Result list size should be equals to input list size.");
-        for (List<Double> coefficientCorrection : coefficientCorrectionList) {
+        for (final List<Double> coefficientCorrection : coefficientCorrectionList) {
             for (int i = 0; i < coefficientCorrection.size(); i++) {
                 result.set(i, result.get(i) + coefficientCorrection.get(i));
             }
         }
         return result;
+    }
+
+    @Override
+    public List<Double> trainWithBoolean(List<Boolean> input, List<Boolean> expectedSolution) {
+        final List<Boolean> result = apply(input);
+        final List<Double> diff = new ArrayList<>();
+        for (int i = 0; i < expectedSolution.size(); i++) {
+            diff.add(Constant.mapBoolean(expectedSolution.get(i)) - Constant.mapBoolean(result.get(i)));
+        }
+        return trainWithDouble(input, diff);
     }
 
     @Override

@@ -15,16 +15,13 @@ public interface NeuronLayer extends Function<List<Boolean>, List<Boolean>> {
     /**
      * Train the current neuron layer.
      *
-     * @param input          the list of boolean representing input
-     * @param expectedResult the list of
+     * @param input the list of boolean representing input
+     * @param error  the error vector
      * @return the correction coefficients
      */
-    List<Double> trainWithDouble(List<Boolean> input, List<Double> expectedResult);
+    List<Double> trainWithDouble(List<Boolean> input, List<Double> error);
 
-    default List<Double> trainWithBoolean(List<Boolean> input, List<Boolean> expectedResult) {
-        final List<Double> list = Constant.mapBoolean(expectedResult);
-        return trainWithDouble(input, list);
-    }
+    List<Double> trainWithBoolean(List<Boolean> input, List<Boolean> expectedSolution);
 
     /**
      * @return number of parameter in the input list.

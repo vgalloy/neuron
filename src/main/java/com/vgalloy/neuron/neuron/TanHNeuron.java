@@ -7,9 +7,9 @@ import java.util.List;
  *
  * @author Vincent Galloy
  */
-final class TanHNeuron extends AbstractNeuron {
+public final class TanHNeuron extends AbstractNeuron {
 
-    TanHNeuron(final double firstCoefficient, final List<Double> coefficients) {
+    public TanHNeuron(final double firstCoefficient, final List<Double> coefficients) {
         super(firstCoefficient, coefficients, AggregationFunction.TAN_H);
     }
 

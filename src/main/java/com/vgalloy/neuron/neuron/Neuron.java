@@ -9,11 +9,11 @@ import java.util.List;
  */
 public interface Neuron {
 
-    boolean apply(final List<Boolean> input);
+    boolean apply(List<Boolean> input);
 
     List<Double> train(List<Boolean> input, boolean expected);
 
-    List<Double> train(final List<Boolean> input, final double diff);
+    List<Double> train(List<Boolean> input, double diff);
 
     int inputSize();
 }

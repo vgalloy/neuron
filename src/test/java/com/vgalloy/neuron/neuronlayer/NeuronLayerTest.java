@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.vgalloy.neuron.constant.Constant;
+import com.vgalloy.neuron.neuron.Neurons;
+import com.vgalloy.neuron.neuron.SimpleNeuron;
 
 /**
  * Created by Vincent Galloy on 28/05/17.
@@ -71,5 +73,39 @@ public final class NeuronLayerTest {
             final List<Boolean> input = Stream.generate(Constant::random).limit(5).collect(Collectors.toList());
             Assert.assertEquals(input, layer.apply(input));
         }
+    }
+
+    @Test
+    public void noCorrectionWhenOk() {
+        // GIVEN
+        final NeuronLayer layer = NeuronLayers.of(Neurons.of(2), Neurons.of(2), Neurons.of(2));
+        final List<Boolean> input = Arrays.asList(true, true);
+        final List<Boolean> result = layer.apply(input);
+
+        // WHEN
+        final List<Double> correction = layer.trainWithBoolean(input, result);
+
+        // THEN
+        Assert.assertEquals(2, correction.size());
+        Assert.assertEquals(0, correction.get(0), 0.0001);
+        Assert.assertEquals(0, correction.get(1), 0.0001);
+    }
+
+    @Test
+    public void correction() {
+        // GIVEN
+        final NeuronLayer layer = NeuronLayers.of(
+            new SimpleNeuron(0d, Arrays.asList(Constant.TRUE, 0d)),
+            new SimpleNeuron(0d, Arrays.asList(Constant.FALSE, 0d)),
+            new SimpleNeuron(0d, Arrays.asList(Constant.FALSE, Constant.FALSE))
+        );
+
+        // WHEN
+        final List<Double> correction = layer.trainWithBoolean(Arrays.asList(true, true), Arrays.asList(false, false, false));
+
+        // THEN
+        Assert.assertEquals(2, correction.size());
+        Assert.assertEquals(-2d, correction.get(0), 0.0001);
+        Assert.assertEquals(0., correction.get(1), 0.0001);
     }
 }

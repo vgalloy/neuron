@@ -7,9 +7,9 @@ import java.util.List;
  *
  * @author Vincent Galloy
  */
-final class SimpleNeuron extends AbstractNeuron {
+public final class SimpleNeuron extends AbstractNeuron {
 
-    SimpleNeuron(final Double firstCoefficient, final List<Double> coefficients) {
+    public SimpleNeuron(final Double firstCoefficient, final List<Double> coefficients) {
         super(firstCoefficient, coefficients, AggregationFunction.IDENTITY);
     }
 

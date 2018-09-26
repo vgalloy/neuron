@@ -36,7 +36,7 @@ public final class Neurons {
     }
 
     public static Neuron of(Double firstCoefficient, List<Double> coefficients) {
-        return new SimpleNeuron(firstCoefficient, coefficients);
+        return new TanHNeuron(firstCoefficient, coefficients);
     }
 
     public static Neuron of(Double firstCoefficient, Double... coefficients) {
