@@ -19,6 +19,7 @@ class NeuronLayerImpl implements NeuronLayer {
     private final List<Neuron> neurons;
 
     NeuronLayerImpl(List<Neuron> neurons) {
+        NeuronAssert.checkState(!neurons.isEmpty(), "Layer must contains at least one neuron");
         this.neurons = Objects.requireNonNull(neurons);
     }
 

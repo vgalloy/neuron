@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  */
 public final class Constant {
 
-    public static final double TRUE = 1;
+    public static final double TRUE = 1d;
     public static final double FALSE = -1d;
 
     private static final Random RANDOM = new SecureRandom();
@@ -30,14 +30,14 @@ public final class Constant {
     }
 
     public static double doubleRandom() {
-        return mapBoolean(random());
+        return 2 * RANDOM.nextDouble() - 1;
     }
 
     public static double mapBoolean(final boolean value) {
         if (value) {
-            return 1d;
+            return TRUE;
         }
-        return 0L;
+        return FALSE;
     }
 
     public static List<Double> mapBoolean(final List<Boolean> list) {

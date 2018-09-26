@@ -1,5 +1,6 @@
 package com.vgalloy.neuron.neuronlayer;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -36,5 +37,9 @@ public final class NeuronLayers {
         Objects.requireNonNull(neurons);
 
         return new NeuronLayerImpl(neurons);
+    }
+
+    public static NeuronLayer of(Neuron... neurons) {
+        return of(Arrays.asList(neurons));
     }
 }

@@ -44,7 +44,7 @@ final class NeuronTestHelper {
         }
     }
 
-    private static void validate(final Neuron neuron, final BiFunction<Boolean, Boolean, Boolean> biFunction) {
+    static void validate(final Neuron neuron, final BiFunction<Boolean, Boolean, Boolean> biFunction) {
         Assert.assertEquals(biFunction.apply(true, true), neuron.apply(Arrays.asList(true, true)));
         Assert.assertEquals(biFunction.apply(false, true), neuron.apply(Arrays.asList(false, true)));
         Assert.assertEquals(biFunction.apply(true, false), neuron.apply(Arrays.asList(true, false)));

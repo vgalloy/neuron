@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.Collections;
 
+import com.vgalloy.neuron.neuron.BooleanNeuron;
 import com.vgalloy.neuron.neuron.Neuron;
 import com.vgalloy.neuron.neuron.Neurons;
 import com.vgalloy.neuron.neuronlayer.NeuronLayer;
@@ -67,9 +68,9 @@ public final class XorTest {
     @Test
     public void xorWithPreFilledNeuron() {
         final NeuronSystem neuronSystem = new NeuronSystemImpl(Arrays.asList(
-            NeuronLayers.of(Arrays.asList(Neurons.of(3d, Arrays.asList(-2d, -2d)), Neurons.of(0d, Arrays.asList(1d, 1d)))),
-            NeuronLayers.of(Arrays.asList(Neurons.of(-3d, Arrays.asList(2d, 2d)))
-        )));
+            NeuronLayers.of(BooleanNeuron.MAX_ONE, BooleanNeuron.OR),
+            NeuronLayers.of(BooleanNeuron.AND)
+        ));
 
         Assert.assertFalse(neuronSystem.apply(Arrays.asList(true, true)).get(0));
         Assert.assertTrue(neuronSystem.apply(Arrays.asList(true, false)).get(0));

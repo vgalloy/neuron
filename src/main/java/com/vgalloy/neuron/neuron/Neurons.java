@@ -1,5 +1,6 @@
 package com.vgalloy.neuron.neuron;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -36,5 +37,9 @@ public final class Neurons {
 
     public static Neuron of(Double firstCoefficient, List<Double> coefficients) {
         return new SimpleNeuron(firstCoefficient, coefficients);
+    }
+
+    public static Neuron of(Double firstCoefficient, Double... coefficients) {
+        return of(firstCoefficient, Arrays.asList(coefficients));
     }
 }
