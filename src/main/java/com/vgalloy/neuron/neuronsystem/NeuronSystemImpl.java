@@ -67,8 +67,6 @@ final class NeuronSystemImpl implements NeuronSystem {
 
     @Override
     public String toString() {
-        return "NeuronSystemImpl{" +
-            "neuronLayers=" + neuronLayers +
-            '}';
+        return "NeuronSystemImpl" + neuronLayers;
     }
 }

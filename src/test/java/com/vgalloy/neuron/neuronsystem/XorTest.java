@@ -1,12 +1,15 @@
 package com.vgalloy.neuron.neuronsystem;
 
-import org.junit.Assert;
-import org.junit.Test;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
-import com.vgalloy.neuron.neuron.BooleanNeuron;
+import org.junit.Assert;
+import org.junit.Test;
+
 import com.vgalloy.neuron.neuronlayer.NeuronLayers;
+import com.vgalloy.neuron.util.BooleanFunction;
+import com.vgalloy.neuron.util.BooleanNeuron;
 
 /**
  * Created by Vincent Galloy on 22/04/17.
@@ -47,7 +50,7 @@ public final class XorTest {
     @Test
     public void xorWithPreFilledNeuron() {
         final NeuronSystem neuronSystem = new NeuronSystemImpl(Arrays.asList(
-            NeuronLayers.of(BooleanNeuron.MAX_ONE, BooleanNeuron.OR),
+            NeuronLayers.of(BooleanNeuron.NOT_AND, BooleanNeuron.OR),
             NeuronLayers.of(BooleanNeuron.AND)
         ));
 
@@ -55,18 +58,26 @@ public final class XorTest {
     }
 
     private static void train(final NeuronSystem neuronSystem) {
-        for (int i = 0; i < 100; i++) {
-            neuronSystem.trainWithBoolean(Arrays.asList(Boolean.TRUE, Boolean.TRUE), Collections.singletonList(false));
-            neuronSystem.trainWithBoolean(Arrays.asList(Boolean.TRUE, Boolean.FALSE), Collections.singletonList(true));
-            neuronSystem.trainWithBoolean(Arrays.asList(Boolean.FALSE, Boolean.TRUE), Collections.singletonList(true));
-            neuronSystem.trainWithBoolean(Arrays.asList(Boolean.FALSE, Boolean.FALSE), Collections.singletonList(false));
+        final List<List<Boolean>> training = Arrays.asList(
+            Arrays.asList(Boolean.TRUE, Boolean.TRUE),
+            Arrays.asList(Boolean.TRUE, Boolean.FALSE),
+            Arrays.asList(Boolean.FALSE, Boolean.TRUE),
+            Arrays.asList(Boolean.FALSE, Boolean.FALSE)
+        );
+        for (int i = 0; i < 500; i++) {
+            Collections.shuffle(training);
+            training.forEach(train -> neuronSystem.trainWithBoolean(train, Collections.singletonList(BooleanFunction.XOR.apply(train.get(0), train.get(1)))));
         }
     }
 
     private static void validate(final NeuronSystem neuronSystem) {
-        Assert.assertFalse(neuronSystem.apply(Arrays.asList(true, true)).get(0));
-        Assert.assertTrue(neuronSystem.apply(Arrays.asList(true, false)).get(0));
-        Assert.assertTrue(neuronSystem.apply(Arrays.asList(false, true)).get(0));
-        Assert.assertFalse(neuronSystem.apply(Arrays.asList(false, false)).get(0));
+        validate(neuronSystem, true, true);
+        validate(neuronSystem, true, false);
+        validate(neuronSystem, false, true);
+        validate(neuronSystem, false, false);
+    }
+
+    private static void validate(final NeuronSystem neuronSystem, final boolean a, final boolean b) {
+        Assert.assertEquals(BooleanFunction.XOR.apply(a, b), neuronSystem.apply(Arrays.asList(a, b)).get(0));
     }
 }
