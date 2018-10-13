@@ -1,7 +1,6 @@
 package com.vgalloy.neuron.neuron;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by Vincent Galloy on 01/04/17.
@@ -10,8 +9,8 @@ import java.util.List;
  */
 public final class TanHNeuron extends AbstractNeuron {
 
-    public TanHNeuron(final double firstCoefficient, final List<Double> coefficients) {
-        super(firstCoefficient, coefficients, AggregationFunction.TAN_H);
+    public TanHNeuron(final double firstCoefficient, final double... coefficients) {
+        super(firstCoefficient, AggregationFunction.TAN_H, coefficients);
     }
 
     @Override

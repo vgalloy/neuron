@@ -96,9 +96,9 @@ public final class NeuronLayerTest {
     public void correction() {
         // GIVEN
         final NeuronLayer layer = NeuronLayers.of(
-            new SimpleNeuron(0d, Arrays.asList(Constant.TRUE, 0d)),
-            new SimpleNeuron(0d, Arrays.asList(Constant.FALSE, 0d)),
-            new SimpleNeuron(0d, Arrays.asList(Constant.FALSE, Constant.FALSE))
+            new SimpleNeuron(0d, Constant.TRUE, 0d),
+            new SimpleNeuron(0d, Constant.FALSE, 0d),
+            new SimpleNeuron(0d, Constant.FALSE, Constant.FALSE)
         );
 
         // WHEN

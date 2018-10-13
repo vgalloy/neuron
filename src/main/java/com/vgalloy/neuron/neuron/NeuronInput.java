@@ -1,6 +1,5 @@
 package com.vgalloy.neuron.neuron;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -25,20 +24,6 @@ final class NeuronInput {
         fullInput = new boolean[newLength];
         fullInput[0] = true;
         System.arraycopy(input, 0, fullInput, 1, input.length);
-    }
-
-    /**
-     * Static factory
-     *
-     * @param input the input
-     * @return the NeuronInput class
-     */
-    static NeuronInput of(final List<Boolean> input) {
-        final boolean[] n = new boolean[input.size()];
-        for (int i = 0; i < input.size(); i++) {
-            n[i] = input.get(i);
-        }
-        return new NeuronInput(n);
     }
 
     /**

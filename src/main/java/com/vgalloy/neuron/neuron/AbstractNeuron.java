@@ -1,7 +1,6 @@
 package com.vgalloy.neuron.neuron;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 import com.vgalloy.neuron.constant.Constant;
@@ -22,13 +21,11 @@ abstract class AbstractNeuron implements Neuron {
     private final double[] coefficients;
     private final AggregationFunction aggregationFunction;
 
-    AbstractNeuron(final Double firstCoefficient, final List<Double> coefficients, final AggregationFunction aggregationFunction) {
-        NeuronAssert.checkState(!coefficients.isEmpty(), "Neuron must have at least on entry point");
-        this.coefficients = new double[coefficients.size() + 1];
+    AbstractNeuron(final double firstCoefficient, final AggregationFunction aggregationFunction, final double... coefficients) {
+        NeuronAssert.checkState(coefficients.length != 0, "Neuron must have at least on entry point");
+        this.coefficients = new double[coefficients.length + 1];
         this.coefficients[0] = firstCoefficient;
-        for (int i = 0; i < coefficients.size(); i++) {
-            this.coefficients[i + 1] = coefficients.get(i);
-        }
+        System.arraycopy(coefficients, 0, this.coefficients, 1, coefficients.length);
         this.aggregationFunction = Objects.requireNonNull(aggregationFunction, "aggregationFunction");
     }
 
@@ -36,7 +33,7 @@ abstract class AbstractNeuron implements Neuron {
     public boolean apply(boolean... input) {
         checkInputSize(input);
 
-        final Double result = compute(input);
+        final double result = compute(input);
         return getAggregationFunction().apply(result) > 0;
     }
 
@@ -79,16 +76,7 @@ abstract class AbstractNeuron implements Neuron {
         return aggregationFunction;
     }
 
-    private Double compute(final List<Boolean> input) {
-        final NeuronInput neuronInput = NeuronInput.of(input);
-        double result = 0;
-        for (int i = 0; i < this.coefficients.length; i++) {
-            result += compute(neuronInput, i);
-        }
-        return result;
-    }
-
-    private Double compute(final boolean[] input) {
+    private double compute(final boolean[] input) {
         final NeuronInput neuronInput = NeuronInput.of(input);
         double result = 0;
         for (int i = 0; i < this.coefficients.length; i++) {

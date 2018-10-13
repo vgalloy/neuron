@@ -1,7 +1,5 @@
 package com.vgalloy.neuron.util;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -35,35 +33,35 @@ public final class BooleanNeuron {
 
     public static BiFunction<Integer, Integer, Neuron> and(final int size) {
         return (a, b) -> {
-            final List<Double> list = emptyList(size);
-            list.set(a, 2 * TRUE);
-            list.set(b, 2 * TRUE);
+            final double[] list = new double[size];
+            list[a] = 2 * TRUE;
+            list[b] = 2 * TRUE;
             return Neurons.of(-3 * TRUE, list);
         };
     }
 
     public static BiFunction<Integer, Integer, Neuron> or(final int size) {
         return (a, b) -> {
-            final List<Double> list = emptyList(size);
-            list.set(a, TRUE - FALSE);
-            list.set(b, TRUE - FALSE);
+            final double[] list = new double[size];
+            list[a] = TRUE - FALSE;
+            list[b] = TRUE - FALSE;
             return Neurons.of(-FALSE, list);
         };
     }
 
     public static Function<Integer, Neuron> one(final int size) {
         return a -> {
-            final List<Double> list = emptyList(size);
-            list.set(a, TRUE);
+            final double[] list = new double[size];
+            list[a] = TRUE;
             return Neurons.of(0d, list);
         };
     }
 
     public static BiFunction<Integer, Integer, Neuron> notAnd(final int size) {
         return (a, b) -> {
-            final List<Double> list = emptyList(size);
-            list.set(a, -2 * TRUE);
-            list.set(b, -2 * TRUE);
+            final double[] list = new double[size];
+            list[a] = -2 * TRUE;
+            list[b] = -2 * TRUE;
             return Neurons.of(3 * TRUE, list);
         };
     }
@@ -76,20 +74,12 @@ public final class BooleanNeuron {
         return a -> {
             final int l = a.length;
             NeuronAssert.checkState(minNumber <= l, "Always false neuron");
-            final List<Double> list = emptyList(size);
-            final Double coeff = 2d;
+            final double[] list = new double[size];
+            final double coeff = 2d;
             for (final int index : a) {
-                list.set(index, coeff);
+                list[index] = coeff;
             }
-            return Neurons.of(1  + coeff * (Constant.FALSE * (minNumber - l) - minNumber) , list);
+            return Neurons.of(1 + coeff * (Constant.FALSE * (minNumber - l) - minNumber), list);
         };
-    }
-
-    private static List<Double> emptyList(final int size) {
-        final List<Double> list = new ArrayList<>(size);
-        for (int i = 0; i < size; i++) {
-            list.add(0d);
-        }
-        return list;
     }
 }

@@ -1,7 +1,6 @@
 package com.vgalloy.neuron.neuron;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by Vincent Galloy on 01/04/17.
@@ -10,8 +9,8 @@ import java.util.List;
  */
 public final class SimpleNeuron extends AbstractNeuron {
 
-    public SimpleNeuron(final Double firstCoefficient, final List<Double> coefficients) {
-        super(firstCoefficient, coefficients, AggregationFunction.IDENTITY);
+    public SimpleNeuron(final double firstCoefficient, final double... coefficients) {
+        super(firstCoefficient, AggregationFunction.IDENTITY, coefficients);
     }
 
     @Override

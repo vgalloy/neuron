@@ -1,7 +1,5 @@
 package com.vgalloy.neuron.neuron;
 
-import java.util.Arrays;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -36,7 +34,7 @@ public final class TanHNeuronTest {
     }
 
     private static Neuron build(final boolean value1, final boolean value2, final boolean value3) {
-        return new TanHNeuron(Constant.mapBoolean(value1), Constant.mapBoolean(Arrays.asList(value2, value3)));
+        return new TanHNeuron(Constant.mapBoolean(value1), Constant.mapBoolean(value2, value3));
     }
 
     @Test

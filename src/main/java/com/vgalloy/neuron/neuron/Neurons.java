@@ -1,10 +1,5 @@
 package com.vgalloy.neuron.neuron;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.util.NeuronAssert;
 
@@ -23,23 +18,14 @@ public final class Neurons {
     public static Neuron of(int size) {
         NeuronAssert.checkState(0 < size, "Can not create a neuron with no connection");
 
-        List<Double> coefficient = IntStream.range(0, size)
-            .boxed()
-            .map(e -> Constant.doubleRandom())
-            .collect(Collectors.toList());
-
-        return of(coefficient);
+        final double[] coefficient = new double[size];
+        for (int i = 0; i < size; i++) {
+            coefficient[i] = Constant.doubleRandom();
+        }
+        return of(Constant.doubleRandom(), coefficient);
     }
 
-    public static Neuron of(List<Double> coefficients) {
-        return of(Constant.doubleRandom(), coefficients);
-    }
-
-    public static Neuron of(Double firstCoefficient, List<Double> coefficients) {
+    public static Neuron of(final double firstCoefficient, final double... coefficients) {
         return new TanHNeuron(firstCoefficient, coefficients);
-    }
-
-    public static Neuron of(Double firstCoefficient, Double... coefficients) {
-        return of(firstCoefficient, Arrays.asList(coefficients));
     }
 }

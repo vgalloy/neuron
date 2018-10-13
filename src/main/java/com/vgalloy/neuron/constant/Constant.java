@@ -42,6 +42,14 @@ public final class Constant {
         return FALSE;
     }
 
+    public static double[] mapBoolean(final boolean... list) {
+        final double[] result = new double[list.length];
+        for (int i = 0; i < list.length; i++) {
+            result[i] = mapBoolean(list[i]);
+        }
+        return result;
+    }
+
     public static List<Double> mapBoolean(final List<Boolean> list) {
         return list.stream()
             .map(Constant::mapBoolean)
