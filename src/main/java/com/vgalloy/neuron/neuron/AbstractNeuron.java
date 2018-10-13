@@ -53,7 +53,6 @@ abstract class AbstractNeuron implements Neuron {
 
     @Override
     public List<Double> train(final List<Boolean> input, final boolean expected) {
-        Objects.requireNonNull(input, "NeuronInput can not be null");
         checkInputSize(input);
 
         final boolean result = apply(input);
@@ -63,7 +62,7 @@ abstract class AbstractNeuron implements Neuron {
 
     @Override
     public List<Double> train(final List<Boolean> input, final double diff) {
-        Objects.requireNonNull(input, "NeuronInput can not be null");
+        checkInputSize(input);
 
         final double result = compute(input);
         final double error = getAggregationFunction().applyDerived(result) * diff;
@@ -93,6 +92,7 @@ abstract class AbstractNeuron implements Neuron {
     }
 
     protected void checkInputSize(final List<Boolean> input) {
+        Objects.requireNonNull(input, "NeuronInput can not be null");
         NeuronAssert.checkState(input.size() == inputSize(), "You are training neuron with " + input.size() + " inputs. But this neuron needs " + inputSize() + ".");
     }
 }

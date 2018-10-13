@@ -100,5 +100,4 @@ final class NeuronSystemTestHelper {
 
         return result;
     }
-
 }

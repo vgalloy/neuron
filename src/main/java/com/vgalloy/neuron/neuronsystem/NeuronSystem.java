@@ -10,7 +10,11 @@ import java.util.function.Function;
  */
 public interface NeuronSystem extends Function<List<Boolean>, List<Boolean>> {
 
-    void trainWithBoolean(List<Boolean> input, List<Boolean> expectedSolution);
+    /**
+     *
+     * @return the if the system correctly response to question. System should not change.
+     */
+    boolean trainWithBoolean(List<Boolean> input, List<Boolean> expectedSolution);
 
     int inputSize();
 

@@ -31,7 +31,7 @@ final class NeuronSystemImpl implements NeuronSystem {
     }
 
     @Override
-    public void trainWithBoolean(List<Boolean> input, final List<Boolean> expectedSolution) {
+    public boolean trainWithBoolean(List<Boolean> input, final List<Boolean> expectedSolution) {
         final List<List<Boolean>> middleResult = new ArrayList<>();
         for (final NeuronLayer neuronLayer : neuronLayers) {
             middleResult.add(input);
@@ -39,7 +39,9 @@ final class NeuronSystemImpl implements NeuronSystem {
         }
         NeuronAssert.checkState(input.size() == expectedSolution.size(), "Expected solutions size is : " + expectedSolution.size() + " must be " + input.size());
         List<Double> diff = new ArrayList<>();
+        boolean result = true;
         for (int i = 0; i < expectedSolution.size(); i++) {
+            result = result && expectedSolution.get(i) == input.get(i);
             diff.add(Constant.mapBoolean(expectedSolution.get(i)) - Constant.mapBoolean(input.get(i)));
         }
 
@@ -49,6 +51,8 @@ final class NeuronSystemImpl implements NeuronSystem {
             final List<Boolean> intermediateInput = middleResult.get(index);
             diff = neuronLayer.trainWithDouble(intermediateInput, diff);
         }
+
+        return result;
     }
 
     @Override
