@@ -1,11 +1,12 @@
 package com.vgalloy.neuron.neuronlayer;
 
-import org.junit.Assert;
-import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.neuron.Neurons;
@@ -105,7 +106,7 @@ public final class NeuronLayerTest {
 
         // THEN
         Assert.assertEquals(2, correction.size());
-        Assert.assertEquals(-2d, correction.get(0), 0.0001);
+        Assert.assertEquals(Constant.FALSE - Constant.TRUE, correction.get(0), 0.0001);
         Assert.assertEquals(0., correction.get(1), 0.0001);
     }
 }

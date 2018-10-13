@@ -20,7 +20,7 @@ public final class SimpleNeuronTest {
     @Test
     public void correctMonoNeuron() {
         // GIVEN
-        final Neuron neuron = new SimpleNeuron(Constant.FALSE, Collections.singletonList(Constant.TRUE));
+        final Neuron neuron = new SimpleNeuron(Constant.FALSE, Collections.singletonList(Constant.FALSE));
 
         // WHEN
         final boolean result = neuron.apply(Collections.singletonList(true));
@@ -47,6 +47,9 @@ public final class SimpleNeuronTest {
         final Neuron neuron = new SimpleNeuron(Constant.FALSE, Collections.singletonList(Constant.TRUE));
 
         // WHEN
+        neuron.train(Collections.singletonList(true), false);
+        neuron.train(Collections.singletonList(true), false);
+        neuron.train(Collections.singletonList(true), false);
         neuron.train(Collections.singletonList(true), false);
         neuron.train(Collections.singletonList(true), false);
         final boolean result = neuron.apply(Collections.singletonList(true));
@@ -77,7 +80,7 @@ public final class SimpleNeuronTest {
 
         // THEN
         Assert.assertEquals(1, result.size());
-        Assert.assertEquals(2 * Constant.FALSE, result.get(0), 0.0001);
+        Assert.assertEquals(Constant.FALSE - Constant.TRUE, result.get(0), 0.0001);
     }
 
     @Test

@@ -1,12 +1,13 @@
 package com.vgalloy.neuron.neuron;
 
-import org.junit.Assert;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
+
+import org.junit.Assert;
 
 /**
  * Created by Vincent Galloy on 24/09/2018.
