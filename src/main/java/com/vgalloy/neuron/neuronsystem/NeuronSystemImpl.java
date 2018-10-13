@@ -1,7 +1,6 @@
 package com.vgalloy.neuron.neuronsystem;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Objects;
 
 import com.vgalloy.neuron.constant.Constant;
@@ -15,41 +14,42 @@ import com.vgalloy.neuron.util.NeuronAssert;
  */
 final class NeuronSystemImpl implements NeuronSystem {
 
-    private final List<NeuronLayer> neuronLayers;
+    private final NeuronLayer[] neuronLayers;
 
-    NeuronSystemImpl(final List<NeuronLayer> neuronLayers) {
+    NeuronSystemImpl(final NeuronLayer... neuronLayers) {
         this.neuronLayers = Objects.requireNonNull(neuronLayers);
     }
 
     @Override
-    public List<Boolean> apply(List<Boolean> input) {
-        List<Boolean> list = new ArrayList<>(input);
-        for (NeuronLayer neuronLayer : neuronLayers) {
-            list = Constant.toList(neuronLayer.apply(Constant.toArray(list)));
+    public boolean[] apply(final boolean... booleans) {
+        boolean[] list = booleans;
+        for (int i = 0; i < neuronLayers.length; i++) {
+            list = neuronLayers[i].apply(list);
         }
         return list;
     }
 
     @Override
-    public boolean trainWithBoolean(List<Boolean> input, final List<Boolean> expectedSolution) {
-        final List<List<Boolean>> middleResult = new ArrayList<>();
-        for (final NeuronLayer neuronLayer : neuronLayers) {
-            middleResult.add(input);
-            input = Constant.toList(neuronLayer.apply(Constant.toArray(input)));
+    public boolean trainWithBoolean(boolean[] input, final boolean... expectedSolution) {
+        final boolean[][] middleResult = new boolean[neuronLayers.length][];
+        for (int i = 0; i < neuronLayers.length; i++) {
+            middleResult[i] = input;
+            input = neuronLayers[i].apply(input);
         }
-        NeuronAssert.checkState(input.size() == expectedSolution.size(), "Expected solutions size is : " + expectedSolution.size() + " must be " + input.size());
-        List<Double> diff = new ArrayList<>();
+        NeuronAssert.checkState(input.length == expectedSolution.length, "Expected solutions size is : " + expectedSolution.length + " must be " + input.length);
+
+        double[] diff = new double[expectedSolution.length];
         boolean result = true;
-        for (int i = 0; i < expectedSolution.size(); i++) {
-            result = result && expectedSolution.get(i) == input.get(i);
-            diff.add(Constant.mapBoolean(expectedSolution.get(i)) - Constant.mapBoolean(input.get(i)));
+        for (int i = 0; i < expectedSolution.length; i++) {
+            result = result && expectedSolution[i] == input[i];
+            diff[i] = Constant.mapBoolean(expectedSolution[i]) - Constant.mapBoolean(input[i]);
         }
 
-        for (int i = 0; i < neuronLayers.size(); i++) {
-            final int index = neuronLayers.size() - 1 - i;
-            final NeuronLayer neuronLayer = neuronLayers.get(index);
-            final List<Boolean> intermediateInput = middleResult.get(index);
-            diff = Constant.toList(neuronLayer.trainWithDouble(Constant.toArray(intermediateInput), Constant.toArrayDouble(diff)));
+        for (int i = 0; i < neuronLayers.length; i++) {
+            final int index = neuronLayers.length - 1 - i;
+            final NeuronLayer neuronLayer = neuronLayers[index];
+            final boolean[] intermediateInput = middleResult[index];
+            diff = neuronLayer.trainWithDouble(intermediateInput, diff);
         }
 
         return result;
@@ -57,20 +57,20 @@ final class NeuronSystemImpl implements NeuronSystem {
 
     @Override
     public int inputSize() {
-        return neuronLayers.get(0).inputSize();
+        return neuronLayers[0].inputSize();
     }
 
     @Override
     public int outputSize() {
-        return neuronLayers.get(neuronLayers.size() - 1).inputSize();
+        return neuronLayers[neuronLayers.length - 1].inputSize();
     }
 
-    public List<NeuronLayer> getNeuronLayers() {
+    public NeuronLayer[] getNeuronLayers() {
         return neuronLayers;
     }
 
     @Override
     public String toString() {
-        return "NeuronSystemImpl" + neuronLayers;
+        return "NeuronSystemImpl" + Arrays.toString(neuronLayers);
     }
 }

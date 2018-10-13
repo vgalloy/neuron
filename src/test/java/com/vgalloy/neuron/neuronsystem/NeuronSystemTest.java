@@ -1,7 +1,5 @@
 package com.vgalloy.neuron.neuronsystem;
 
-import java.util.Arrays;
-
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -38,7 +36,7 @@ public final class NeuronSystemTest {
 
     @Test
     public void addWithPreFillNeuron() {
-        final NeuronSystem neuronSystem = new NeuronSystemImpl(Arrays.asList(
+        final NeuronSystem neuronSystem = new NeuronSystemImpl(
             NeuronLayers.of(
                 BooleanNeuron.notAnd(4).apply(0, 2),
                 BooleanNeuron.or(4).apply(0, 2),
@@ -64,7 +62,7 @@ public final class NeuronSystemTest {
                 BooleanNeuron.and(4).apply(1, 2),
                 BooleanNeuron.one(4).apply(3)
             )
-        ));
+        );
         NeuronSystemTestHelper.validate(neuronSystem, IntFunction.ADD, 2);
     }
 

@@ -37,6 +37,6 @@ public final class NeuronSystemBuilder {
     }
 
     public NeuronSystem build() {
-        return new NeuronSystemImpl(neuronLayers);
+        return new NeuronSystemImpl(neuronLayers.toArray(new NeuronLayer[0]));
     }
 }

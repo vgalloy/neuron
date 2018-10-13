@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.neuronlayer.NeuronLayers;
 import com.vgalloy.neuron.util.BooleanFunction;
 import com.vgalloy.neuron.util.BooleanNeuron;
@@ -49,10 +50,10 @@ public final class XorTest {
 
     @Test
     public void xorWithPreFilledNeuron() {
-        final NeuronSystem neuronSystem = new NeuronSystemImpl(Arrays.asList(
+        final NeuronSystem neuronSystem = new NeuronSystemImpl(
             NeuronLayers.of(BooleanNeuron.NOT_AND, BooleanNeuron.OR),
             NeuronLayers.of(BooleanNeuron.AND)
-        ));
+        );
 
         validate(neuronSystem);
     }
@@ -66,7 +67,7 @@ public final class XorTest {
         );
         for (int i = 0; i < 500; i++) {
             Collections.shuffle(training);
-            training.forEach(train -> neuronSystem.trainWithBoolean(train, Collections.singletonList(BooleanFunction.XOR.apply(train.get(0), train.get(1)))));
+            training.forEach(train -> neuronSystem.trainWithBoolean(Constant.toArray(train), BooleanFunction.XOR.apply(train.get(0), train.get(1))));
         }
     }
 
@@ -78,6 +79,6 @@ public final class XorTest {
     }
 
     private static void validate(final NeuronSystem neuronSystem, final boolean a, final boolean b) {
-        Assert.assertEquals(BooleanFunction.XOR.apply(a, b), neuronSystem.apply(Arrays.asList(a, b)).get(0));
+        Assert.assertEquals(BooleanFunction.XOR.apply(a, b), neuronSystem.apply(a, b)[0]);
     }
 }

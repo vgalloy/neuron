@@ -4,9 +4,6 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import com.vgalloy.neuron.neuronlayer.NeuronLayer;
 
@@ -29,10 +26,10 @@ public final class NeuronSystemBuilderTest {
             .build();
 
         // WHEN
-        final List<NeuronLayer> neuronLayers = neuronSystem.getNeuronLayers();
+        final NeuronLayer[] neuronLayers = neuronSystem.getNeuronLayers();
 
         // THEN
-        Assert.assertEquals(3, neuronLayers.size());
+        Assert.assertEquals(3, neuronLayers.length);
     }
 
     @Test
@@ -43,10 +40,7 @@ public final class NeuronSystemBuilderTest {
             .addLayer(2)
             .addLayer(4)
             .build();
-        final List<Boolean> input = IntStream.range(0, 5)
-            .boxed()
-            .map(e -> Boolean.FALSE)
-            .collect(Collectors.toList());
+        final boolean[] input = new boolean[5];
 
         // EXCEPTION
         expectedException.expect(IllegalArgumentException.class);
@@ -64,10 +58,7 @@ public final class NeuronSystemBuilderTest {
             .addLayer(4)
             .addLayer(2)
             .build();
-        final List<Boolean> input = IntStream.range(0, 3)
-            .boxed()
-            .map(e -> Boolean.FALSE)
-            .collect(Collectors.toList());
+        final boolean[] input = new boolean[3];
 
         // THEN
         neuronSystem.apply(input);

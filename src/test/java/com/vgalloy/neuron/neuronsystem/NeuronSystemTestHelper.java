@@ -1,5 +1,6 @@
 package com.vgalloy.neuron.neuronsystem;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -42,7 +43,7 @@ final class NeuronSystemTestHelper {
     static void validate(final NeuronSystem neuronSystem, final BiFunction<Integer, Integer, Integer> biFunction, final int size) {
         for (int i = 0; i < Math.pow(2, size); i++) {
             for (int j = 0; j < Math.pow(2, size); j++) {
-                final List<Boolean> result = neuronSystem.apply(toArgs(size, i, j));
+                final boolean[] result = neuronSystem.apply(toArgs(size, i, j));
                 final Integer value = toInt(result);
                 Assert.assertEquals(biFunction.apply(i, j), value);
             }
@@ -60,8 +61,8 @@ final class NeuronSystemTestHelper {
             for (List<Integer> input : trainings) {
                 final Integer first = input.get(0);
                 final Integer second = input.get(1);
-                final List<Boolean> args = toArgs(size, first, second);
-                final List<Boolean> result = toBoolean(biFunction.apply(first, second), size + 1);
+                final boolean[] args = toArgs(size, first, second);
+                final boolean[] result = toBoolean(biFunction.apply(first, second), size + 1);
                 neuronSystem.trainWithBoolean(args, result);
             }
         }
@@ -77,22 +78,32 @@ final class NeuronSystemTestHelper {
         return trainings;
     }
 
-    static List<Boolean> toBoolean(final int i, int size) {
+    static boolean[] toBoolean(final int i, int size) {
         NeuronAssert.checkState(i < Math.pow(2, size), "Number " + i + " is higher than 2^" + size);
-        final List<Boolean> result = new ArrayList<>();
+        final boolean[] result = new boolean[size];
         for (int j = 0; j < size; j++) {
-            result.add(i / (int) Math.pow(2, j) % 2 != 0);
+            result[j] = (i / (int) Math.pow(2, j) % 2) != 0;
         }
         return result;
     }
 
-    private static List<Boolean> toArgs(final int size, final int a, final int b) {
-        final List<Boolean> args = toBoolean(a, size);
-        args.addAll(toBoolean(b, size));
-        return args;
+    private static boolean[] toArgs(final int size, final int a, final int b) {
+        final boolean[] args = toBoolean(a, size);
+        return concat(args, toBoolean(b, size));
     }
 
-    static int toInt(final List<Boolean> booleans) {
+    private static boolean[] concat(boolean[] a, boolean[] b) {
+        int aLen = a.length;
+        int bLen = b.length;
+
+        boolean[] c = (boolean[]) Array.newInstance(boolean.class, aLen + bLen);
+        System.arraycopy(a, 0, c, 0, aLen);
+        System.arraycopy(b, 0, c, aLen, bLen);
+
+        return c;
+    }
+
+    static int toInt(final boolean... booleans) {
         Objects.requireNonNull(booleans);
 
         int result = 0;
