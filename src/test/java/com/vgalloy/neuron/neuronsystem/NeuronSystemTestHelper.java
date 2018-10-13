@@ -18,6 +18,8 @@ import com.vgalloy.neuron.util.NeuronAssert;
  */
 final class NeuronSystemTestHelper {
 
+    private static final int DEFAULT_TRAINING_NUMBER = 5_000;
+
     /**
      * Constructor.
      * Private to avoid instantiation
@@ -48,8 +50,12 @@ final class NeuronSystemTestHelper {
     }
 
     static void train(final NeuronSystem neuronSystem, final BiFunction<Integer, Integer, Integer> biFunction, final int size) {
+        train(neuronSystem, biFunction, size, DEFAULT_TRAINING_NUMBER);
+    }
+
+    static void train(final NeuronSystem neuronSystem, final BiFunction<Integer, Integer, Integer> biFunction, final int size, final int training) {
         List<List<Integer>> trainings = buildTrainings(size);
-        for (int i = 0; i < 50_000; i++) {
+        for (int i = 0; i < training; i++) {
             Collections.shuffle(trainings);
             for (List<Integer> input : trainings) {
                 final Integer first = input.get(0);

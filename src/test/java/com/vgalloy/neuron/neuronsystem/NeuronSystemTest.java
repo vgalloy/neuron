@@ -1,13 +1,13 @@
 package com.vgalloy.neuron.neuronsystem;
 
 import java.util.Arrays;
-import java.util.function.BiFunction;
 
 import org.junit.Ignore;
 import org.junit.Test;
 
 import com.vgalloy.neuron.neuronlayer.NeuronLayers;
 import com.vgalloy.neuron.util.BooleanNeuron;
+import com.vgalloy.neuron.util.IntFunction;
 
 /**
  * Created by Vincent Galloy on 25/09/2018.
@@ -16,17 +16,14 @@ import com.vgalloy.neuron.util.BooleanNeuron;
  */
 public final class NeuronSystemTest {
 
-    private static final BiFunction<Integer, Integer, Integer> ADD = (a, b) -> a + b;
-    private static final BiFunction<Integer, Integer, Integer> ADD_ONE = (a, b) -> a + 1;
-
     @Test
     public void addOneBit() {
         final NeuronSystem neuronSystem = new NeuronSystemBuilder(2, 3)
             .addLayer(2)
             .build();
 
-        NeuronSystemTestHelper.train(neuronSystem, ADD, 1);
-        NeuronSystemTestHelper.validate(neuronSystem, ADD, 1);
+        NeuronSystemTestHelper.train(neuronSystem, IntFunction.ADD, 1);
+        NeuronSystemTestHelper.validate(neuronSystem, IntFunction.ADD, 1);
     }
 
     @Test
@@ -35,8 +32,8 @@ public final class NeuronSystemTest {
             .addLayer(2)
             .build();
 
-        NeuronSystemTestHelper.train(neuronSystem, ADD_ONE, 1);
-        NeuronSystemTestHelper.validate(neuronSystem, ADD_ONE, 1);
+        NeuronSystemTestHelper.train(neuronSystem, IntFunction.ADD_ONE, 1);
+        NeuronSystemTestHelper.validate(neuronSystem, IntFunction.ADD_ONE, 1);
     }
 
     @Test
@@ -68,12 +65,12 @@ public final class NeuronSystemTest {
                 BooleanNeuron.one(4).apply(3)
             )
         ));
-        NeuronSystemTestHelper.validate(neuronSystem, ADD, 2);
+        NeuronSystemTestHelper.validate(neuronSystem, IntFunction.ADD, 2);
     }
 
     @Test
     @Ignore
     public void add() {
-        NeuronSystemTestHelper.test(ADD);
+        NeuronSystemTestHelper.test(IntFunction.ADD);
     }
 }
