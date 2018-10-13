@@ -1,11 +1,5 @@
 package com.vgalloy.neuron.neuronlayer;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.neuron.Neuron;
 import com.vgalloy.neuron.util.NeuronAssert;
@@ -17,62 +11,61 @@ import com.vgalloy.neuron.util.NeuronAssert;
  */
 class NeuronLayerImpl implements NeuronLayer {
 
-    private final List<Neuron> neurons;
+    private final Neuron[] neurons;
 
-    NeuronLayerImpl(List<Neuron> neurons) {
-        NeuronAssert.checkState(!neurons.isEmpty(), "Layer must contains at least one neuron");
-        this.neurons = Objects.requireNonNull(neurons);
+    NeuronLayerImpl(final Neuron[] neurons) {
+        NeuronAssert.checkState(neurons.length != 0, "Layer must contains at least one neuron");
+        this.neurons = neurons;
     }
 
     @Override
-    public List<Boolean> apply(final List<Boolean> input) {
-        return neurons.stream()
-            .map(e -> e.apply(Constant.toArray(input)))
-            .collect(Collectors.toList());
+    public boolean[] apply(final boolean... input) {
+        final boolean[] result = new boolean[neurons.length];
+        for (int i = 0; i < neurons.length; i++) {
+            result[i] = neurons[i].apply(input);
+        }
+        return result;
     }
 
     @Override
-    public List<Double> trainWithDouble(final List<Boolean> input, final List<Double> error) {
-        NeuronAssert.checkState(neurons.size() == error.size(), "Error vector size must be equals to neuron layer size.");
+    public double[] trainWithDouble(boolean[] input, double[] error) {
+        NeuronAssert.checkState(neurons.length == error.length, "Error vector size must be equals to neuron layer size.");
 
-        List<List<Double>> coefficientCorrectionList = new ArrayList<>();
-        for (int i = 0; i < neurons.size(); i++) {
-            final Neuron neuron = neurons.get(i);
-            final List<Double> correction = Constant.toList(neuron.train(error.get(i), Constant.toArray(input)));
-            NeuronAssert.checkState(correction.size() == input.size(), "Correction list size should be equals to input list size.");
-            coefficientCorrectionList.add(correction);
+        final double[][] coefficientCorrections = new double[neurons.length][];
+        for (int i = 0; i < neurons.length; i++) {
+            final Neuron neuron = neurons[i];
+            final double[] correction = neuron.train(error[i], input);
+            NeuronAssert.checkState(correction.length == input.length, "Correction list size should be equals to input list size.");
+            coefficientCorrections[i] = correction;
         }
 
-        final List<Double> result = Stream.generate(() -> 0d)
-            .limit(input.size())
-            .collect(Collectors.toList());
-        NeuronAssert.checkState(result.size() == input.size(), "Result list size should be equals to input list size.");
-        for (final List<Double> coefficientCorrection : coefficientCorrectionList) {
-            for (int i = 0; i < coefficientCorrection.size(); i++) {
-                result.set(i, result.get(i) + coefficientCorrection.get(i));
+        final double[] result = new double[input.length];
+        for (double[] coefficientCorrection : coefficientCorrections) {
+            for (int i = 0; i < coefficientCorrection.length; i++) {
+                result[i] = result[i] + coefficientCorrection[i];
             }
         }
         return result;
     }
 
     @Override
-    public List<Double> trainWithBoolean(List<Boolean> input, List<Boolean> expectedSolution) {
-        final List<Boolean> result = apply(input);
-        final List<Double> diff = new ArrayList<>();
-        for (int i = 0; i < expectedSolution.size(); i++) {
-            diff.add(Constant.mapBoolean(expectedSolution.get(i)) - Constant.mapBoolean(result.get(i)));
+    public double[] trainWithBoolean(boolean[] input, boolean[] expectedSolution) {
+        final boolean[] result = apply(input);
+        final double[] diff = new double[expectedSolution.length];
+        for (int i = 0; i < expectedSolution.length; i++) {
+            diff[i] = Constant.mapBoolean(expectedSolution[i]) - Constant.mapBoolean(result[i]);
         }
         return trainWithDouble(input, diff);
     }
 
     @Override
     public int inputSize() {
-        return neurons.get(0).inputSize();
+        return neurons[0].inputSize();
     }
 
     @Override
     public int neuronNumber() {
-        return neurons.size();
+        return neurons.length;
     }
 
     @Override

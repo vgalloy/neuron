@@ -1,9 +1,5 @@
 package com.vgalloy.neuron.neuronlayer;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.vgalloy.neuron.neuron.Neuron;
@@ -21,25 +17,19 @@ public final class NeuronLayers {
         throw new AssertionError();
     }
 
-    public static NeuronLayer of(int previousLayerSize, int layerSize) {
+    public static NeuronLayer of(final int previousLayerSize, final int layerSize) {
         NeuronAssert.checkState(0 < previousLayerSize, "Can not create a neuron layer with no entry");
         NeuronAssert.checkState(0 < layerSize, "Can not create a neuron layer with no neuron");
 
-        List<Neuron> neurons = Stream
+        final Neuron[] neurons = Stream
             .generate(() -> Neurons.of(previousLayerSize))
             .limit(layerSize)
-            .collect(Collectors.toList());
+            .toArray(Neuron[]::new);
 
         return of(neurons);
     }
 
-    public static NeuronLayer of(List<Neuron> neurons) {
-        Objects.requireNonNull(neurons);
-
+    public static NeuronLayer of(final Neuron... neurons) {
         return new NeuronLayerImpl(neurons);
-    }
-
-    public static NeuronLayer of(Neuron... neurons) {
-        return of(Arrays.asList(neurons));
     }
 }

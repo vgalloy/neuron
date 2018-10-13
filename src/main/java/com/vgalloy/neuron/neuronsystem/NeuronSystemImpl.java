@@ -25,7 +25,7 @@ final class NeuronSystemImpl implements NeuronSystem {
     public List<Boolean> apply(List<Boolean> input) {
         List<Boolean> list = new ArrayList<>(input);
         for (NeuronLayer neuronLayer : neuronLayers) {
-            list = neuronLayer.apply(list);
+            list = Constant.toList(neuronLayer.apply(Constant.toArray(list)));
         }
         return list;
     }
@@ -35,7 +35,7 @@ final class NeuronSystemImpl implements NeuronSystem {
         final List<List<Boolean>> middleResult = new ArrayList<>();
         for (final NeuronLayer neuronLayer : neuronLayers) {
             middleResult.add(input);
-            input = neuronLayer.apply(input);
+            input = Constant.toList(neuronLayer.apply(Constant.toArray(input)));
         }
         NeuronAssert.checkState(input.size() == expectedSolution.size(), "Expected solutions size is : " + expectedSolution.size() + " must be " + input.size());
         List<Double> diff = new ArrayList<>();
@@ -49,7 +49,7 @@ final class NeuronSystemImpl implements NeuronSystem {
             final int index = neuronLayers.size() - 1 - i;
             final NeuronLayer neuronLayer = neuronLayers.get(index);
             final List<Boolean> intermediateInput = middleResult.get(index);
-            diff = neuronLayer.trainWithDouble(intermediateInput, diff);
+            diff = Constant.toList(neuronLayer.trainWithDouble(Constant.toArray(intermediateInput), Constant.toArrayDouble(diff)));
         }
 
         return result;

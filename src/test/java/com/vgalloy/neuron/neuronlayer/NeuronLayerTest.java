@@ -1,7 +1,5 @@
 package com.vgalloy.neuron.neuronlayer;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -39,10 +37,10 @@ public final class NeuronLayerTest {
         final NeuronLayer layer = NeuronLayers.of(inputSize, layerSize);
 
         // WHEN
-        final List<Boolean> result = layer.apply(Arrays.asList(true, true, true, true, true));
+        final boolean[] result = layer.apply(true, true, true, true, true);
 
         // THEN
-        Assert.assertEquals(layerSize, result.size());
+        Assert.assertEquals(layerSize, result.length);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -52,7 +50,7 @@ public final class NeuronLayerTest {
         final NeuronLayer layer = NeuronLayers.of(inputSize, 5);
 
         // WHEN
-        layer.apply(Arrays.asList(true, true, true, true));
+        layer.apply(true, true, true, true);
 
         // THEN
         Assert.fail("exception should occurred");
@@ -65,14 +63,14 @@ public final class NeuronLayerTest {
 
         // WHEN
         for (int i = 0; i < 1_000; i++) {
-            final List<Boolean> input = Stream.generate(Constant::random).limit(5).collect(Collectors.toList());
+            final boolean[] input = Constant.toArray(Stream.generate(Constant::random).limit(5).collect(Collectors.toList()));
             layer.trainWithBoolean(input, input);
         }
 
         // THEN
         for (int i = 0; i < 100; i++) {
-            final List<Boolean> input = Stream.generate(Constant::random).limit(5).collect(Collectors.toList());
-            Assert.assertEquals(input, layer.apply(input));
+            final boolean[] input = Constant.toArray(Stream.generate(Constant::random).limit(5).collect(Collectors.toList()));
+            Assert.assertArrayEquals(input, layer.apply(input));
         }
     }
 
@@ -80,16 +78,16 @@ public final class NeuronLayerTest {
     public void noCorrectionWhenOk() {
         // GIVEN
         final NeuronLayer layer = NeuronLayers.of(Neurons.of(2), Neurons.of(2), Neurons.of(2));
-        final List<Boolean> input = Arrays.asList(true, true);
-        final List<Boolean> result = layer.apply(input);
+        final boolean[] input = new boolean[]{true, true};
+        final boolean[] result = layer.apply(input);
 
         // WHEN
-        final List<Double> correction = layer.trainWithBoolean(input, result);
+        final double[] correction = layer.trainWithBoolean(input, result);
 
         // THEN
-        Assert.assertEquals(2, correction.size());
-        Assert.assertEquals(0, correction.get(0), 0.0001);
-        Assert.assertEquals(0, correction.get(1), 0.0001);
+        Assert.assertEquals(2, correction.length);
+        Assert.assertEquals(0, correction[0], 0.0001);
+        Assert.assertEquals(0, correction[1], 0.0001);
     }
 
     @Test
@@ -102,11 +100,11 @@ public final class NeuronLayerTest {
         );
 
         // WHEN
-        final List<Double> correction = layer.trainWithBoolean(Arrays.asList(true, true), Arrays.asList(false, false, false));
+        final double[] correction = layer.trainWithBoolean(new boolean[]{true, true}, new boolean[]{false, false, false});
 
         // THEN
-        Assert.assertEquals(2, correction.size());
-        Assert.assertEquals(Constant.FALSE - Constant.TRUE, correction.get(0), 0.0001);
-        Assert.assertEquals(0., correction.get(1), 0.0001);
+        Assert.assertEquals(2, correction.length);
+        Assert.assertEquals(Constant.FALSE - Constant.TRUE, correction[0], 0.0001);
+        Assert.assertEquals(0., correction[1], 0.0001);
     }
 }

@@ -56,6 +56,14 @@ public final class Constant {
             .collect(Collectors.toList());
     }
 
+    public static double[] toArrayDouble(final List<Double> list) {
+        final double[] result = new double[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            result[i] = list.get(i);
+        }
+        return result;
+    }
+
     public static boolean[] toArray(final List<Boolean> list) {
         final boolean[] result = new boolean[list.size()];
         for (int i = 0; i < list.size(); i++) {
