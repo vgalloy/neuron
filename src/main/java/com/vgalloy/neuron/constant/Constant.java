@@ -1,9 +1,11 @@
 package com.vgalloy.neuron.constant;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
 /**
  * Created by Vincent Galloy on 22/04/17.
@@ -44,5 +46,27 @@ public final class Constant {
         return list.stream()
             .map(Constant::mapBoolean)
             .collect(Collectors.toList());
+    }
+
+    public static boolean[] toArray(final List<Boolean> list) {
+        final boolean[] result = new boolean[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            result[i] = list.get(i);
+        }
+        return result;
+    }
+
+    public static List<Double> toList(final double[] train) {
+        return DoubleStream.of(train)
+            .boxed()
+            .collect(Collectors.toList());
+    }
+
+    public static List<Boolean> toList(final boolean[] train) {
+        final List<Boolean> list = new ArrayList<>();
+        for (final boolean b : train) {
+            list.add(b);
+        }
+        return list;
     }
 }

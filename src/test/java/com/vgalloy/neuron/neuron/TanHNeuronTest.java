@@ -1,7 +1,6 @@
 package com.vgalloy.neuron.neuron;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -46,9 +45,9 @@ public final class TanHNeuronTest {
         final Neuron neuron = build(true, true, true);
 
         // WHEN
-        final List<Double> errors = neuron.train(Arrays.asList(true, true), false);
+        final double[] errors = neuron.train(false, true, true);
 
         // THEN
-        Assert.assertEquals(2, errors.size());
+        Assert.assertEquals(2, errors.length);
     }
 }

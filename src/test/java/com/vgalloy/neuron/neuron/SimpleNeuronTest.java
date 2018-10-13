@@ -2,7 +2,6 @@ package com.vgalloy.neuron.neuron;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -23,7 +22,7 @@ public final class SimpleNeuronTest {
         final Neuron neuron = new SimpleNeuron(Constant.FALSE, Collections.singletonList(Constant.FALSE));
 
         // WHEN
-        final boolean result = neuron.apply(Collections.singletonList(true));
+        final boolean result = neuron.apply(true);
 
         // THEN
         Assert.assertFalse(result);
@@ -35,7 +34,7 @@ public final class SimpleNeuronTest {
         final Neuron neuron = new SimpleNeuron(0d, Collections.singletonList(Constant.TRUE));
 
         // WHEN
-        final boolean result = neuron.apply(Collections.singletonList(true));
+        final boolean result = neuron.apply(true);
 
         // THEN
         Assert.assertTrue(result);
@@ -47,12 +46,12 @@ public final class SimpleNeuronTest {
         final Neuron neuron = new SimpleNeuron(Constant.FALSE, Collections.singletonList(Constant.TRUE));
 
         // WHEN
-        neuron.train(Collections.singletonList(true), false);
-        neuron.train(Collections.singletonList(true), false);
-        neuron.train(Collections.singletonList(true), false);
-        neuron.train(Collections.singletonList(true), false);
-        neuron.train(Collections.singletonList(true), false);
-        final boolean result = neuron.apply(Collections.singletonList(true));
+        neuron.train(false, true);
+        neuron.train(false, true);
+        neuron.train(false, true);
+        neuron.train(false, true);
+        neuron.train(false, true);
+        final boolean result = neuron.apply(true);
 
         // THEN
         Assert.assertFalse(result);
@@ -64,10 +63,10 @@ public final class SimpleNeuronTest {
         final Neuron neuron = new SimpleNeuron(0.24d, Arrays.asList(-0.88d, -0.37d));
 
         // WHEN
-        final List<Double> result = neuron.train(Arrays.asList(false, false), true);
+        final double[] result = neuron.train(true, false, false);
 
         // THEN
-        Assert.assertEquals(2, result.size());
+        Assert.assertEquals(2, result.length);
     }
 
     @Test
@@ -76,11 +75,11 @@ public final class SimpleNeuronTest {
         final Neuron neuron = new SimpleNeuron(0d, Collections.singletonList(Constant.TRUE));
 
         // WHEN
-        final List<Double> result = neuron.train(Collections.singletonList(true), false);
+        final double[] result = neuron.train(false, true);
 
         // THEN
-        Assert.assertEquals(1, result.size());
-        Assert.assertEquals(Constant.FALSE - Constant.TRUE, result.get(0), 0.0001);
+        Assert.assertEquals(1, result.length);
+        Assert.assertEquals(Constant.FALSE - Constant.TRUE, result[0], 0.0001);
     }
 
     @Test
@@ -89,10 +88,10 @@ public final class SimpleNeuronTest {
         final Neuron neuron = new SimpleNeuron(Constant.doubleRandom(), Collections.singletonList(1d));
 
         // WHEN
-        neuron.train(Collections.singletonList(true), false);
-        neuron.train(Collections.singletonList(true), false);
-        neuron.train(Collections.singletonList(true), true);
-        final boolean result = neuron.apply(Collections.singletonList(true));
+        neuron.train(false, true);
+        neuron.train(false, true);
+        neuron.train(true, true);
+        final boolean result = neuron.apply(true);
 
         // THEN
         Assert.assertTrue(result);
@@ -104,10 +103,10 @@ public final class SimpleNeuronTest {
         Neuron neuron = new SimpleNeuron(1d, Arrays.asList(1d, 1d));
 
         // WHEN
-        final List<Double> result = neuron.train(Arrays.asList(true, false), false);
+        final double[] result = neuron.train(false, true, false);
 
         // THEN
-        Assert.assertEquals(2, result.size());
+        Assert.assertEquals(2, result.length);
     }
 
     @Test

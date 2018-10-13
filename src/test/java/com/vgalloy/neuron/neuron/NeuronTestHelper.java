@@ -9,6 +9,8 @@ import java.util.function.BiFunction;
 
 import org.junit.Assert;
 
+import com.vgalloy.neuron.constant.Constant;
+
 /**
  * Created by Vincent Galloy on 24/09/2018.
  *
@@ -41,14 +43,14 @@ final class NeuronTestHelper {
         training.add(Arrays.asList(false, false));
         for (int i = 0; i < 50; i++) {
             Collections.shuffle(training);
-            training.forEach(e -> neuron.train(e, biFunction.apply(e.get(0), e.get(1))));
+            training.forEach(e -> neuron.train(biFunction.apply(e.get(0), e.get(1)), Constant.toArray(e)));
         }
     }
 
     static void validate(final Neuron neuron, final BiFunction<Boolean, Boolean, Boolean> biFunction) {
-        Assert.assertEquals(biFunction.apply(true, true), neuron.apply(Arrays.asList(true, true)));
-        Assert.assertEquals(biFunction.apply(false, true), neuron.apply(Arrays.asList(false, true)));
-        Assert.assertEquals(biFunction.apply(true, false), neuron.apply(Arrays.asList(true, false)));
-        Assert.assertEquals(biFunction.apply(false, false), neuron.apply(Arrays.asList(false, false)));
+        Assert.assertEquals(biFunction.apply(true, true), neuron.apply(true, true));
+        Assert.assertEquals(biFunction.apply(false, true), neuron.apply(false, true));
+        Assert.assertEquals(biFunction.apply(true, false), neuron.apply(true, false));
+        Assert.assertEquals(biFunction.apply(false, false), neuron.apply(false, false));
     }
 }

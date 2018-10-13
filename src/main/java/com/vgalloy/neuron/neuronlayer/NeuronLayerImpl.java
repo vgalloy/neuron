@@ -27,7 +27,7 @@ class NeuronLayerImpl implements NeuronLayer {
     @Override
     public List<Boolean> apply(final List<Boolean> input) {
         return neurons.stream()
-            .map(e -> e.apply(input))
+            .map(e -> e.apply(Constant.toArray(input)))
             .collect(Collectors.toList());
     }
 
@@ -38,7 +38,7 @@ class NeuronLayerImpl implements NeuronLayer {
         List<List<Double>> coefficientCorrectionList = new ArrayList<>();
         for (int i = 0; i < neurons.size(); i++) {
             final Neuron neuron = neurons.get(i);
-            final List<Double> correction = neuron.train(input, error.get(i));
+            final List<Double> correction = Constant.toList(neuron.train(error.get(i), Constant.toArray(input)));
             NeuronAssert.checkState(correction.size() == input.size(), "Correction list size should be equals to input list size.");
             coefficientCorrectionList.add(correction);
         }

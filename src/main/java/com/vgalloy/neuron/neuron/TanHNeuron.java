@@ -1,5 +1,6 @@
 package com.vgalloy.neuron.neuron;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,6 +16,6 @@ public final class TanHNeuron extends AbstractNeuron {
 
     @Override
     public String toString() {
-        return "TanH" + getCoefficients();
+        return "TanH" + Arrays.toString(getCoefficients());
     }
 }

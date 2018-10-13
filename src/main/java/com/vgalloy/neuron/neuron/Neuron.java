@@ -1,7 +1,5 @@
 package com.vgalloy.neuron.neuron;
 
-import java.util.List;
-
 /**
  * Created by Vincent Galloy on 01/04/17.
  *
@@ -9,11 +7,11 @@ import java.util.List;
  */
 public interface Neuron {
 
-    boolean apply(List<Boolean> input);
+    boolean apply(boolean... input);
 
-    List<Double> train(List<Boolean> input, boolean expected);
+    double[] train(boolean expected, boolean... input);
 
-    List<Double> train(List<Boolean> input, double diff);
+    double[] train(double diff, boolean... input);
 
     int inputSize();
 }

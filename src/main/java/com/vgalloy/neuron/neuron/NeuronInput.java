@@ -1,6 +1,5 @@
 package com.vgalloy.neuron.neuron;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,7 +11,7 @@ import java.util.Objects;
  */
 final class NeuronInput {
 
-    private final List<Boolean> fullInput;
+    private final boolean[] fullInput;
 
     /**
      * Constructor.
@@ -20,11 +19,12 @@ final class NeuronInput {
      *
      * @param input the input
      */
-    private NeuronInput(final List<Boolean> input) {
+    private NeuronInput(final boolean[] input) {
         Objects.requireNonNull(input, "Input can not be null");
-        this.fullInput = new ArrayList<>();
-        fullInput.add(true);
-        fullInput.addAll(input);
+        int newLength = input.length + 1;
+        fullInput = new boolean[newLength];
+        fullInput[0] = true;
+        System.arraycopy(input, 0, fullInput, 1, input.length);
     }
 
     /**
@@ -33,15 +33,29 @@ final class NeuronInput {
      * @param input the input
      * @return the NeuronInput class
      */
-    static NeuronInput of(List<Boolean> input) {
+    static NeuronInput of(final List<Boolean> input) {
+        final boolean[] n = new boolean[input.size()];
+        for (int i = 0; i < input.size(); i++) {
+            n[i] = input.get(i);
+        }
+        return new NeuronInput(n);
+    }
+
+    /**
+     * Static factory
+     *
+     * @param input the input
+     * @return the NeuronInput class
+     */
+    static NeuronInput of(final boolean[] input) {
         return new NeuronInput(input);
     }
 
     boolean get(int i) {
-        return fullInput.get(i);
+        return fullInput[i];
     }
 
     int size() {
-        return fullInput.size();
+        return fullInput.length;
     }
 }
