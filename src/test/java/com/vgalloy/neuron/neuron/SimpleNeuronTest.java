@@ -108,25 +108,21 @@ public final class SimpleNeuronTest {
 
     @Test
     public void and() {
-        NeuronTestHelper.buildTest(BooleanFunction.AND, SimpleNeuronTest::build);
+        NeuronTestHelper.buildTest(BooleanFunction.AND, Neurons.linear());
     }
 
     @Test
     public void or() {
-        NeuronTestHelper.buildTest(BooleanFunction.OR, SimpleNeuronTest::build);
+        NeuronTestHelper.buildTest(BooleanFunction.OR, Neurons.linear());
     }
 
     @Test
     public void first() {
-        NeuronTestHelper.buildTest(BooleanFunction.FIRST, SimpleNeuronTest::build);
+        NeuronTestHelper.buildTest(BooleanFunction.FIRST, Neurons.linear());
     }
 
     @Test
     public void notSecond() {
-        NeuronTestHelper.buildTest(BooleanFunction.not(BooleanFunction.SECOND), SimpleNeuronTest::build);
-    }
-
-    private static Neuron build(final boolean value1, final boolean value2, final boolean value3) {
-        return Neurons.linear().withCoefficient(Constant.mapBoolean(value1), Constant.mapBoolean(value2, value3)).build();
+        NeuronTestHelper.buildTest(BooleanFunction.not(BooleanFunction.SECOND), Neurons.linear());
     }
 }

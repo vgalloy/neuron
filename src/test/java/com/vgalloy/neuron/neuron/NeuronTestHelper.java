@@ -10,6 +10,7 @@ import java.util.function.BiFunction;
 import org.junit.Assert;
 
 import com.vgalloy.neuron.constant.Constant;
+import com.vgalloy.neuron.neuron.builder.LengthBuilder;
 
 /**
  * Created by Vincent Galloy on 24/09/2018.
@@ -26,10 +27,10 @@ final class NeuronTestHelper {
         throw new AssertionError();
     }
 
-    static void buildTest(final BiFunction<Boolean, Boolean, Boolean> biFunction, BooleanNeuronBuilder neuronBuilder) {
+    static void buildTest(final BiFunction<Boolean, Boolean, Boolean> biFunction, final LengthBuilder lengthBuilder) {
         Objects.requireNonNull(biFunction);
         for (int i = 0; i < 8; i++) {
-            final Neuron neuron = neuronBuilder.apply(i % 8 == 0, i % 4 == 0, i % 2 == 0);
+            final Neuron neuron = lengthBuilder.withCoefficient(i % 8 == 0, i % 4 == 0, i % 2 == 0).build();
             train(neuron, biFunction);
             validate(neuron, biFunction);
         }

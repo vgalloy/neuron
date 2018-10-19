@@ -3,7 +3,6 @@ package com.vgalloy.neuron.neuron;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.util.BooleanFunction;
 
 /**
@@ -15,32 +14,28 @@ public final class TanHNeuronTest {
 
     @Test
     public void and() {
-        NeuronTestHelper.buildTest(BooleanFunction.AND, TanHNeuronTest::build);
+        NeuronTestHelper.buildTest(BooleanFunction.AND, Neurons.tanh());
     }
 
     @Test
     public void or() {
-        NeuronTestHelper.buildTest(BooleanFunction.OR, TanHNeuronTest::build);
+        NeuronTestHelper.buildTest(BooleanFunction.OR, Neurons.tanh());
     }
 
     @Test
     public void first() {
-        NeuronTestHelper.buildTest(BooleanFunction.FIRST, TanHNeuronTest::build);
+        NeuronTestHelper.buildTest(BooleanFunction.FIRST, Neurons.tanh());
     }
 
     @Test
     public void notSecond() {
-        NeuronTestHelper.buildTest(BooleanFunction.not(BooleanFunction.SECOND), TanHNeuronTest::build);
-    }
-
-    private static Neuron build(final boolean value1, final boolean value2, final boolean value3) {
-        return Neurons.tanh().withCoefficient(Constant.mapBoolean(value1), Constant.mapBoolean(value2, value3)).build();
+        NeuronTestHelper.buildTest(BooleanFunction.not(BooleanFunction.SECOND), Neurons.tanh());
     }
 
     @Test
     public void trainingOutputSize() {
         // GIVEN
-        final Neuron neuron = build(true, true, true);
+        final Neuron neuron = Neurons.tanh().withCoefficient(true, true, true).build();
 
         // WHEN
         final double[] errors = neuron.train(false, true, true);

@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.neuron.Neurons;
+import com.vgalloy.neuron.neuron.builder.NeuronBuilder;
 
 /**
  * Created by Vincent Galloy on 28/05/17.
@@ -76,7 +77,8 @@ public final class NeuronLayerTest {
     @Test
     public void noCorrectionWhenOk() {
         // GIVEN
-        final NeuronLayer layer = NeuronLayers.of(Neurons.of(2), Neurons.of(2), Neurons.of(2));
+        final NeuronBuilder neuronBuilder = Neurons.tanh().withLength(2);
+        final NeuronLayer layer = NeuronLayers.of(neuronBuilder.build(), neuronBuilder.build(), neuronBuilder.build());
         final boolean[] input = new boolean[]{true, true};
         final boolean[] result = layer.apply(input);
 

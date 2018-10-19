@@ -36,7 +36,9 @@ public final class BooleanNeuron {
             final double[] list = new double[size];
             list[a] = 2 * TRUE;
             list[b] = 2 * TRUE;
-            return Neurons.of(-3 * TRUE, list);
+            return Neurons.tanh()
+                .withCoefficient(-3 * TRUE, list)
+                .build();
         };
     }
 
@@ -45,7 +47,9 @@ public final class BooleanNeuron {
             final double[] list = new double[size];
             list[a] = TRUE - FALSE;
             list[b] = TRUE - FALSE;
-            return Neurons.of(-FALSE, list);
+            return Neurons.tanh()
+                .withCoefficient(-FALSE, list)
+                .build();
         };
     }
 
@@ -53,7 +57,9 @@ public final class BooleanNeuron {
         return a -> {
             final double[] list = new double[size];
             list[a] = TRUE;
-            return Neurons.of(0d, list);
+            return Neurons.tanh()
+                .withCoefficient(0d, list)
+                .build();
         };
     }
 
@@ -62,7 +68,9 @@ public final class BooleanNeuron {
             final double[] list = new double[size];
             list[a] = -2 * TRUE;
             list[b] = -2 * TRUE;
-            return Neurons.of(3 * TRUE, list);
+            return Neurons.tanh()
+                .withCoefficient(3 * TRUE, list)
+                .build();
         };
     }
 
@@ -79,7 +87,9 @@ public final class BooleanNeuron {
             for (final int index : a) {
                 list[index] = coeff;
             }
-            return Neurons.of(1 + coeff * (Constant.FALSE * (minNumber - l) - minNumber), list);
+            return Neurons.tanh()
+                .withCoefficient(1 + coeff * (Constant.FALSE * (minNumber - l) - minNumber), list)
+                .build();
         };
     }
 }
