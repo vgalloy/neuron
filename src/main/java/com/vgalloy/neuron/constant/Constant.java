@@ -35,6 +35,14 @@ public final class Constant {
         return 2 * RANDOM.nextDouble() - 1;
     }
 
+    public static double[] doubleRandom(int length) {
+        final double[] coefficient = new double[length];
+        for (int i = 0; i < length; i++) {
+            coefficient[i] = Constant.doubleRandom();
+        }
+        return coefficient;
+    }
+
     public static double mapBoolean(final boolean value) {
         if (value) {
             return TRUE;

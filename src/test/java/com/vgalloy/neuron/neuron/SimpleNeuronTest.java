@@ -16,7 +16,7 @@ public final class SimpleNeuronTest {
     @Test
     public void correctMonoNeuron() {
         // GIVEN
-        final Neuron neuron = new SimpleNeuron(Constant.FALSE, Constant.FALSE);
+        final Neuron neuron = Neurons.linear().withCoefficient(Constant.FALSE, Constant.FALSE).build();
 
         // WHEN
         final boolean result = neuron.apply(true);
@@ -28,7 +28,7 @@ public final class SimpleNeuronTest {
     @Test
     public void correctMonoNeuron2() {
         // GIVEN
-        final Neuron neuron = new SimpleNeuron(0d, Constant.TRUE);
+        final Neuron neuron = Neurons.linear().withCoefficient(0d, Constant.TRUE).build();
 
         // WHEN
         final boolean result = neuron.apply(true);
@@ -40,7 +40,7 @@ public final class SimpleNeuronTest {
     @Test
     public void neuronTrain() {
         // GIVEN
-        final Neuron neuron = new SimpleNeuron(Constant.FALSE, Constant.TRUE);
+        final Neuron neuron = Neurons.linear().withCoefficient(Constant.FALSE, Constant.TRUE).build();
 
         // WHEN
         neuron.train(false, true);
@@ -57,7 +57,7 @@ public final class SimpleNeuronTest {
     @Test
     public void neuronTrainResultSize() {
         // GIVEN
-        final Neuron neuron = new SimpleNeuron(0.24d, -0.88d, -0.37d);
+        final Neuron neuron = Neurons.linear().withCoefficient(0.24d, -0.88d, -0.37d).build();
 
         // WHEN
         final double[] result = neuron.train(true, false, false);
@@ -69,7 +69,7 @@ public final class SimpleNeuronTest {
     @Test
     public void neuronTrainResult() {
         // GIVEN
-        final Neuron neuron = new SimpleNeuron(0d, Constant.TRUE);
+        final Neuron neuron = Neurons.linear().withCoefficient(0d, Constant.TRUE).build();
 
         // WHEN
         final double[] result = neuron.train(false, true);
@@ -82,7 +82,7 @@ public final class SimpleNeuronTest {
     @Test
     public void simpleLearning() {
         // GIVEN
-        final Neuron neuron = new SimpleNeuron(Constant.doubleRandom(), 1d);
+        final Neuron neuron = Neurons.linear().withCoefficient(Constant.doubleRandom(), 1d).build();
 
         // WHEN
         neuron.train(false, true);
@@ -97,7 +97,7 @@ public final class SimpleNeuronTest {
     @Test
     public void correctionListSize() {
         // GIVEN
-        Neuron neuron = new SimpleNeuron(1d, 1d, 1d);
+        Neuron neuron = Neurons.linear().withCoefficient(1d, 1d, 1d).build();
 
         // WHEN
         final double[] result = neuron.train(false, true, false);
@@ -127,6 +127,6 @@ public final class SimpleNeuronTest {
     }
 
     private static Neuron build(final boolean value1, final boolean value2, final boolean value3) {
-        return new SimpleNeuron(Constant.mapBoolean(value1), Constant.mapBoolean(value2, value3));
+        return Neurons.linear().withCoefficient(Constant.mapBoolean(value1), Constant.mapBoolean(value2, value3)).build();
     }
 }

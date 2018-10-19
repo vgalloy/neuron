@@ -11,7 +11,7 @@ import com.vgalloy.neuron.util.NeuronAssert;
  *
  * @author Vincent Galloy
  */
-abstract class AbstractNeuron implements Neuron {
+public class AbstractNeuron implements Neuron {
 
     /**
      * Learning curve must be positive and lower than 1.
@@ -22,7 +22,7 @@ abstract class AbstractNeuron implements Neuron {
     private final double[] coefficients;
     private final AggregationFunction aggregationFunction;
 
-    AbstractNeuron(final double firstCoefficient, final AggregationFunction aggregationFunction, final double... coefficients) {
+    public AbstractNeuron(final double firstCoefficient, final AggregationFunction aggregationFunction, final double... coefficients) {
         NeuronAssert.checkState(coefficients.length != 0, "Neuron must have at least on entry point");
         this.firstCoeffient = firstCoefficient;
         this.coefficients = Arrays.copyOf(coefficients, coefficients.length);

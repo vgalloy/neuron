@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.neuron.Neurons;
-import com.vgalloy.neuron.neuron.SimpleNeuron;
 
 /**
  * Created by Vincent Galloy on 28/05/17.
@@ -94,9 +93,9 @@ public final class NeuronLayerTest {
     public void correction() {
         // GIVEN
         final NeuronLayer layer = NeuronLayers.of(
-            new SimpleNeuron(0d, Constant.TRUE, 0d),
-            new SimpleNeuron(0d, Constant.FALSE, 0d),
-            new SimpleNeuron(0d, Constant.FALSE, Constant.FALSE)
+            Neurons.linear().withCoefficient(0d, Constant.TRUE, 0d).build(),
+            Neurons.linear().withCoefficient(0d, Constant.FALSE, 0d).build(),
+            Neurons.linear().withCoefficient(0d, Constant.FALSE, Constant.FALSE).build()
         );
 
         // WHEN

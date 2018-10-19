@@ -1,6 +1,8 @@
 package com.vgalloy.neuron.neuron;
 
-import com.vgalloy.neuron.constant.Constant;
+import com.vgalloy.neuron.neuron.builder.Builder;
+import com.vgalloy.neuron.neuron.builder.LengthBuilder;
+import com.vgalloy.neuron.neuron.builder.TypeBuilder;
 import com.vgalloy.neuron.util.NeuronAssert;
 
 /**
@@ -18,14 +20,22 @@ public final class Neurons {
     public static Neuron of(int size) {
         NeuronAssert.checkState(0 < size, "Can not create a neuron with no connection");
 
-        final double[] coefficient = new double[size];
-        for (int i = 0; i < size; i++) {
-            coefficient[i] = Constant.doubleRandom();
-        }
-        return of(Constant.doubleRandom(), coefficient);
+        return tanh().withLength(size).build();
     }
 
     public static Neuron of(final double firstCoefficient, final double... coefficients) {
-        return new TanHNeuron(firstCoefficient, coefficients);
+        return tanh().withCoefficient(firstCoefficient, coefficients).build();
+    }
+
+    public static LengthBuilder tanh() {
+        return builder().withType(AggregationFunction.TAN_H);
+    }
+
+    public static LengthBuilder linear() {
+        return builder().withType(AggregationFunction.IDENTITY);
+    }
+
+    public static TypeBuilder builder() {
+        return Builder.builder();
     }
 }
