@@ -18,14 +18,14 @@ abstract class AbstractNeuron implements Neuron {
      */
     private static final double LEARNING_MULTIPLICATOR = 2d / 10;
 
+    private double firstCoeffient;
     private final double[] coefficients;
     private final AggregationFunction aggregationFunction;
 
     AbstractNeuron(final double firstCoefficient, final AggregationFunction aggregationFunction, final double... coefficients) {
         NeuronAssert.checkState(coefficients.length != 0, "Neuron must have at least on entry point");
-        this.coefficients = new double[coefficients.length + 1];
-        this.coefficients[0] = firstCoefficient;
-        System.arraycopy(coefficients, 0, this.coefficients, 1, coefficients.length);
+        this.firstCoeffient = firstCoefficient;
+        this.coefficients = Arrays.copyOf(coefficients, coefficients.length);
         this.aggregationFunction = Objects.requireNonNull(aggregationFunction, "aggregationFunction");
     }
 
@@ -40,6 +40,7 @@ abstract class AbstractNeuron implements Neuron {
     @Override
     public double[] train(boolean expected, boolean... input) {
         checkInputSize(input);
+
         final boolean result = apply(input);
         final double diff = Constant.mapBoolean(expected) - Constant.mapBoolean(result);
         return train(diff, input);
@@ -52,20 +53,19 @@ abstract class AbstractNeuron implements Neuron {
         final double result = compute(input);
         final double error = getAggregationFunction().applyDerived(result) * diff;
 
-        final NeuronInput neuronInput = NeuronInput.of(input);
-        final double[] coefficientCorrection = new double[neuronInput.size()];
-        for (int i = 0; i < neuronInput.size(); i++) {
-            final double errorPerInput = error * this.coefficients[i];
-            coefficientCorrection[i] = errorPerInput;
-            final double newCoefficient = this.coefficients[i] + error * Constant.mapBoolean(neuronInput.get(i)) * LEARNING_MULTIPLICATOR;
-            this.coefficients[i] = newCoefficient;
+        this.firstCoeffient = computeError(firstCoeffient, true, error).newCoefficient;
+        final double[] coefficientCorrection = new double[input.length];
+        for (int i = 0; i < input.length; i++) {
+            final ErrorOutput errorOutput = computeError(this.coefficients[i], input[i], error);
+            coefficientCorrection[i] = errorOutput.errorPerInput;
+            this.coefficients[i] = errorOutput.newCoefficient;
         }
-        return Arrays.copyOfRange(coefficientCorrection, 1, coefficientCorrection.length);
+        return coefficientCorrection;
     }
 
     @Override
     public int inputSize() {
-        return coefficients.length - 1;
+        return coefficients.length;
     }
 
     protected double[] getCoefficients() {
@@ -77,20 +77,31 @@ abstract class AbstractNeuron implements Neuron {
     }
 
     private double compute(final boolean[] input) {
-        final NeuronInput neuronInput = NeuronInput.of(input);
-        double result = 0;
-        for (int i = 0; i < this.coefficients.length; i++) {
-            result += compute(neuronInput, i);
+        double result = firstCoeffient;
+        for (int i = 0; i < input.length; i++) {
+            result += Constant.mapBoolean(input[i]) * this.coefficients[i];
         }
         return result;
     }
 
-    private double compute(final NeuronInput neuronInput, final int i) {
-        return Constant.mapBoolean(neuronInput.get(i)) * this.coefficients[i];
+    private ErrorOutput computeError(final double currentCoefficient, final boolean input, final double error) {
+        final double errorPerInput = error * currentCoefficient;
+        final double newCoefficent = currentCoefficient + error * Constant.mapBoolean(input) * LEARNING_MULTIPLICATOR;
+        return new ErrorOutput(errorPerInput, newCoefficent);
     }
 
     private void checkInputSize(final boolean[] input) {
         Objects.requireNonNull(input, "NeuronInput can not be null");
         NeuronAssert.checkState(input.length == inputSize(), "You are training neuron with " + input.length + " inputs. But this neuron needs " + inputSize() + ".");
+    }
+
+    private static class ErrorOutput {
+        private final double errorPerInput;
+        private final double newCoefficient;
+
+        private ErrorOutput(final double errorPerInput, final double newCoefficient) {
+            this.errorPerInput = errorPerInput;
+            this.newCoefficient = newCoefficient;
+        }
     }
 }
