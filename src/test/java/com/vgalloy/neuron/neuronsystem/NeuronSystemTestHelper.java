@@ -64,6 +64,7 @@ final class NeuronSystemTestHelper {
                 final boolean[] args = toArgs(size, first, second);
                 final boolean[] result = toBoolean(biFunction.apply(first, second), size + 1);
                 neuronSystem.trainWithBoolean(args, result);
+//                System.out.println(neuronSystem);
             }
         }
     }

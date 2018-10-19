@@ -2,7 +2,7 @@ package com.vgalloy.neuron.neuron.builder;
 
 import java.util.Objects;
 
-import com.vgalloy.neuron.neuron.AbstractNeuron;
+import com.vgalloy.neuron.neuron.StandardNeuron;
 import com.vgalloy.neuron.neuron.AggregationFunction;
 import com.vgalloy.neuron.neuron.Neuron;
 import com.vgalloy.neuron.util.NeuronAssert;
@@ -50,7 +50,7 @@ public class Builder implements TypeBuilder, LengthBuilder, NeuronBuilder {
 
     @Override
     public Neuron build() {
-        return new AbstractNeuron(coefficientCreator.getFirstCoefficient(), aggregationFunction, coefficientCreator.getCoefficients());
+        return new StandardNeuron(coefficientCreator.getFirstCoefficient(), aggregationFunction, coefficientCreator.getCoefficients());
     }
 }
 

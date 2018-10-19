@@ -1,5 +1,7 @@
 package com.vgalloy.neuron.neuronlayer;
 
+import java.util.Arrays;
+
 import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.neuron.Neuron;
 import com.vgalloy.neuron.util.NeuronAssert;
@@ -70,6 +72,6 @@ class NeuronLayerImpl implements NeuronLayer {
 
     @Override
     public String toString() {
-        return "Layer" + neurons;
+        return "Layer" + Arrays.toString(neurons);
     }
 }

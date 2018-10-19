@@ -11,7 +11,7 @@ import com.vgalloy.neuron.util.NeuronAssert;
  *
  * @author Vincent Galloy
  */
-public class AbstractNeuron implements Neuron {
+public class StandardNeuron implements Neuron {
 
     /**
      * Learning curve must be positive and lower than 1.
@@ -22,7 +22,7 @@ public class AbstractNeuron implements Neuron {
     private final double[] coefficients;
     private final AggregationFunction aggregationFunction;
 
-    public AbstractNeuron(final double firstCoefficient, final AggregationFunction aggregationFunction, final double... coefficients) {
+    public StandardNeuron(final double firstCoefficient, final AggregationFunction aggregationFunction, final double... coefficients) {
         NeuronAssert.checkState(coefficients.length != 0, "Neuron must have at least on entry point");
         this.firstCoeffient = firstCoefficient;
         this.coefficients = Arrays.copyOf(coefficients, coefficients.length);
@@ -68,11 +68,11 @@ public class AbstractNeuron implements Neuron {
         return coefficients.length;
     }
 
-    protected double[] getCoefficients() {
+    private double[] getCoefficients() {
         return coefficients;
     }
 
-    protected AggregationFunction getAggregationFunction() {
+    private AggregationFunction getAggregationFunction() {
         return aggregationFunction;
     }
 
@@ -86,8 +86,8 @@ public class AbstractNeuron implements Neuron {
 
     private ErrorOutput computeError(final double currentCoefficient, final boolean input, final double error) {
         final double errorPerInput = error * currentCoefficient;
-        final double newCoefficent = currentCoefficient + error * Constant.mapBoolean(input) * LEARNING_MULTIPLICATOR;
-        return new ErrorOutput(errorPerInput, newCoefficent);
+        final double newCoefficient = currentCoefficient + error * Constant.mapBoolean(input) * LEARNING_MULTIPLICATOR;
+        return new ErrorOutput(errorPerInput, newCoefficient);
     }
 
     private void checkInputSize(final boolean[] input) {
@@ -103,5 +103,10 @@ public class AbstractNeuron implements Neuron {
             this.errorPerInput = errorPerInput;
             this.newCoefficient = newCoefficient;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Neuron[" + firstCoeffient + Arrays.toString(coefficients) + "]";
     }
 }
