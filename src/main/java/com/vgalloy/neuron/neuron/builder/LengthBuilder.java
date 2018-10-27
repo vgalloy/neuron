@@ -9,7 +9,7 @@ import com.vgalloy.neuron.constant.Constant;
  */
 public interface LengthBuilder {
 
-    NeuronBuilder withLength(int length);
+    NeuronBuilder inputSize(int length);
 
     NeuronBuilder withCoefficient(double firstCoefficient, double... coefficients);
 

@@ -22,7 +22,7 @@ public final class NeuronLayers {
         NeuronAssert.checkState(0 < layerSize, "Can not create a neuron layer with no neuron");
 
         final Neuron[] neurons = Stream
-            .generate(() -> Neurons.tanh().withLength(previousLayerSize).build())
+            .generate(() -> Neurons.tanh().inputSize(previousLayerSize).build())
             .limit(layerSize)
             .toArray(Neuron[]::new);
 

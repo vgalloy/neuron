@@ -10,4 +10,6 @@ import com.vgalloy.neuron.neuron.Neuron;
 public interface NeuronBuilder {
 
     Neuron build();
+
+    Neuron build(final boolean isImmutable);
 }

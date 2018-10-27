@@ -38,7 +38,7 @@ public final class BooleanNeuron {
             list[b] = 2 * TRUE;
             return Neurons.tanh()
                 .withCoefficient(-3 * TRUE, list)
-                .build();
+                .build(true);
         };
     }
 
@@ -49,7 +49,7 @@ public final class BooleanNeuron {
             list[b] = TRUE - FALSE;
             return Neurons.tanh()
                 .withCoefficient(-FALSE, list)
-                .build();
+                .build(true);
         };
     }
 
@@ -59,7 +59,7 @@ public final class BooleanNeuron {
             list[a] = TRUE;
             return Neurons.tanh()
                 .withCoefficient(0d, list)
-                .build();
+                .build(true);
         };
     }
 
@@ -70,12 +70,12 @@ public final class BooleanNeuron {
             list[b] = -2 * TRUE;
             return Neurons.tanh()
                 .withCoefficient(3 * TRUE, list)
-                .build();
+                .build(true);
         };
     }
 
     public interface IntVarArgsFunction<T> {
-        T apply(Integer... values);
+        T apply(int... values);
     }
 
     public static IntVarArgsFunction<Neuron> atLeast(final int size, final int minNumber) {
@@ -89,7 +89,7 @@ public final class BooleanNeuron {
             }
             return Neurons.tanh()
                 .withCoefficient(1 + coeff * (Constant.FALSE * (minNumber - l) - minNumber), list)
-                .build();
+                .build(true);
         };
     }
 }

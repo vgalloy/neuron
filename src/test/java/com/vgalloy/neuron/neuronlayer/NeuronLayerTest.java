@@ -77,7 +77,7 @@ public final class NeuronLayerTest {
     @Test
     public void noCorrectionWhenOk() {
         // GIVEN
-        final NeuronBuilder neuronBuilder = Neurons.tanh().withLength(2);
+        final NeuronBuilder neuronBuilder = Neurons.tanh().inputSize(2);
         final NeuronLayer layer = NeuronLayers.of(neuronBuilder.build(), neuronBuilder.build(), neuronBuilder.build());
         final boolean[] input = new boolean[]{true, true};
         final boolean[] result = layer.apply(input);

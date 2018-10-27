@@ -1,9 +1,11 @@
-package com.vgalloy.neuron.neuron;
+package com.vgalloy.neuron.neuron.impl;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 import com.vgalloy.neuron.constant.Constant;
+import com.vgalloy.neuron.neuron.AggregationFunction;
+import com.vgalloy.neuron.neuron.Neuron;
 import com.vgalloy.neuron.util.NeuronAssert;
 
 /**
@@ -18,9 +20,9 @@ public class StandardNeuron implements Neuron {
      */
     private static final double LEARNING_MULTIPLICATOR = 2d / 10;
 
-    private double firstCoeffient;
-    private final double[] coefficients;
-    private final AggregationFunction aggregationFunction;
+    protected double firstCoeffient;
+    protected final double[] coefficients;
+    protected final AggregationFunction aggregationFunction;
 
     public StandardNeuron(final double firstCoefficient, final AggregationFunction aggregationFunction, final double... coefficients) {
         NeuronAssert.checkState(coefficients.length != 0, "Neuron must have at least on entry point");
@@ -34,7 +36,7 @@ public class StandardNeuron implements Neuron {
         checkInputSize(input);
 
         final double result = compute(input);
-        return getAggregationFunction().apply(result) > 0;
+        return aggregationFunction.apply(result) > 0;
     }
 
     @Override
@@ -51,7 +53,7 @@ public class StandardNeuron implements Neuron {
         checkInputSize(input);
 
         final double result = compute(input);
-        final double error = getAggregationFunction().applyDerived(result) * diff;
+        final double error = aggregationFunction.applyDerived(result) * diff;
 
         this.firstCoeffient = computeError(firstCoeffient, true, error).newCoefficient;
         final double[] coefficientCorrection = new double[input.length];
@@ -68,14 +70,6 @@ public class StandardNeuron implements Neuron {
         return coefficients.length;
     }
 
-    private double[] getCoefficients() {
-        return coefficients;
-    }
-
-    private AggregationFunction getAggregationFunction() {
-        return aggregationFunction;
-    }
-
     private double compute(final boolean[] input) {
         double result = firstCoeffient;
         for (int i = 0; i < input.length; i++) {
@@ -84,7 +78,7 @@ public class StandardNeuron implements Neuron {
         return result;
     }
 
-    private ErrorOutput computeError(final double currentCoefficient, final boolean input, final double error) {
+    protected ErrorOutput computeError(final double currentCoefficient, final boolean input, final double error) {
         final double errorPerInput = error * currentCoefficient;
         final double newCoefficient = currentCoefficient + error * Constant.mapBoolean(input) * LEARNING_MULTIPLICATOR;
         return new ErrorOutput(errorPerInput, newCoefficient);
@@ -95,11 +89,11 @@ public class StandardNeuron implements Neuron {
         NeuronAssert.checkState(input.length == inputSize(), "You are training neuron with " + input.length + " inputs. But this neuron needs " + inputSize() + ".");
     }
 
-    private static class ErrorOutput {
+    protected static class ErrorOutput {
         private final double errorPerInput;
         private final double newCoefficient;
 
-        private ErrorOutput(final double errorPerInput, final double newCoefficient) {
+        protected ErrorOutput(final double errorPerInput, final double newCoefficient) {
             this.errorPerInput = errorPerInput;
             this.newCoefficient = newCoefficient;
         }
@@ -107,6 +101,6 @@ public class StandardNeuron implements Neuron {
 
     @Override
     public String toString() {
-        return "Neuron[" + firstCoeffient + Arrays.toString(coefficients) + "]";
+        return "N[" + firstCoeffient + Arrays.toString(coefficients) + "]";
     }
 }

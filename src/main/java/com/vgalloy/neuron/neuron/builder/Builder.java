@@ -2,7 +2,8 @@ package com.vgalloy.neuron.neuron.builder;
 
 import java.util.Objects;
 
-import com.vgalloy.neuron.neuron.StandardNeuron;
+import com.vgalloy.neuron.neuron.impl.ImmutableNeuron;
+import com.vgalloy.neuron.neuron.impl.StandardNeuron;
 import com.vgalloy.neuron.neuron.AggregationFunction;
 import com.vgalloy.neuron.neuron.Neuron;
 import com.vgalloy.neuron.util.NeuronAssert;
@@ -36,7 +37,7 @@ public class Builder implements TypeBuilder, LengthBuilder, NeuronBuilder {
     }
 
     @Override
-    public NeuronBuilder withLength(final int length) {
+    public NeuronBuilder inputSize(final int length) {
         NeuronAssert.checkState(0 < length, "length must be positive");
         this.coefficientCreator = CoefficientCreator.fromLength(length);
         return this;
@@ -50,6 +51,14 @@ public class Builder implements TypeBuilder, LengthBuilder, NeuronBuilder {
 
     @Override
     public Neuron build() {
+        return build(false);
+    }
+
+    @Override
+    public Neuron build(final boolean isImmutable) {
+        if(isImmutable) {
+            return new ImmutableNeuron(coefficientCreator.getFirstCoefficient(), aggregationFunction, coefficientCreator.getCoefficients());
+        }
         return new StandardNeuron(coefficientCreator.getFirstCoefficient(), aggregationFunction, coefficientCreator.getCoefficients());
     }
 }

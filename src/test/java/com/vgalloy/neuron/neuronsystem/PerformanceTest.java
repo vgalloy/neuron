@@ -18,9 +18,15 @@ public class PerformanceTest {
     }
 
     /**
+     *   Using list :
      *   47.400 ±(99.9%) 0.388 ops/s [Average]
      *   (min, avg, max) = (45.764, 47.400, 48.336), stdev = 0.690
      *   CI (99.9%): [47.012, 47.788] (assumes normal distribution)
+     *
+     *   Using array :
+     *   110.677 ±(99.9%) 1.435 ops/s [Average]
+     *   (min, avg, max) = (105.291, 110.677, 114.727), stdev = 2.550
+     *   CI (99.9%): [109.243, 112.112] (assumes normal distribution)
      */
     @Warmup(iterations = 3)
     @Fork(value = 2)
