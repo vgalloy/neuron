@@ -41,33 +41,33 @@ public final class BooleanNeuronTest {
     @Test
     public void atLeastOneFromOne() {
         final Neuron neuron = BooleanNeuron.atLeast(1, 1).apply(0);
-        final boolean result = neuron.apply(true);
+        final boolean result = neuron.applyBoolean(true);
         Assert.assertTrue(result);
     }
 
     @Test
     public void atLeastOneFromTwo() {
         final Neuron neuron = BooleanNeuron.atLeast(2, 1).apply(0);
-        Assert.assertTrue(neuron.apply(true, false));
-        Assert.assertFalse(neuron.apply(false, true));
+        Assert.assertTrue(neuron.applyBoolean(true, false));
+        Assert.assertFalse(neuron.applyBoolean(false, true));
     }
 
     @Test
     public void atLeastOneFromThree() {
         final Neuron neuron = BooleanNeuron.atLeast(3, 1).apply(1);
-        Assert.assertFalse(neuron.apply(true, false, false));
-        Assert.assertTrue(neuron.apply(false, true, false));
-        Assert.assertFalse(neuron.apply(true, false, true));
+        Assert.assertFalse(neuron.applyBoolean(true, false, false));
+        Assert.assertTrue(neuron.applyBoolean(false, true, false));
+        Assert.assertFalse(neuron.applyBoolean(true, false, true));
     }
 
     @Test
     public void atLeastFourFromFive() {
         final Neuron neuron = BooleanNeuron.atLeast(5, 4).apply(0, 1, 2, 3, 4);
-        Assert.assertFalse(neuron.apply(true, false, false, false, false));
-        Assert.assertFalse(neuron.apply(false, true, false, false, false));
-        Assert.assertFalse(neuron.apply(false, false, true, true, false));
-        Assert.assertFalse(neuron.apply(true, true, false, false, true));
-        Assert.assertTrue(neuron.apply(true, true, true, false, true));
-        Assert.assertTrue(neuron.apply(true, true, true, true, true));
+        Assert.assertFalse(neuron.applyBoolean(true, false, false, false, false));
+        Assert.assertFalse(neuron.applyBoolean(false, true, false, false, false));
+        Assert.assertFalse(neuron.applyBoolean(false, false, true, true, false));
+        Assert.assertFalse(neuron.applyBoolean(true, true, false, false, true));
+        Assert.assertTrue(neuron.applyBoolean(true, true, true, false, true));
+        Assert.assertTrue(neuron.applyBoolean(true, true, true, true, true));
     }
 }

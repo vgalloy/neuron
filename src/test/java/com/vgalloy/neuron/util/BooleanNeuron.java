@@ -81,7 +81,7 @@ public final class BooleanNeuron {
     public static IntVarArgsFunction<Neuron> atLeast(final int size, final int minNumber) {
         return a -> {
             final int l = a.length;
-            NeuronAssert.checkState(minNumber <= l, "Always false neuron");
+            NeuronAssert.state(minNumber <= l, "Always false neuron");
             final double[] list = new double[size];
             final double coeff = 2d;
             for (final int index : a) {

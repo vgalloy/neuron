@@ -18,8 +18,8 @@ public final class NeuronLayers {
     }
 
     public static NeuronLayer of(final int previousLayerSize, final int layerSize) {
-        NeuronAssert.checkState(0 < previousLayerSize, "Can not create a neuron layer with no entry");
-        NeuronAssert.checkState(0 < layerSize, "Can not create a neuron layer with no neuron");
+        NeuronAssert.state(0 < previousLayerSize, "Can not create a neuron layer with no entry");
+        NeuronAssert.state(0 < layerSize, "Can not create a neuron layer with no neuron");
 
         final Neuron[] neurons = Stream
             .generate(() -> Neurons.tanh().inputSize(previousLayerSize).build())

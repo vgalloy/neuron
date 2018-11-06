@@ -23,7 +23,7 @@ public final class NeuronAssert {
      * @param condition the condition
      * @param message   the message
      */
-    public static void checkState(boolean condition, final String message) {
+    public static void state(boolean condition, final String message) {
         Objects.requireNonNull(message, "message");
         if (!condition) {
             throw new IllegalArgumentException(message);

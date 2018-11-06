@@ -80,7 +80,7 @@ final class NeuronSystemTestHelper {
     }
 
     static boolean[] toBoolean(final int i, int size) {
-        NeuronAssert.checkState(i < Math.pow(2, size), "Number " + i + " is higher than 2^" + size);
+        NeuronAssert.state(i < Math.pow(2, size), "Number " + i + " is higher than 2^" + size);
         final boolean[] result = new boolean[size];
         for (int j = 0; j < size; j++) {
             result[j] = (i / (int) Math.pow(2, j) % 2) != 0;

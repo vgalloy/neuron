@@ -34,5 +34,4 @@ public interface AggregationFunction {
             return 1 - Math.pow(Math.tanh(x), 2);
         }
     };
-
 }

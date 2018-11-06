@@ -38,7 +38,7 @@ public class Builder implements TypeBuilder, LengthBuilder, NeuronBuilder {
 
     @Override
     public NeuronBuilder inputSize(final int length) {
-        NeuronAssert.checkState(0 < length, "length must be positive");
+        NeuronAssert.state(0 < length, "length must be positive");
         this.coefficientCreator = CoefficientCreator.fromLength(length);
         return this;
     }

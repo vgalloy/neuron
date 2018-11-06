@@ -16,7 +16,7 @@ class NeuronLayerImpl implements NeuronLayer {
     private final Neuron[] neurons;
 
     NeuronLayerImpl(final Neuron[] neurons) {
-        NeuronAssert.checkState(neurons.length != 0, "Layer must contains at least one neuron");
+        NeuronAssert.state(neurons.length != 0, "Layer must contains at least one neuron");
         this.neurons = neurons;
     }
 
@@ -24,20 +24,20 @@ class NeuronLayerImpl implements NeuronLayer {
     public boolean[] apply(final boolean... input) {
         final boolean[] result = new boolean[neurons.length];
         for (int i = 0; i < neurons.length; i++) {
-            result[i] = neurons[i].apply(input);
+            result[i] = neurons[i].applyBoolean(input);
         }
         return result;
     }
 
     @Override
     public double[] trainWithDouble(boolean[] input, double[] error) {
-        NeuronAssert.checkState(neurons.length == error.length, "Error vector size must be equals to neuron layer size.");
+        NeuronAssert.state(neurons.length == error.length, "Error vector size must be equals to neuron layer size.");
 
         final double[][] coefficientCorrections = new double[neurons.length][];
         for (int i = 0; i < neurons.length; i++) {
             final Neuron neuron = neurons[i];
             final double[] correction = neuron.train(error[i], input);
-            NeuronAssert.checkState(correction.length == input.length, "Correction list size should be equals to input list size.");
+            NeuronAssert.state(correction.length == input.length, "Correction list size should be equals to input list size.");
             coefficientCorrections[i] = correction;
         }
 
@@ -55,7 +55,7 @@ class NeuronLayerImpl implements NeuronLayer {
         final boolean[] result = apply(input);
         final double[] diff = new double[expectedSolution.length];
         for (int i = 0; i < expectedSolution.length; i++) {
-            diff[i] = Constant.mapBoolean(expectedSolution[i]) - Constant.mapBoolean(result[i]);
+            diff[i] = Constant.toDoubleList(expectedSolution[i]) - Constant.toDoubleList(result[i]);
         }
         return trainWithDouble(input, diff);
     }

@@ -19,7 +19,7 @@ public final class SimpleNeuronTest {
         final Neuron neuron = Neurons.linear().withCoefficient(Constant.FALSE, Constant.FALSE).build();
 
         // WHEN
-        final boolean result = neuron.apply(true);
+        final boolean result = neuron.applyBoolean(true);
 
         // THEN
         Assert.assertFalse(result);
@@ -31,7 +31,7 @@ public final class SimpleNeuronTest {
         final Neuron neuron = Neurons.linear().withCoefficient(0d, Constant.TRUE).build();
 
         // WHEN
-        final boolean result = neuron.apply(true);
+        final boolean result = neuron.applyBoolean(true);
 
         // THEN
         Assert.assertTrue(result);
@@ -48,7 +48,7 @@ public final class SimpleNeuronTest {
         neuron.train(false, true);
         neuron.train(false, true);
         neuron.train(false, true);
-        final boolean result = neuron.apply(true);
+        final boolean result = neuron.applyBoolean(true);
 
         // THEN
         Assert.assertFalse(result);
@@ -88,7 +88,7 @@ public final class SimpleNeuronTest {
         neuron.train(false, true);
         neuron.train(false, true);
         neuron.train(true, true);
-        final boolean result = neuron.apply(true);
+        final boolean result = neuron.applyBoolean(true);
 
         // THEN
         Assert.assertTrue(result);

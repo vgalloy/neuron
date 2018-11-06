@@ -23,6 +23,6 @@ public class ImmutableNeuron extends StandardNeuron {
 
     @Override
     public String toString() {
-        return "IN[" + firstCoeffient + Arrays.toString(coefficients) + "]";
+        return "IN[" + firstCoefficient + Arrays.toString(coefficients) + "]";
     }
 }

@@ -43,28 +43,28 @@ public final class Constant {
         return coefficient;
     }
 
-    public static double mapBoolean(final boolean value) {
+    public static double toDoubleList(final boolean value) {
         if (value) {
             return TRUE;
         }
         return FALSE;
     }
 
-    public static double[] mapBoolean(final boolean... list) {
+    public static double[] toDoubleArray(final boolean... list) {
         final double[] result = new double[list.length];
         for (int i = 0; i < list.length; i++) {
-            result[i] = mapBoolean(list[i]);
+            result[i] = toDoubleList(list[i]);
         }
         return result;
     }
 
-    public static List<Double> mapBoolean(final List<Boolean> list) {
+    public static List<Double> toDoubleList(final List<Boolean> list) {
         return list.stream()
-            .map(Constant::mapBoolean)
+            .map(Constant::toDoubleList)
             .collect(Collectors.toList());
     }
 
-    public static double[] toArrayDouble(final List<Double> list) {
+    public static double[] toDoubleArray(final List<Double> list) {
         final double[] result = new double[list.size()];
         for (int i = 0; i < list.size(); i++) {
             result[i] = list.get(i);
@@ -72,7 +72,7 @@ public final class Constant {
         return result;
     }
 
-    public static boolean[] toArray(final List<Boolean> list) {
+    public static boolean[] toBooleanArray(final List<Boolean> list) {
         final boolean[] result = new boolean[list.size()];
         for (int i = 0; i < list.size(); i++) {
             result[i] = list.get(i);
@@ -80,13 +80,13 @@ public final class Constant {
         return result;
     }
 
-    public static List<Double> toList(final double[] train) {
+    public static List<Double> toDoubleList(final double[] train) {
         return DoubleStream.of(train)
             .boxed()
             .collect(Collectors.toList());
     }
 
-    public static List<Boolean> toList(final boolean[] train) {
+    public static List<Boolean> toBooleanList(final boolean[] train) {
         final List<Boolean> list = new ArrayList<>();
         for (final boolean b : train) {
             list.add(b);

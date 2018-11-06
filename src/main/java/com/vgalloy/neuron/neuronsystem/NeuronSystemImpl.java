@@ -36,13 +36,13 @@ final class NeuronSystemImpl implements NeuronSystem {
             middleResult[i] = input;
             input = neuronLayers[i].apply(input);
         }
-        NeuronAssert.checkState(input.length == expectedSolution.length, "Expected solutions size is : " + expectedSolution.length + " must be " + input.length);
+        NeuronAssert.state(input.length == expectedSolution.length, "Expected solutions size is : " + expectedSolution.length + " must be " + input.length);
 
         double[] diff = new double[expectedSolution.length];
         boolean result = true;
         for (int i = 0; i < expectedSolution.length; i++) {
             result = result && expectedSolution[i] == input[i];
-            diff[i] = Constant.mapBoolean(expectedSolution[i]) - Constant.mapBoolean(input[i]);
+            diff[i] = Constant.toDoubleList(expectedSolution[i]) - Constant.toDoubleList(input[i]);
         }
 
         for (int i = 0; i < neuronLayers.length; i++) {

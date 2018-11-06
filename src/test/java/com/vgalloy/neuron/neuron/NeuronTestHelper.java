@@ -44,14 +44,14 @@ final class NeuronTestHelper {
         training.add(Arrays.asList(false, false));
         for (int i = 0; i < 50; i++) {
             Collections.shuffle(training);
-            training.forEach(e -> neuron.train(biFunction.apply(e.get(0), e.get(1)), Constant.toArray(e)));
+            training.forEach(e -> neuron.train(biFunction.apply(e.get(0), e.get(1)), Constant.toBooleanArray(e)));
         }
     }
 
     static void validate(final Neuron neuron, final BiFunction<Boolean, Boolean, Boolean> biFunction) {
-        Assert.assertEquals(biFunction.apply(true, true), neuron.apply(true, true));
-        Assert.assertEquals(biFunction.apply(false, true), neuron.apply(false, true));
-        Assert.assertEquals(biFunction.apply(true, false), neuron.apply(true, false));
-        Assert.assertEquals(biFunction.apply(false, false), neuron.apply(false, false));
+        Assert.assertEquals(biFunction.apply(true, true), neuron.applyBoolean(true, true));
+        Assert.assertEquals(biFunction.apply(false, true), neuron.applyBoolean(false, true));
+        Assert.assertEquals(biFunction.apply(true, false), neuron.applyBoolean(true, false));
+        Assert.assertEquals(biFunction.apply(false, false), neuron.applyBoolean(false, false));
     }
 }

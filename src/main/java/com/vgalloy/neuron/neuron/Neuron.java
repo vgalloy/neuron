@@ -7,7 +7,9 @@ package com.vgalloy.neuron.neuron;
  */
 public interface Neuron {
 
-    boolean apply(boolean... input);
+    double apply(double... input);
+
+    boolean applyBoolean(boolean... input);
 
     double[] train(boolean expected, boolean... input);
 

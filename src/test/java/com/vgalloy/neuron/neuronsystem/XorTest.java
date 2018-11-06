@@ -67,7 +67,7 @@ public final class XorTest {
         );
         for (int i = 0; i < 500; i++) {
             Collections.shuffle(training);
-            training.forEach(train -> neuronSystem.trainWithBoolean(Constant.toArray(train), BooleanFunction.XOR.apply(train.get(0), train.get(1))));
+            training.forEach(train -> neuronSystem.trainWithBoolean(Constant.toBooleanArray(train), BooleanFunction.XOR.apply(train.get(0), train.get(1))));
         }
     }
 
