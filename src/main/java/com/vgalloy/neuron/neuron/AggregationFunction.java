@@ -34,4 +34,16 @@ public interface AggregationFunction {
             return 1 - Math.pow(Math.tanh(x), 2);
         }
     };
+
+    AggregationFunction SIGMOID = new AggregationFunction() {
+        @Override
+        public double apply(final double x) {
+            return 1d / (1 + Math.exp(-x));
+        }
+
+        @Override
+        public double applyDerived(final double x) {
+            return apply(x) * (1 - apply(x));
+        }
+    };
 }
