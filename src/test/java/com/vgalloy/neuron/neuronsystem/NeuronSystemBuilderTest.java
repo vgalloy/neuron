@@ -5,6 +5,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.vgalloy.neuron.neuron.Neurons;
 import com.vgalloy.neuron.neuronlayer.NeuronLayer;
 
 /**
@@ -20,7 +21,7 @@ public final class NeuronSystemBuilderTest {
     @Test
     public void neuronSystemCreator() {
         // GIVEN
-        final NeuronSystemImpl neuronSystem = (NeuronSystemImpl) new NeuronSystemBuilder(2, 3)
+        final NeuronSystemImpl neuronSystem = (NeuronSystemImpl) new NeuronSystemBuilder(Neurons.tanh(), 2, 3)
             .addLayer(2)
             .addLayer(1)
             .build();
@@ -35,7 +36,7 @@ public final class NeuronSystemBuilderTest {
     @Test
     public void wrongOutputSize() {
         // GIVEN
-        final NeuronSystem neuronSystem = new NeuronSystemBuilder(3, 10)
+        final NeuronSystem neuronSystem = new NeuronSystemBuilder(Neurons.tanh(), 3, 10)
             .addLayer(2)
             .addLayer(2)
             .addLayer(4)
@@ -52,7 +53,7 @@ public final class NeuronSystemBuilderTest {
     @Test
     public void correctOutputSize() {
         // GIVEN
-        final NeuronSystem neuronSystem = new NeuronSystemBuilder(3, 10)
+        final NeuronSystem neuronSystem = new NeuronSystemBuilder(Neurons.tanh(), 3, 10)
             .addLayer(4)
             .addLayer(4)
             .addLayer(4)

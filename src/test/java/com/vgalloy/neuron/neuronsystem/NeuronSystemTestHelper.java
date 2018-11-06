@@ -10,6 +10,7 @@ import java.util.function.BiFunction;
 
 import org.junit.Assert;
 
+import com.vgalloy.neuron.neuron.Neurons;
 import com.vgalloy.neuron.util.NeuronAssert;
 
 /**
@@ -30,7 +31,7 @@ final class NeuronSystemTestHelper {
     }
 
     static void test(BiFunction<Integer, Integer, Integer> biFunction) {
-        final NeuronSystem neuronSystem = new NeuronSystemBuilder(4, 6)
+        final NeuronSystem neuronSystem = new NeuronSystemBuilder(Neurons.tanh(), 4, 6)
             .addLayer(4)
             .addLayer(4)
             .addLayer(3)

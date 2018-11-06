@@ -43,7 +43,7 @@ public final class Constant {
         return coefficient;
     }
 
-    public static double toDoubleList(final boolean value) {
+    public static double toDouble(final boolean value) {
         if (value) {
             return TRUE;
         }
@@ -53,14 +53,14 @@ public final class Constant {
     public static double[] toDoubleArray(final boolean... list) {
         final double[] result = new double[list.length];
         for (int i = 0; i < list.length; i++) {
-            result[i] = toDoubleList(list[i]);
+            result[i] = toDouble(list[i]);
         }
         return result;
     }
 
     public static List<Double> toDoubleList(final List<Boolean> list) {
         return list.stream()
-            .map(Constant::toDoubleList)
+            .map(Constant::toDouble)
             .collect(Collectors.toList());
     }
 

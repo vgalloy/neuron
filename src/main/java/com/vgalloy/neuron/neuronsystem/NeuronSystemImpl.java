@@ -42,7 +42,7 @@ final class NeuronSystemImpl implements NeuronSystem {
         boolean result = true;
         for (int i = 0; i < expectedSolution.length; i++) {
             result = result && expectedSolution[i] == input[i];
-            diff[i] = Constant.toDoubleList(expectedSolution[i]) - Constant.toDoubleList(input[i]);
+            diff[i] = Constant.toDouble(expectedSolution[i]) - Constant.toDouble(input[i]);
         }
 
         for (int i = 0; i < neuronLayers.length; i++) {

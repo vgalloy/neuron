@@ -37,7 +37,7 @@ public class StandardNeuron implements Neuron {
     }
 
     @Override
-    public boolean applyBoolean(boolean... input) {
+    public boolean applyBoolean(final boolean... input) {
         checkInputSize(input);
 
         final double result = compute(Constant.toDoubleArray(input));
@@ -45,11 +45,11 @@ public class StandardNeuron implements Neuron {
     }
 
     @Override
-    public double[] train(boolean expected, boolean... input) {
+    public double[] train(final boolean expected, final boolean... input) {
         checkInputSize(input);
 
         final boolean result = applyBoolean(input);
-        final double diff = Constant.toDoubleList(expected) - Constant.toDoubleList(result);
+        final double diff = Constant.toDouble(expected) - Constant.toDouble(result);
         return train(diff, input);
     }
 
@@ -84,8 +84,8 @@ public class StandardNeuron implements Neuron {
     }
 
     protected ErrorOutput computeError(final double currentCoefficient, final boolean input, final double error) {
-        final double errorPerInput = error * currentCoefficient;
-        final double newCoefficient = currentCoefficient + error * Constant.toDoubleList(input) * LEARNING_MULTIPLICATOR;
+        final double errorPerInput = error * currentCoefficient; // TODO input
+        final double newCoefficient = currentCoefficient + error * Constant.toDouble(input) * LEARNING_MULTIPLICATOR;
         return new ErrorOutput(errorPerInput, newCoefficient);
     }
 

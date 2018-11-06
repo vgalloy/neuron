@@ -23,7 +23,7 @@ public final class NeuronLayerTest {
         final int layerSize = 5;
 
         // WHEN
-        final NeuronLayer result = NeuronLayers.of(3, layerSize);
+        final NeuronLayer result = NeuronLayers.of(Neurons.tanh(), 3, layerSize);
 
         // THEN
         Assert.assertEquals(layerSize, result.neuronNumber());
@@ -34,7 +34,7 @@ public final class NeuronLayerTest {
         // GIVEN
         final int inputSize = 5;
         final int layerSize = 6;
-        final NeuronLayer layer = NeuronLayers.of(inputSize, layerSize);
+        final NeuronLayer layer = NeuronLayers.of(Neurons.tanh(), inputSize, layerSize);
 
         // WHEN
         final boolean[] result = layer.apply(true, true, true, true, true);
@@ -47,7 +47,7 @@ public final class NeuronLayerTest {
     public void wrongInputSize() {
         // GIVEN
         final int inputSize = 5;
-        final NeuronLayer layer = NeuronLayers.of(inputSize, 5);
+        final NeuronLayer layer = NeuronLayers.of(Neurons.tanh(), inputSize, 5);
 
         // WHEN
         layer.apply(true, true, true, true);
@@ -59,7 +59,7 @@ public final class NeuronLayerTest {
     @Test
     public void identityLayer() {
         // GIVEN
-        final NeuronLayer layer = NeuronLayers.of(5, 5);
+        final NeuronLayer layer = NeuronLayers.of(Neurons.tanh(), 5, 5);
 
         // WHEN
         for (int i = 0; i < 1_000; i++) {

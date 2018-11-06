@@ -4,6 +4,7 @@ import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Warmup;
 
+import com.vgalloy.neuron.neuron.Neurons;
 import com.vgalloy.neuron.util.IntFunction;
 
 /**
@@ -32,7 +33,7 @@ public class PerformanceTest {
     @Fork(value = 2)
     @Benchmark
     public void init() {
-        final NeuronSystem neuronSystem = new NeuronSystemBuilder(4, 6)
+        final NeuronSystem neuronSystem = new NeuronSystemBuilder(Neurons.tanh(), 4, 6)
             .addLayer(4)
             .addLayer(4)
             .addLayer(3)

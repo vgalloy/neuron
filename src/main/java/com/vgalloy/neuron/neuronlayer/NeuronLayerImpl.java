@@ -55,7 +55,7 @@ class NeuronLayerImpl implements NeuronLayer {
         final boolean[] result = apply(input);
         final double[] diff = new double[expectedSolution.length];
         for (int i = 0; i < expectedSolution.length; i++) {
-            diff[i] = Constant.toDoubleList(expectedSolution[i]) - Constant.toDoubleList(result[i]);
+            diff[i] = Constant.toDouble(expectedSolution[i]) - Constant.toDouble(result[i]);
         }
         return trainWithDouble(input, diff);
     }

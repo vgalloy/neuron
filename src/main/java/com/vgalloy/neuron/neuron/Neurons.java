@@ -27,4 +27,8 @@ public final class Neurons {
     public static LengthBuilder linear() {
         return builder().withType(AggregationFunction.IDENTITY);
     }
+
+    public static LengthBuilder sigmoid() {
+        return builder().withType(AggregationFunction.SIGMOID);
+    }
 }

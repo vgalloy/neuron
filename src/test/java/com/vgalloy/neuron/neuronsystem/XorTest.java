@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.vgalloy.neuron.constant.Constant;
+import com.vgalloy.neuron.neuron.Neurons;
 import com.vgalloy.neuron.neuronlayer.NeuronLayers;
 import com.vgalloy.neuron.util.BooleanFunction;
 import com.vgalloy.neuron.util.BooleanNeuron;
@@ -22,7 +23,7 @@ public final class XorTest {
     @Test
     public void testSimple() {
         // GIVEN
-        final NeuronSystem neuronSystem = new NeuronSystemBuilder(2, 3)
+        final NeuronSystem neuronSystem = new NeuronSystemBuilder(Neurons.tanh(), 2, 3)
             .addLayer(2)
             .addLayer(1)
             .build();
@@ -37,7 +38,7 @@ public final class XorTest {
     @Test
     public void xor() {
         // GIVEN
-        final NeuronSystem neuronSystem = new NeuronSystemBuilder(2, 2)
+        final NeuronSystem neuronSystem = new NeuronSystemBuilder(Neurons.tanh(), 2, 2)
             .addLayer(1)
             .build();
 

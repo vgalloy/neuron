@@ -17,7 +17,7 @@ public final class NeuronSystemTest {
 
     @Test
     public void addOneBit() {
-        final NeuronSystem neuronSystem = new NeuronSystemBuilder(2, 3)
+        final NeuronSystem neuronSystem = new NeuronSystemBuilder(Neurons.tanh(), 2, 3)
             .addLayer(2)
             .build();
 
@@ -27,7 +27,7 @@ public final class NeuronSystemTest {
 
     @Test
     public void addOneOneBit() {
-        final NeuronSystem neuronSystem = new NeuronSystemBuilder(2, 3)
+        final NeuronSystem neuronSystem = new NeuronSystemBuilder(Neurons.tanh(), 2, 3)
             .addLayer(2)
             .build();
 

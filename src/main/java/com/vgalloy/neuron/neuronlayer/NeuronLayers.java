@@ -3,7 +3,7 @@ package com.vgalloy.neuron.neuronlayer;
 import java.util.stream.Stream;
 
 import com.vgalloy.neuron.neuron.Neuron;
-import com.vgalloy.neuron.neuron.Neurons;
+import com.vgalloy.neuron.neuron.builder.LengthBuilder;
 import com.vgalloy.neuron.util.NeuronAssert;
 
 /**
@@ -17,12 +17,12 @@ public final class NeuronLayers {
         throw new AssertionError();
     }
 
-    public static NeuronLayer of(final int previousLayerSize, final int layerSize) {
+    public static NeuronLayer of(final LengthBuilder lengthBuilder, final int previousLayerSize, final int layerSize) {
         NeuronAssert.state(0 < previousLayerSize, "Can not create a neuron layer with no entry");
         NeuronAssert.state(0 < layerSize, "Can not create a neuron layer with no neuron");
 
         final Neuron[] neurons = Stream
-            .generate(() -> Neurons.tanh().inputSize(previousLayerSize).build())
+            .generate(() -> lengthBuilder.inputSize(previousLayerSize).build())
             .limit(layerSize)
             .toArray(Neuron[]::new);
 

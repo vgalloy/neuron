@@ -14,6 +14,6 @@ public interface LengthBuilder {
     NeuronBuilder withCoefficient(double firstCoefficient, double... coefficients);
 
     default NeuronBuilder withCoefficient(boolean firstCoefficient, boolean... coefficients) {
-        return this.withCoefficient(Constant.toDoubleList(firstCoefficient), Constant.toDoubleArray(coefficients));
+        return this.withCoefficient(Constant.toDouble(firstCoefficient), Constant.toDoubleArray(coefficients));
     }
 }
