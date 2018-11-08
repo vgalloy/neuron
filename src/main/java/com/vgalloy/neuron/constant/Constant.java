@@ -2,6 +2,7 @@ package com.vgalloy.neuron.constant;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -37,9 +38,7 @@ public final class Constant {
 
     public static double[] doubleRandom(int length) {
         final double[] coefficient = new double[length];
-        for (int i = 0; i < length; i++) {
-            coefficient[i] = Constant.doubleRandom();
-        }
+        Arrays.setAll(coefficient, i -> Constant.doubleRandom());
         return coefficient;
     }
 
@@ -52,9 +51,7 @@ public final class Constant {
 
     public static double[] toDoubleArray(final boolean... list) {
         final double[] result = new double[list.length];
-        for (int i = 0; i < list.length; i++) {
-            result[i] = toDouble(list[i]);
-        }
+        Arrays.setAll(result, i -> toDouble(list[i]));
         return result;
     }
 
@@ -66,9 +63,7 @@ public final class Constant {
 
     public static double[] toDoubleArray(final List<Double> list) {
         final double[] result = new double[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            result[i] = list.get(i);
-        }
+        Arrays.setAll(result, list::get);
         return result;
     }
 

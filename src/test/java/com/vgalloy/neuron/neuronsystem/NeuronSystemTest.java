@@ -101,4 +101,17 @@ public final class NeuronSystemTest {
         NeuronSystemTestHelper.train(neuronSystem, IntFunction.ADD, 2);
         NeuronSystemTestHelper.validate(neuronSystem, IntFunction.ADD, 2);
     }
+
+    @Test
+    @Ignore
+    public void add2() {
+        final NeuronSystem neuronSystem = new NeuronSystemBuilder(Neurons.sigmoid(), 4, 6)
+            .addLayer(4)
+            .addLayer(4)
+            .addLayer(3)
+            .build();
+
+        NeuronSystemTestHelper.train(neuronSystem, IntFunction.ADD, 2);
+        NeuronSystemTestHelper.validate(neuronSystem, IntFunction.ADD, 2);
+    }
 }
