@@ -33,7 +33,8 @@ public class StandardNeuron implements Neuron {
 
     @Override
     public double apply(final double... input) {
-       throw new UnsupportedOperationException();
+        final double result = compute(input);
+        return aggregationFunction.apply(result);
     }
 
     @Override
@@ -41,7 +42,7 @@ public class StandardNeuron implements Neuron {
         checkInputSize(input);
 
         final double result = compute(Constant.toDoubleArray(input));
-        return aggregationFunction.apply(result) > 0;
+        return aggregationFunction.activation(result);
     }
 
     @Override
