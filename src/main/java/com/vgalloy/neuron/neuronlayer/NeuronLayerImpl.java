@@ -33,18 +33,18 @@ class NeuronLayerImpl implements NeuronLayer {
     public double[] trainWithDouble(boolean[] input, double[] error) {
         NeuronAssert.state(neurons.length == error.length, "Error vector size must be equals to neuron layer size.");
 
-        final double[][] coefficientCorrections = new double[neurons.length][];
+        final double[][] coefficientCorrections = new double[neuronNumber()][];
         for (int i = 0; i < neurons.length; i++) {
             final Neuron neuron = neurons[i];
             final double[] correction = neuron.train(error[i], input);
-            NeuronAssert.state(correction.length == input.length, "Correction list size should be equals to input list size.");
+            NeuronAssert.state(correction.length == inputSize(), "Correction list size should be equals to input list size.");
             coefficientCorrections[i] = correction;
         }
 
-        final double[] result = new double[input.length];
+        final double[] result = new double[inputSize()];
         for (double[] coefficientCorrection : coefficientCorrections) {
-            for (int i = 0; i < coefficientCorrection.length; i++) {
-                result[i] = result[i] + coefficientCorrection[i];
+            for (int i = 0; i < inputSize(); i++) {
+                result[i] = result[i] + coefficientCorrection[i] / neuronNumber();
             }
         }
         return result;

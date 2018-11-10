@@ -16,9 +16,9 @@ public class ImmutableNeuron extends StandardNeuron {
     }
 
     @Override
-    protected ErrorOutput computeError(final double currentCoefficient, final boolean input, final double error) {
+    protected ErrorOutput computeError(final double currentCoefficient, final double input, final double error) {
         final double errorPerInput = error * currentCoefficient;
-        return new ErrorOutput(errorPerInput, currentCoefficient);
+        return new ErrorOutput(errorPerInput, 0);
     }
 
     @Override

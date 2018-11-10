@@ -59,14 +59,15 @@ public class StandardNeuron implements Neuron {
         checkInputSize(input);
 
         final double result = compute(Constant.toDoubleArray(input));
-        final double error = aggregationFunction.applyDerived(result) * diff;
+        final double derived = aggregationFunction.applyDerived(result);
+        final double error = derived * diff;
 
-        this.firstCoefficient = computeError(firstCoefficient, true, error).newCoefficient;
+        this.firstCoefficient += computeError(firstCoefficient, Constant.toDouble(true), error).correction;
         final double[] coefficientCorrection = new double[input.length];
         for (int i = 0; i < input.length; i++) {
-            final ErrorOutput errorOutput = computeError(this.coefficients[i], input[i], error);
+            final ErrorOutput errorOutput = computeError(this.coefficients[i], Constant.toDouble(input[i]), error);
             coefficientCorrection[i] = errorOutput.errorPerInput;
-            this.coefficients[i] = errorOutput.newCoefficient;
+            this.coefficients[i] += errorOutput.correction;
         }
         return coefficientCorrection;
     }
@@ -84,10 +85,10 @@ public class StandardNeuron implements Neuron {
         return result;
     }
 
-    protected ErrorOutput computeError(final double currentCoefficient, final boolean input, final double error) {
-        final double errorPerInput = error * currentCoefficient; // TODO input
-        final double newCoefficient = currentCoefficient + error * Constant.toDouble(input) * LEARNING_MULTIPLICATOR;
-        return new ErrorOutput(errorPerInput, newCoefficient);
+    protected ErrorOutput computeError(final double currentCoefficient, final double input, final double error) {
+        final double errorPerInput = error * currentCoefficient;
+        final double correction = error * input * LEARNING_MULTIPLICATOR;
+        return new ErrorOutput(errorPerInput, correction);
     }
 
     private void checkInputSize(final boolean[] input) {
@@ -97,11 +98,11 @@ public class StandardNeuron implements Neuron {
 
     protected static class ErrorOutput {
         private final double errorPerInput;
-        private final double newCoefficient;
+        private final double correction;
 
-        protected ErrorOutput(final double errorPerInput, final double newCoefficient) {
+        protected ErrorOutput(final double errorPerInput, final double correction) {
             this.errorPerInput = errorPerInput;
-            this.newCoefficient = newCoefficient;
+            this.correction = correction;
         }
     }
 
