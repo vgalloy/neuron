@@ -31,6 +31,11 @@ public class StandardNeuron implements Neuron {
     }
 
     @Override
+    public double apply(final boolean... input) {
+        return apply(aggregationFunction.toDoubleArray(input));
+    }
+
+    @Override
     public double apply(final double... input) {
         checkInput(input);
 
@@ -50,8 +55,8 @@ public class StandardNeuron implements Neuron {
     public double[] train(final boolean expected, final boolean... input) {
         checkInput(input);
 
-        final boolean result = applyBoolean(input);
-        final double diff = aggregationFunction.toDouble(expected) - aggregationFunction.toDouble(result);
+        final double result = apply(input);
+        final double diff = aggregationFunction.toDouble(expected) - result;
         return train(diff, input);
     }
 

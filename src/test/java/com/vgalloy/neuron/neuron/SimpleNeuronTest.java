@@ -128,4 +128,18 @@ public final class SimpleNeuronTest {
     public void notSecond() {
         NeuronTestHelper.buildTest(BooleanFunction.not(BooleanFunction.SECOND), Neurons.linear());
     }
+
+    @Test
+    public void neuronIsImproving() {
+        // GIVEN
+        final Neuron neuron = Neurons.linear().withCoefficient(0.1, 0.1).build();
+
+        // WHEN
+        final double result1 = neuron.apply(true);
+        neuron.train(true, true);
+        final double result2 = neuron.apply(true);
+
+        // THEN
+        Assert.assertTrue(result1 < result2);
+    }
 }
