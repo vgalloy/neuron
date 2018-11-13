@@ -33,6 +33,8 @@ public class StandardNeuron implements Neuron {
 
     @Override
     public double apply(final double... input) {
+        checkInputSize(input);
+
         final double result = compute(input);
         return aggregationFunction.apply(result);
     }
@@ -92,6 +94,11 @@ public class StandardNeuron implements Neuron {
     }
 
     private void checkInputSize(final boolean[] input) {
+        Objects.requireNonNull(input, "NeuronInput can not be null");
+        NeuronAssert.state(input.length == inputSize(), "You are training neuron with " + input.length + " inputs. But this neuron needs " + inputSize() + ".");
+    }
+
+    private void checkInputSize(final double[] input) {
         Objects.requireNonNull(input, "NeuronInput can not be null");
         NeuronAssert.state(input.length == inputSize(), "You are training neuron with " + input.length + " inputs. But this neuron needs " + inputSize() + ".");
     }
