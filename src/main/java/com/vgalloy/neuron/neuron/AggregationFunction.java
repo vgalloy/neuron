@@ -5,7 +5,7 @@ package com.vgalloy.neuron.neuron;
  *
  * @author Vincent Galloy
  */
-public interface AggregationFunction {
+public interface AggregationFunction extends BooleanConverter {
 
     double apply(double x);
 
@@ -28,6 +28,16 @@ public interface AggregationFunction {
         public double applyDerived(double x) {
             return 1;
         }
+
+        @Override
+        public double trueValue() {
+            return 1;
+        }
+
+        @Override
+        public double falseValue() {
+            return -1;
+        }
     };
 
     AggregationFunction TAN_H = new AggregationFunction() {
@@ -45,6 +55,16 @@ public interface AggregationFunction {
         public double applyDerived(double x) {
             return 1 - Math.pow(Math.tanh(x), 2);
         }
+
+        @Override
+        public double trueValue() {
+            return 1;
+        }
+
+        @Override
+        public double falseValue() {
+            return -1;
+        }
     };
 
     AggregationFunction SIGMOID = new AggregationFunction() {
@@ -61,6 +81,16 @@ public interface AggregationFunction {
         @Override
         public double applyDerived(final double x) {
             return apply(x) * (1 - apply(x));
+        }
+
+        @Override
+        public double trueValue() {
+            return 1;
+        }
+
+        @Override
+        public double falseValue() {
+            return 0;
         }
     };
 }

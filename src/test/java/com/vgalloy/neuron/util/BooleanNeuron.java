@@ -3,12 +3,9 @@ package com.vgalloy.neuron.util;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import com.vgalloy.neuron.constant.Constant;
+import com.vgalloy.neuron.neuron.AggregationFunction;
 import com.vgalloy.neuron.neuron.Neuron;
 import com.vgalloy.neuron.neuron.Neurons;
-
-import static com.vgalloy.neuron.constant.Constant.FALSE;
-import static com.vgalloy.neuron.constant.Constant.TRUE;
 
 /**
  * Created by Vincent Galloy on 26/09/2018.
@@ -34,10 +31,11 @@ public final class BooleanNeuron {
     public static BiFunction<Integer, Integer, Neuron> and(final int size) {
         return (a, b) -> {
             final double[] list = new double[size];
-            list[a] = 2 * TRUE;
-            list[b] = 2 * TRUE;
+            final AggregationFunction tanh = Neurons.tanh().getFunction();
+            list[a] = 2 * tanh.trueValue();
+            list[b] = 2 * tanh.trueValue();
             return Neurons.tanh()
-                .withCoefficient(-3 * TRUE, list)
+                .withCoefficient(-3 * tanh.trueValue(), list)
                 .build(true);
         };
     }
@@ -45,10 +43,11 @@ public final class BooleanNeuron {
     public static BiFunction<Integer, Integer, Neuron> or(final int size) {
         return (a, b) -> {
             final double[] list = new double[size];
-            list[a] = TRUE - FALSE;
-            list[b] = TRUE - FALSE;
+            final AggregationFunction tanh = Neurons.tanh().getFunction();
+            list[a] = tanh.trueValue() - tanh.falseValue();
+            list[b] = tanh.trueValue() - tanh.falseValue();
             return Neurons.tanh()
-                .withCoefficient(-FALSE, list)
+                .withCoefficient(-tanh.falseValue(), list)
                 .build(true);
         };
     }
@@ -56,7 +55,8 @@ public final class BooleanNeuron {
     public static Function<Integer, Neuron> one(final int size) {
         return a -> {
             final double[] list = new double[size];
-            list[a] = TRUE;
+            final AggregationFunction tanh = Neurons.tanh().getFunction();
+            list[a] = tanh.trueValue();
             return Neurons.tanh()
                 .withCoefficient(0d, list)
                 .build(true);
@@ -66,10 +66,11 @@ public final class BooleanNeuron {
     public static BiFunction<Integer, Integer, Neuron> notAnd(final int size) {
         return (a, b) -> {
             final double[] list = new double[size];
-            list[a] = -2 * TRUE;
-            list[b] = -2 * TRUE;
+            final AggregationFunction tanh = Neurons.tanh().getFunction();
+            list[a] = -2 * tanh.trueValue();
+            list[b] = -2 * tanh.trueValue();
             return Neurons.tanh()
-                .withCoefficient(3 * TRUE, list)
+                .withCoefficient(3 * tanh.trueValue(), list)
                 .build(true);
         };
     }
@@ -80,6 +81,7 @@ public final class BooleanNeuron {
 
     public static IntVarArgsFunction<Neuron> atLeast(final int size, final int minNumber) {
         return a -> {
+            final AggregationFunction tanh = Neurons.tanh().getFunction();
             final int l = a.length;
             NeuronAssert.state(minNumber <= l, "Always false neuron");
             final double[] list = new double[size];
@@ -88,7 +90,7 @@ public final class BooleanNeuron {
                 list[index] = coeff;
             }
             return Neurons.tanh()
-                .withCoefficient(1 + coeff * (Constant.FALSE * (minNumber - l) - minNumber), list)
+                .withCoefficient(1 + coeff * (tanh.falseValue() * (minNumber - l) - minNumber), list)
                 .build(true);
         };
     }

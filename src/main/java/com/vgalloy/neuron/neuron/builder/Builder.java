@@ -50,6 +50,17 @@ public class Builder implements TypeBuilder, LengthBuilder, NeuronBuilder {
     }
 
     @Override
+    public NeuronBuilder withCoefficient(final boolean firstCoefficient, final boolean... coefficients) {
+        this.coefficientCreator = CoefficientCreator.fixed(this.aggregationFunction.toDouble(firstCoefficient), this.aggregationFunction.toDoubleArray(coefficients));
+        return this;
+    }
+
+    @Override
+    public AggregationFunction getFunction() {
+        return this.aggregationFunction;
+    }
+
+    @Override
     public Neuron build() {
         return build(false);
     }

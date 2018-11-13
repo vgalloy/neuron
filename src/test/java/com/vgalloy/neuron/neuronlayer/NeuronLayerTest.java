@@ -95,9 +95,9 @@ public final class NeuronLayerTest {
     public void correction() {
         // GIVEN
         final NeuronLayer layer = NeuronLayers.of(
-            Neurons.linear().withCoefficient(0d, Constant.TRUE, 0d).build(),
-            Neurons.linear().withCoefficient(0d, Constant.FALSE, 0d).build(),
-            Neurons.linear().withCoefficient(0d, Constant.FALSE, Constant.FALSE).build()
+            Neurons.linear().withCoefficient(false, true, false).build(),
+            Neurons.linear().withCoefficient(false, false, false).build(),
+            Neurons.linear().withCoefficient(false, false, false).build()
         );
 
         // WHEN

@@ -1,6 +1,6 @@
 package com.vgalloy.neuron.neuron.builder;
 
-import com.vgalloy.neuron.constant.Constant;
+import com.vgalloy.neuron.neuron.AggregationFunction;
 
 /**
  * Created by Vincent Galloy on 19/10/18.
@@ -13,7 +13,7 @@ public interface LengthBuilder {
 
     NeuronBuilder withCoefficient(double firstCoefficient, double... coefficients);
 
-    default NeuronBuilder withCoefficient(boolean firstCoefficient, boolean... coefficients) {
-        return this.withCoefficient(Constant.toDouble(firstCoefficient), Constant.toDoubleArray(coefficients));
-    }
+    NeuronBuilder withCoefficient(boolean firstCoefficient, boolean... coefficients);
+
+    AggregationFunction getFunction();
 }

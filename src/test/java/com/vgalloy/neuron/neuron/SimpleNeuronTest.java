@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.vgalloy.neuron.constant.Constant;
+import com.vgalloy.neuron.neuron.builder.LengthBuilder;
 import com.vgalloy.neuron.util.BooleanFunction;
 
 /**
@@ -16,7 +17,7 @@ public final class SimpleNeuronTest {
     @Test
     public void correctMonoNeuron() {
         // GIVEN
-        final Neuron neuron = Neurons.linear().withCoefficient(Constant.FALSE, Constant.FALSE).build();
+        final Neuron neuron = Neurons.linear().withCoefficient(false, true).build();
 
         // WHEN
         final boolean result = neuron.applyBoolean(true);
@@ -28,7 +29,7 @@ public final class SimpleNeuronTest {
     @Test
     public void correctMonoNeuron2() {
         // GIVEN
-        final Neuron neuron = Neurons.linear().withCoefficient(0d, Constant.TRUE).build();
+        final Neuron neuron = Neurons.linear().withCoefficient(0d, 1d).build();
 
         // WHEN
         final boolean result = neuron.applyBoolean(true);
@@ -40,7 +41,7 @@ public final class SimpleNeuronTest {
     @Test
     public void neuronTrain() {
         // GIVEN
-        final Neuron neuron = Neurons.linear().withCoefficient(Constant.FALSE, Constant.TRUE).build();
+        final Neuron neuron = Neurons.linear().withCoefficient(false, true).build();
 
         // WHEN
         neuron.train(false, true);
@@ -69,14 +70,16 @@ public final class SimpleNeuronTest {
     @Test
     public void neuronTrainResult() {
         // GIVEN
-        final Neuron neuron = Neurons.linear().withCoefficient(0d, Constant.TRUE).build();
+        final LengthBuilder lengthBuilder = Neurons.linear();
+        final BooleanConverter converter = lengthBuilder.getFunction();
+        final Neuron neuron = lengthBuilder.withCoefficient(0d, 1d).build();
 
         // WHEN
         final double[] result = neuron.train(false, true);
 
         // THEN
         Assert.assertEquals(1, result.length);
-        Assert.assertEquals(Constant.FALSE - Constant.TRUE, result[0], 0.0001);
+        Assert.assertEquals(converter.falseValue() - converter.trueValue(), result[0], 0.0001);
     }
 
     @Test
