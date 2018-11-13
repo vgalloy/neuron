@@ -37,7 +37,7 @@ public final class NeuronLayerTest {
         final NeuronLayer layer = NeuronLayers.of(Neurons.tanh(), inputSize, layerSize);
 
         // WHEN
-        final boolean[] result = layer.apply(true, true, true, true, true);
+        final boolean[] result = layer.applyBoolean(true, true, true, true, true);
 
         // THEN
         Assert.assertEquals(layerSize, result.length);
@@ -50,7 +50,7 @@ public final class NeuronLayerTest {
         final NeuronLayer layer = NeuronLayers.of(Neurons.tanh(), inputSize, 5);
 
         // WHEN
-        layer.apply(true, true, true, true);
+        layer.applyBoolean(true, true, true, true);
 
         // THEN
         Assert.fail("exception should occurred");
@@ -70,7 +70,7 @@ public final class NeuronLayerTest {
         // THEN
         for (int i = 0; i < 100; i++) {
             final boolean[] input = Constant.toBooleanArray(Stream.generate(Constant::random).limit(5).collect(Collectors.toList()));
-            Assert.assertArrayEquals(input, layer.apply(input));
+            Assert.assertArrayEquals(input, layer.applyBoolean(input));
         }
     }
 
@@ -80,7 +80,7 @@ public final class NeuronLayerTest {
         final NeuronBuilder neuronBuilder = Neurons.tanh().inputSize(2);
         final NeuronLayer layer = NeuronLayers.of(neuronBuilder.build(), neuronBuilder.build(), neuronBuilder.build());
         final boolean[] input = new boolean[]{true, true};
-        final boolean[] result = layer.apply(input);
+        final boolean[] result = layer.applyBoolean(input);
 
         // WHEN
         final double[] correction = layer.trainWithBoolean(input, result);

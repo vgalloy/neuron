@@ -72,24 +72,24 @@ public final class NeuronSystemTest {
     public void add() {
 //        final NeuronSystem neuronSystem = new NeuronSystemImpl(
 //            NeuronLayers.of(
-//                BooleanNeuron.notAnd(4).apply(0, 2),
-//                BooleanNeuron.or(4).apply(0, 2),
-//                BooleanNeuron.and(4).apply(0, 2),
-//                BooleanNeuron.notAnd(4).apply(1, 3),
-//                BooleanNeuron.or(4).apply(1, 3),
-//                BooleanNeuron.and(4).apply(1, 3)
+//                BooleanNeuron.notAnd(4).applyBoolean(0, 2),
+//                BooleanNeuron.or(4).applyBoolean(0, 2),
+//                BooleanNeuron.and(4).applyBoolean(0, 2),
+//                BooleanNeuron.notAnd(4).applyBoolean(1, 3),
+//                BooleanNeuron.or(4).applyBoolean(1, 3),
+//                BooleanNeuron.and(4).applyBoolean(1, 3)
 //            ),
 //            NeuronLayers.of(
-//                BooleanNeuron.and(6).apply(0, 1),
-//                BooleanNeuron.one(6).apply(2),
-//                BooleanNeuron.and(6).apply(3, 4),
-//                BooleanNeuron.atLeast(6, 2).apply(2, 4, 5)
+//                BooleanNeuron.and(6).applyBoolean(0, 1),
+//                BooleanNeuron.one(6).applyBoolean(2),
+//                BooleanNeuron.and(6).applyBoolean(3, 4),
+//                BooleanNeuron.atLeast(6, 2).applyBoolean(2, 4, 5)
 //            ),
 //            NeuronLayers.of(
-//                BooleanNeuron.one(4).apply(0),
-//                BooleanNeuron.notAnd(4).apply(1, 2),
-//                BooleanNeuron.or(4).apply(1, 2),
-//                BooleanNeuron.one(4).apply(3)
+//                BooleanNeuron.one(4).applyBoolean(0),
+//                BooleanNeuron.notAnd(4).applyBoolean(1, 2),
+//                BooleanNeuron.or(4).applyBoolean(1, 2),
+//                BooleanNeuron.one(4).applyBoolean(3)
 //            ),
 //            NeuronLayers.of(
 //                Neurons.tanh().inputSize(4).build(),

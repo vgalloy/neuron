@@ -21,7 +21,16 @@ class NeuronLayerImpl implements NeuronLayer {
     }
 
     @Override
-    public boolean[] apply(final boolean... input) {
+    public double[] apply(final double... input) {
+        final double[] result = new double[neurons.length];
+        for (int i = 0; i < neurons.length; i++) {
+            result[i] = neurons[i].apply(input);
+        }
+        return result;
+    }
+
+    @Override
+    public boolean[] applyBoolean(final boolean... input) {
         final boolean[] result = new boolean[neurons.length];
         for (int i = 0; i < neurons.length; i++) {
             result[i] = neurons[i].applyBoolean(input);
@@ -52,7 +61,7 @@ class NeuronLayerImpl implements NeuronLayer {
 
     @Override
     public double[] trainWithBoolean(boolean[] input, boolean[] expectedSolution) {
-        final boolean[] result = apply(input);
+        final boolean[] result = applyBoolean(input);
         final double[] diff = new double[expectedSolution.length];
         for (int i = 0; i < expectedSolution.length; i++) {
             diff[i] = Constant.toDouble(expectedSolution[i]) - Constant.toDouble(result[i]);

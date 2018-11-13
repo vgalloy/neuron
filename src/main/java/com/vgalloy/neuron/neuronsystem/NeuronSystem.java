@@ -9,9 +9,6 @@ public interface NeuronSystem {
 
     boolean[] apply(boolean... booleans);
 
-    /**
-     * @return the if the system correctly response to question. System should not change.
-     */
     void trainWithBoolean(boolean[] input, boolean... expectedSolution);
 
     int inputSize();

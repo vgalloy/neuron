@@ -7,7 +7,9 @@ package com.vgalloy.neuron.neuronlayer;
  */
 public interface NeuronLayer {
 
-    boolean[] apply(boolean... input);
+    double[] apply(double... input);
+
+    boolean[] applyBoolean(boolean... input);
 
     /**
      * Train the current neuron layer.

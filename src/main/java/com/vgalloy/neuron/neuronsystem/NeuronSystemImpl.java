@@ -24,7 +24,7 @@ final class NeuronSystemImpl implements NeuronSystem {
     public boolean[] apply(final boolean... booleans) {
         boolean[] list = booleans;
         for (final NeuronLayer neuronLayer : neuronLayers) {
-            list = neuronLayer.apply(list);
+            list = neuronLayer.applyBoolean(list);
         }
         return list;
     }
@@ -51,7 +51,7 @@ final class NeuronSystemImpl implements NeuronSystem {
         boolean[] middleInput = input.clone();
         for (int i = 0; i < neuronLayers.length; i++) {
             middleResult[i] = middleInput;
-            middleInput = neuronLayers[i].apply(middleInput);
+            middleInput = neuronLayers[i].applyBoolean(middleInput);
         }
         middleResult[neuronLayers.length] = middleInput;
         return middleResult;
