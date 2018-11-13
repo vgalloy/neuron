@@ -30,29 +30,39 @@ final class NeuronSystemImpl implements NeuronSystem {
     }
 
     @Override
-    public boolean trainWithBoolean(boolean[] input, final boolean... expectedSolution) {
-        final boolean[][] middleResult = new boolean[neuronLayers.length][];
-        for (int i = 0; i < neuronLayers.length; i++) {
-            middleResult[i] = input;
-            input = neuronLayers[i].apply(input);
-        }
-        NeuronAssert.state(input.length == expectedSolution.length, "Expected solutions size is : " + expectedSolution.length + " must be " + input.length);
+    public void trainWithBoolean(final boolean[] input, final boolean... expectedSolution) {
+        NeuronAssert.state(outputSize() == expectedSolution.length, "Expected solutions size is : " + expectedSolution.length + " must be " + input.length);
 
-        double[] diff = new double[expectedSolution.length];
-        boolean result = true;
-        for (int i = 0; i < expectedSolution.length; i++) {
-            result = result && expectedSolution[i] == input[i];
-            diff[i] = Constant.toDouble(expectedSolution[i]) - Constant.toDouble(input[i]);
-        }
+        final boolean[][] middleResult = computeMiddleResult(input);
+        final boolean[] output = middleResult[neuronLayers.length];
+        double[] diff = computeFirstError(output, expectedSolution);
 
+        // back prop
         for (int i = 0; i < neuronLayers.length; i++) {
             final int index = neuronLayers.length - 1 - i;
             final NeuronLayer neuronLayer = neuronLayers[index];
             final boolean[] intermediateInput = middleResult[index];
             diff = neuronLayer.trainWithDouble(intermediateInput, diff);
         }
+    }
 
-        return result;
+    private boolean[][] computeMiddleResult(final boolean[] input) {
+        final boolean[][] middleResult = new boolean[neuronLayers.length + 1][];
+        boolean[] middleInput = input.clone();
+        for (int i = 0; i < neuronLayers.length; i++) {
+            middleResult[i] = middleInput;
+            middleInput = neuronLayers[i].apply(middleInput);
+        }
+        middleResult[neuronLayers.length] = middleInput;
+        return middleResult;
+    }
+
+    private double[] computeFirstError(final boolean[] input, final boolean... expectedSolution) {
+        final double[] diff = new double[expectedSolution.length];
+        for (int i = 0; i < expectedSolution.length; i++) {
+            diff[i] = Constant.toDouble(expectedSolution[i]) - Constant.toDouble(input[i]);
+        }
+        return diff;
     }
 
     @Override
@@ -62,7 +72,7 @@ final class NeuronSystemImpl implements NeuronSystem {
 
     @Override
     public int outputSize() {
-        return neuronLayers[neuronLayers.length - 1].inputSize();
+        return neuronLayers[neuronLayers.length - 1].neuronNumber();
     }
 
     public NeuronLayer[] getNeuronLayers() {

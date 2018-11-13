@@ -7,13 +7,12 @@ package com.vgalloy.neuron.neuronsystem;
  */
 public interface NeuronSystem {
 
-
     boolean[] apply(boolean... booleans);
 
     /**
      * @return the if the system correctly response to question. System should not change.
      */
-    boolean trainWithBoolean(boolean[] input, boolean... expectedSolution);
+    void trainWithBoolean(boolean[] input, boolean... expectedSolution);
 
     int inputSize();
 
