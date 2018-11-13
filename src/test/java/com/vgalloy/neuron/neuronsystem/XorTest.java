@@ -80,6 +80,6 @@ public final class XorTest {
     }
 
     private static void validate(final NeuronSystem neuronSystem, final boolean a, final boolean b) {
-        Assert.assertEquals(BooleanFunction.XOR.apply(a, b), neuronSystem.apply(a, b)[0]);
+        Assert.assertEquals(BooleanFunction.XOR.apply(a, b), neuronSystem.applyBoolean(a, b)[0]);
     }
 }

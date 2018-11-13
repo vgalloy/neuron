@@ -21,7 +21,16 @@ final class NeuronSystemImpl implements NeuronSystem {
     }
 
     @Override
-    public boolean[] apply(final boolean... booleans) {
+    public double[] apply(final double... input) {
+        double[] list = input;
+        for (final NeuronLayer neuronLayer : neuronLayers) {
+            list = neuronLayer.apply(list);
+        }
+        return list;
+    }
+
+    @Override
+    public boolean[] applyBoolean(final boolean... booleans) {
         boolean[] list = booleans;
         for (final NeuronLayer neuronLayer : neuronLayers) {
             list = neuronLayer.applyBoolean(list);

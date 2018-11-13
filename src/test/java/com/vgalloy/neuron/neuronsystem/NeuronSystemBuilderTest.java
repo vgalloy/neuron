@@ -47,7 +47,7 @@ public final class NeuronSystemBuilderTest {
         expectedException.expect(IllegalArgumentException.class);
 
         // THEN
-        neuronSystem.apply(input);
+        neuronSystem.applyBoolean(input);
     }
 
     @Test
@@ -62,6 +62,6 @@ public final class NeuronSystemBuilderTest {
         final boolean[] input = new boolean[3];
 
         // THEN
-        neuronSystem.apply(input);
+        neuronSystem.applyBoolean(input);
     }
 }

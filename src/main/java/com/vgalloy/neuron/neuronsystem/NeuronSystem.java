@@ -7,7 +7,9 @@ package com.vgalloy.neuron.neuronsystem;
  */
 public interface NeuronSystem {
 
-    boolean[] apply(boolean... booleans);
+    double[] apply(double... input);
+
+    boolean[] applyBoolean(boolean... booleans);
 
     void trainWithBoolean(boolean[] input, boolean... expectedSolution);
 
