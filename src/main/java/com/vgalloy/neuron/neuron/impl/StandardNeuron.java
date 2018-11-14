@@ -48,7 +48,7 @@ public class StandardNeuron implements Neuron {
         checkInput(input);
 
         final double result = compute(aggregationFunction.toDoubleArray(input));
-        return aggregationFunction.activation(result);
+        return aggregationFunction.activation(aggregationFunction.apply(result));
     }
 
     @Override

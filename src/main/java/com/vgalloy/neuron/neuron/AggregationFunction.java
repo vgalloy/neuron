@@ -21,7 +21,7 @@ public interface AggregationFunction extends BooleanConverter {
 
         @Override
         public boolean activation(final double x) {
-            return apply(x) > 0;
+            return x > 0;
         }
 
         @Override
@@ -48,7 +48,7 @@ public interface AggregationFunction extends BooleanConverter {
 
         @Override
         public boolean activation(final double x) {
-            return apply(x) > 0;
+            return x > 0;
         }
 
         @Override
@@ -75,7 +75,7 @@ public interface AggregationFunction extends BooleanConverter {
 
         @Override
         public boolean activation(final double x) {
-            return apply(x) > 0.5;
+            return x > 0.5;
         }
 
         @Override
