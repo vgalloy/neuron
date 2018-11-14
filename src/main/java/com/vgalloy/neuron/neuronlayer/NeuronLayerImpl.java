@@ -35,13 +35,13 @@ class NeuronLayerImpl implements NeuronLayer {
     }
 
     @Override
-    public double[] train(final double[] input, final double[] error) {
-        NeuronAssert.state(neurons.length == error.length, "Error vector size must be equals to neuron layer size.");
+    public double[] train(final double[] input, final double[] expected) {
+        NeuronAssert.state(neurons.length == expected.length, "Error vector size must be equals to neuron layer size.");
 
         final double[][] coefficientCorrections = new double[neuronNumber()][];
         for (int i = 0; i < neurons.length; i++) {
             final Neuron neuron = neurons[i];
-            final double[] correction = neuron.train(error[i], input);
+            final double[] correction = neuron.train(expected[i], input);
             NeuronAssert.state(correction.length == inputSize(), "Correction list size should be equals to input list size.");
             coefficientCorrections[i] = correction;
         }
@@ -49,20 +49,15 @@ class NeuronLayerImpl implements NeuronLayer {
         final double[] result = new double[inputSize()];
         for (double[] coefficientCorrection : coefficientCorrections) {
             for (int i = 0; i < inputSize(); i++) {
-                result[i] = result[i] + coefficientCorrection[i] / neuronNumber();
+                result[i] += coefficientCorrection[i] / neuronNumber();
             }
         }
         return result;
     }
 
     @Override
-    public double[] train(boolean[] input, boolean[] expectedSolution) {
-        final boolean[] result = apply(input);
-        final double[] diff = new double[expectedSolution.length];
-        for (int i = 0; i < expectedSolution.length; i++) {
-            diff[i] = function().toDouble(expectedSolution[i]) - function().toDouble(result[i]);
-        }
-        return train(function().toDoubleArray(input), diff);
+    public boolean[] train(boolean[] input, boolean[] expectedSolution) {
+        return function().activation(train(function().toDoubleArray(input), function().toDoubleArray(expectedSolution)));
     }
 
     @Override

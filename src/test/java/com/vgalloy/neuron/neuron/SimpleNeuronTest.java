@@ -71,7 +71,6 @@ public final class SimpleNeuronTest {
     public void neuronTrainResult() {
         // GIVEN
         final LengthBuilder lengthBuilder = Neurons.linear();
-        final BooleanConverter converter = lengthBuilder.getFunction();
         final Neuron neuron = lengthBuilder.withCoefficient(0d, 1d).build();
 
         // WHEN
@@ -79,7 +78,21 @@ public final class SimpleNeuronTest {
 
         // THEN
         Assert.assertEquals(1, result.length);
-        Assert.assertEquals(converter.falseValue() - converter.trueValue(), result[0], 0.0001);
+        Assert.assertEquals(0.6, result[0], 0.0001);
+    }
+
+    @Test
+    public void neuronTrainResult2() {
+        // GIVEN
+        final LengthBuilder lengthBuilder = Neurons.sigmoid();
+        final Neuron neuron = lengthBuilder.withCoefficient(0d, 1d).build();
+
+        // WHEN
+        final double[] result = neuron.train(true, true);
+
+        // THEN
+        Assert.assertEquals(1, result.length);
+        Assert.assertEquals(1.0105754185568534, result[0], 0.0001);
     }
 
     @Test
@@ -95,6 +108,22 @@ public final class SimpleNeuronTest {
 
         // THEN
         Assert.assertTrue(result);
+    }
+
+    @Test
+    public void identity() {
+        // GIVEN
+        final Neuron neuron = Neurons.tanh().inputSize(1).build();
+
+        // WHEN
+        for(int i = 0; i < 100; i++) {
+            neuron.train(true, true);
+            neuron.train(false, false);
+        }
+
+        // THEN
+        Assert.assertTrue(neuron.apply(true));
+        Assert.assertFalse(neuron.apply(false));
     }
 
     @Test
@@ -135,9 +164,9 @@ public final class SimpleNeuronTest {
         final Neuron neuron = Neurons.linear().withCoefficient(0.1, 0.1).build();
 
         // WHEN
-        final double result1 = neuron.apply(true);
+        final double result1 = neuron.apply(Neurons.linear().getFunction().trueValue());
         neuron.train(true, true);
-        final double result2 = neuron.apply(true);
+        final double result2 = neuron.apply(Neurons.linear().getFunction().trueValue());
 
         // THEN
         Assert.assertTrue(result1 < result2);

@@ -38,16 +38,21 @@ final class NeuronSystemImpl implements NeuronSystem {
     public void train(final boolean[] input, final boolean... expectedSolution) {
         NeuronAssert.state(outputSize() == expectedSolution.length, "Expected solutions size is : " + expectedSolution.length + " must be " + input.length);
 
-        final double[][] middleResult = computeMiddleResult(function().toDoubleArray(input));
-        final double[] output = middleResult[neuronLayers.length];
-        double[] diff = computeFirstError(output, function().toDoubleArray(expectedSolution));
+        train(function().toDoubleArray(input), function().toDoubleArray(expectedSolution));
+    }
+
+    @Override
+    public void train(final double[] input, final double... expectedSolution) {
+        NeuronAssert.state(outputSize() == expectedSolution.length, "Expected solutions size is : " + expectedSolution.length + " must be " + input.length);
+        final double[][] middleResult = computeMiddleResult(input);
+        double[] target = expectedSolution.clone();
 
         // back prop
         for (int i = 0; i < neuronLayers.length; i++) {
             final int index = neuronLayers.length - 1 - i;
             final NeuronLayer neuronLayer = neuronLayers[index];
             final double[] intermediateInput = middleResult[index];
-            diff = neuronLayer.train(intermediateInput, diff);
+            target = neuronLayer.train(intermediateInput, target);
         }
     }
 

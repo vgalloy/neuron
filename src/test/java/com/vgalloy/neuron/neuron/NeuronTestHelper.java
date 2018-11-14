@@ -44,7 +44,11 @@ final class NeuronTestHelper {
         training.add(Arrays.asList(false, false));
         for (int i = 0; i < 50; i++) {
             Collections.shuffle(training);
-            training.forEach(e -> neuron.train(biFunction.apply(e.get(0), e.get(1)), Constant.toBooleanArray(e)));
+            System.out.println(neuron);
+            training.forEach(e -> {
+                neuron.train(biFunction.apply(e.get(0), e.get(1)), Constant.toBooleanArray(e));
+                System.out.println("train (" + e.get(0) + ", " + e.get(1) + ") " + neuron);
+            });
         }
     }
 

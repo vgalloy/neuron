@@ -13,6 +13,8 @@ public interface NeuronSystem {
 
     void train(boolean[] input, boolean... expectedSolution);
 
+    void train(double[] input, double... expectedSolution);
+
     int inputSize();
 
     int outputSize();

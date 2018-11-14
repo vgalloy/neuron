@@ -77,18 +77,18 @@ public final class NeuronLayerTest {
     @Test
     public void noCorrectionWhenOk() {
         // GIVEN
-        final NeuronBuilder neuronBuilder = Neurons.tanh().inputSize(2);
+        final NeuronBuilder neuronBuilder = Neurons.linear().inputSize(2);
         final NeuronLayer layer = NeuronLayers.of(neuronBuilder.build(), neuronBuilder.build(), neuronBuilder.build());
         final boolean[] input = new boolean[]{true, true};
         final boolean[] result = layer.apply(input);
 
         // WHEN
-        final double[] correction = layer.train(input, result);
+        final boolean[] correction = layer.train(input, result);
 
         // THEN
         Assert.assertEquals(2, correction.length);
-        Assert.assertEquals(0, correction[0], 0.0001);
-        Assert.assertEquals(0, correction[1], 0.0001);
+        Assert.assertEquals(input[0], correction[0]);
+        Assert.assertEquals(input[1], correction[1]);
     }
 
     @Test
@@ -101,11 +101,11 @@ public final class NeuronLayerTest {
         );
 
         // WHEN
-        final double[] correction = layer.train(new boolean[]{true, true}, new boolean[]{false, false, false});
+        final boolean[] correction = layer.train(new boolean[]{true, true}, new boolean[]{false, false, false});
 
         // THEN
         Assert.assertEquals(2, correction.length);
-//        Assert.assertEquals(Constant.FALSE - Constant.TRUE, correction[0], 0.0001);
-        Assert.assertEquals(0., correction[1], 0.0001);
+        Assert.assertTrue(correction[0]);
+        Assert.assertTrue(correction[1]);
     }
 }

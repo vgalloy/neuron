@@ -22,7 +22,7 @@ public interface NeuronLayer {
      */
     double[] train(double[] input, double[] error);
 
-    double[] train(boolean[] input, boolean[] expectedSolution);
+    boolean[] train(boolean[] input, boolean[] expectedSolution);
 
     /**
      * @return number of parameter in the input list.
