@@ -79,13 +79,6 @@ public class StandardNeuron implements Neuron {
     }
 
     @Override
-    public double[] train(final double diff, final boolean... input) {
-        checkInput(input);
-
-        return train(diff, this.aggregationFunction.toDoubleArray(input));
-    }
-
-    @Override
     public int inputSize() {
         return coefficients.length;
     }

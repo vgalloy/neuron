@@ -36,6 +36,7 @@ public final class NeuronSystemTest {
     }
 
     @Test
+    @Ignore
     public void addWithPreFillNeuron() {
         final NeuronSystem neuronSystem = new NeuronSystemImpl(
             NeuronLayers.of(

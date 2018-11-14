@@ -9,7 +9,7 @@ public interface NeuronSystem {
 
     double[] apply(double... input);
 
-    boolean[] apply(boolean... booleans);
+    boolean[] apply(boolean... inputs);
 
     void train(boolean[] input, boolean... expectedSolution);
 

@@ -35,7 +35,7 @@ class NeuronLayerImpl implements NeuronLayer {
     }
 
     @Override
-    public double[] train(boolean[] input, double[] error) {
+    public double[] train(final double[] input, final double[] error) {
         NeuronAssert.state(neurons.length == error.length, "Error vector size must be equals to neuron layer size.");
 
         final double[][] coefficientCorrections = new double[neuronNumber()][];
@@ -62,7 +62,7 @@ class NeuronLayerImpl implements NeuronLayer {
         for (int i = 0; i < expectedSolution.length; i++) {
             diff[i] = function().toDouble(expectedSolution[i]) - function().toDouble(result[i]);
         }
-        return train(input, diff);
+        return train(function().toDoubleArray(input), diff);
     }
 
     @Override

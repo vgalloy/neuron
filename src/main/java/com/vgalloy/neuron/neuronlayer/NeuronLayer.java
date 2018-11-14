@@ -20,7 +20,7 @@ public interface NeuronLayer {
      * @param error the error vector
      * @return the correction coefficients
      */
-    double[] train(boolean[] input, double[] error);
+    double[] train(double[] input, double[] error);
 
     double[] train(boolean[] input, boolean[] expectedSolution);
 
