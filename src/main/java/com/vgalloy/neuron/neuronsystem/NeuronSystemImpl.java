@@ -3,7 +3,6 @@ package com.vgalloy.neuron.neuronsystem;
 import java.util.Arrays;
 import java.util.Objects;
 
-import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.neuron.AggregationFunction;
 import com.vgalloy.neuron.neuronlayer.NeuronLayer;
 import com.vgalloy.neuron.util.NeuronAssert;
@@ -70,7 +69,7 @@ final class NeuronSystemImpl implements NeuronSystem {
     private double[] computeFirstError(final boolean[] input, final boolean... expectedSolution) {
         final double[] diff = new double[expectedSolution.length];
         for (int i = 0; i < expectedSolution.length; i++) {
-            diff[i] = Constant.toDouble(expectedSolution[i]) - Constant.toDouble(input[i]);
+            diff[i] = function().toDouble(expectedSolution[i]) - function().toDouble(input[i]);
         }
         return diff;
     }

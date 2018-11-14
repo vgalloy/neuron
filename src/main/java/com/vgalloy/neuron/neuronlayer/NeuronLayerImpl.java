@@ -2,7 +2,6 @@ package com.vgalloy.neuron.neuronlayer;
 
 import java.util.Arrays;
 
-import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.neuron.AggregationFunction;
 import com.vgalloy.neuron.neuron.Neuron;
 import com.vgalloy.neuron.util.NeuronAssert;
@@ -61,7 +60,7 @@ class NeuronLayerImpl implements NeuronLayer {
         final boolean[] result = apply(input);
         final double[] diff = new double[expectedSolution.length];
         for (int i = 0; i < expectedSolution.length; i++) {
-            diff[i] = Constant.toDouble(expectedSolution[i]) - Constant.toDouble(result[i]);
+            diff[i] = function().toDouble(expectedSolution[i]) - function().toDouble(result[i]);
         }
         return train(input, diff);
     }

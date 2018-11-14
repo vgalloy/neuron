@@ -12,9 +12,6 @@ import java.util.Random;
  */
 public final class Constant {
 
-    private static final double TRUE = 1d;
-    private static final double FALSE = -1d;
-
     private static final Random RANDOM = new SecureRandom();
 
     /**
@@ -37,13 +34,6 @@ public final class Constant {
         final double[] coefficient = new double[length];
         Arrays.setAll(coefficient, i -> Constant.doubleRandom());
         return coefficient;
-    }
-
-    public static double toDouble(final boolean value) {
-        if (value) {
-            return TRUE;
-        }
-        return FALSE;
     }
 
     public static boolean[] toBooleanArray(final List<Boolean> list) {
