@@ -3,6 +3,7 @@ package com.vgalloy.neuron.neuronlayer;
 import java.util.Arrays;
 
 import com.vgalloy.neuron.constant.Constant;
+import com.vgalloy.neuron.neuron.AggregationFunction;
 import com.vgalloy.neuron.neuron.Neuron;
 import com.vgalloy.neuron.util.NeuronAssert;
 
@@ -31,11 +32,7 @@ class NeuronLayerImpl implements NeuronLayer {
 
     @Override
     public boolean[] applyBoolean(final boolean... input) {
-        final boolean[] result = new boolean[neurons.length];
-        for (int i = 0; i < neurons.length; i++) {
-            result[i] = neurons[i].applyBoolean(input);
-        }
-        return result;
+        return function().activation(apply(function().toDoubleArray(input)));
     }
 
     @Override
@@ -77,6 +74,11 @@ class NeuronLayerImpl implements NeuronLayer {
     @Override
     public int neuronNumber() {
         return neurons.length;
+    }
+
+    @Override
+    public AggregationFunction function() {
+        return neurons[0].function();
     }
 
     @Override

@@ -11,6 +11,14 @@ public interface AggregationFunction extends BooleanConverter {
 
     boolean activation(double x);
 
+    default boolean[] activation(double[] x) {
+        final boolean[] result = new boolean[x.length];
+        for (int i = 0; i < x.length; i++) {
+            result[i] = activation(x[i]);
+        }
+        return result;
+    }
+
     double applyDerived(double x);
 
     AggregationFunction IDENTITY = new AggregationFunction() {

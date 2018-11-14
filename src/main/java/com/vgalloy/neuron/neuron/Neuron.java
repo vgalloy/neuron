@@ -15,7 +15,11 @@ public interface Neuron {
 
     double[] train(boolean expected, boolean... input);
 
+    double[] train(double diff, double... input);
+
     double[] train(double diff, boolean... input);
 
     int inputSize();
+
+    AggregationFunction function();
 }

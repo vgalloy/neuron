@@ -1,5 +1,7 @@
 package com.vgalloy.neuron.neuronlayer;
 
+import com.vgalloy.neuron.neuron.AggregationFunction;
+
 /**
  * Created by Vincent Galloy on 01/04/17.
  *
@@ -31,4 +33,6 @@ public interface NeuronLayer {
      * @return number of neuron in the layer
      */
     int neuronNumber();
+
+    AggregationFunction function();
 }
