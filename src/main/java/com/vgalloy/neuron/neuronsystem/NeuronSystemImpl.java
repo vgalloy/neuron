@@ -57,22 +57,12 @@ final class NeuronSystemImpl implements NeuronSystem {
     }
 
     private double[][] computeMiddleResult(final double[] input) {
-        final double[][] middleResult = new double[neuronLayers.length + 1][];
-        double[] middleInput = input.clone();
-        for (int i = 0; i < neuronLayers.length; i++) {
-            middleResult[i] = middleInput;
-            middleInput = neuronLayers[i].apply(middleInput);
+        final double[][] middleResult = new double[neuronLayers.length][];
+        middleResult[0] = input.clone();
+        for (int i = 0; i < neuronLayers.length - 1; i++) {
+            middleResult[i + 1] = neuronLayers[i].apply(middleResult[i]);
         }
-        middleResult[neuronLayers.length] = middleInput;
         return middleResult;
-    }
-
-    private double[] computeFirstError(final double[] input, final double... expectedSolution) {
-        final double[] diff = new double[expectedSolution.length];
-        for (int i = 0; i < expectedSolution.length; i++) {
-            diff[i] = expectedSolution[i] - input[i];
-        }
-        return diff;
     }
 
     @Override

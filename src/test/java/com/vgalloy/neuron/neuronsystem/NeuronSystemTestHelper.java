@@ -2,14 +2,12 @@ package com.vgalloy.neuron.neuronsystem;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 import org.junit.Assert;
 
-import com.vgalloy.neuron.neuron.Neurons;
 import com.vgalloy.neuron.util.IntBiFunction;
 import com.vgalloy.neuron.util.NeuronAssert;
 
@@ -30,17 +28,6 @@ final class NeuronSystemTestHelper {
         throw new AssertionError();
     }
 
-    static void test(IntBiFunction biFunction) {
-        final NeuronSystem neuronSystem = new NeuronSystemBuilder(Neurons.tanh(), 4, 6)
-            .addLayer(4)
-            .addLayer(4)
-            .addLayer(3)
-            .build();
-
-        train(neuronSystem, biFunction, 2);
-        validate(neuronSystem, biFunction, 2);
-    }
-
     static void validate(final NeuronSystem neuronSystem, final IntBiFunction biFunction, final int size) {
         for (int i = 0; i < Math.pow(2, size); i++) {
             for (int j = 0; j < Math.pow(2, size); j++) {
@@ -56,12 +43,12 @@ final class NeuronSystemTestHelper {
     }
 
     static void train(final NeuronSystem neuronSystem, final IntBiFunction biFunction, final int size, final int training) {
-        List<List<Integer>> trainings = buildTrainings(size);
+        List<int[]> trainings = buildTrainings(size);
         for (int i = 0; i < training; i++) {
             Collections.shuffle(trainings);
-            for (List<Integer> input : trainings) {
-                final Integer first = input.get(0);
-                final Integer second = input.get(1);
+            for (int[] input : trainings) {
+                final int first = input[0];
+                final int second = input[1];
                 final boolean[] args = toArgs(size, first, second);
                 final boolean[] result = toBoolean(biFunction.apply(first, second), size + 1);
                 neuronSystem.train(args, result);
@@ -70,11 +57,11 @@ final class NeuronSystemTestHelper {
         }
     }
 
-    private static List<List<Integer>> buildTrainings(final int size) {
-        final List<List<Integer>> trainings = new ArrayList<>();
+    private static List<int[]> buildTrainings(final int size) {
+        final List<int[]> trainings = new ArrayList<>();
         for (int i = 0; i < Math.pow(2, size); i++) {
             for (int j = 0; j < Math.pow(2, size); j++) {
-                trainings.add(Arrays.asList(i, j));
+                trainings.add(new int[] {i, j});
             }
         }
         return trainings;

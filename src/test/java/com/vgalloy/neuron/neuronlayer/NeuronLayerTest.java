@@ -1,8 +1,5 @@
 package com.vgalloy.neuron.neuronlayer;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -63,13 +60,13 @@ public final class NeuronLayerTest {
 
         // WHEN
         for (int i = 0; i < 1_000; i++) {
-            final boolean[] input = Constant.toBooleanArray(Stream.generate(Constant::random).limit(5).collect(Collectors.toList()));
+            final boolean[] input = Constant.randomArray(5);
             layer.train(input, input);
         }
 
         // THEN
         for (int i = 0; i < 100; i++) {
-            final boolean[] input = Constant.toBooleanArray(Stream.generate(Constant::random).limit(5).collect(Collectors.toList()));
+            final boolean[] input = Constant.randomArray(5);
             Assert.assertArrayEquals(input, layer.apply(input));
         }
     }

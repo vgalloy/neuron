@@ -1,6 +1,5 @@
 package com.vgalloy.neuron.neuron;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.Objects;
 
 import org.junit.Assert;
 
-import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.neuron.builder.LengthBuilder;
 import com.vgalloy.neuron.util.BiBooleanFunction;
 
@@ -37,18 +35,15 @@ final class NeuronTestHelper {
     }
 
     private static void train(final Neuron neuron, final BiBooleanFunction biFunction) {
-        final List<List<Boolean>> training = new ArrayList<>();
-        training.add(Arrays.asList(true, true));
-        training.add(Arrays.asList(true, false));
-        training.add(Arrays.asList(false, true));
-        training.add(Arrays.asList(false, false));
+        final List<boolean[]> training = Arrays.asList(
+            new boolean[]{true, true},
+            new boolean[]{true, false},
+            new boolean[]{false, true},
+            new boolean[]{false, false}
+        );
         for (int i = 0; i < 50; i++) {
             Collections.shuffle(training);
-            System.out.println(neuron);
-            training.forEach(e -> {
-                neuron.train(biFunction.apply(e.get(0), e.get(1)), Constant.toBooleanArray(e));
-                System.out.println("train (" + e.get(0) + ", " + e.get(1) + ") " + neuron);
-            });
+            training.forEach(e -> neuron.train(biFunction.apply(e[0], e[1]), e));
         }
     }
 

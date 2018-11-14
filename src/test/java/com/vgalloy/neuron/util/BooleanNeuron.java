@@ -1,7 +1,6 @@
 package com.vgalloy.neuron.util;
 
-import java.util.function.BiFunction;
-import java.util.function.Function;
+import java.util.function.IntFunction;
 
 import com.vgalloy.neuron.neuron.AggregationFunction;
 import com.vgalloy.neuron.neuron.Neuron;
@@ -28,7 +27,7 @@ public final class BooleanNeuron {
         throw new AssertionError();
     }
 
-    public static BiFunction<Integer, Integer, Neuron> and(final int size) {
+    public static BiIntFunction<Neuron> and(final int size) {
         return (a, b) -> {
             final double[] list = new double[size];
             final AggregationFunction tanh = Neurons.tanh().getFunction();
@@ -40,7 +39,7 @@ public final class BooleanNeuron {
         };
     }
 
-    public static BiFunction<Integer, Integer, Neuron> or(final int size) {
+    public static BiIntFunction<Neuron> or(final int size) {
         return (a, b) -> {
             final double[] list = new double[size];
             final AggregationFunction tanh = Neurons.tanh().getFunction();
@@ -52,7 +51,7 @@ public final class BooleanNeuron {
         };
     }
 
-    public static Function<Integer, Neuron> one(final int size) {
+    public static IntFunction<Neuron> one(final int size) {
         return a -> {
             final double[] list = new double[size];
             final AggregationFunction tanh = Neurons.tanh().getFunction();
@@ -63,7 +62,7 @@ public final class BooleanNeuron {
         };
     }
 
-    public static BiFunction<Integer, Integer, Neuron> notAnd(final int size) {
+    public static BiIntFunction<Neuron> notAnd(final int size) {
         return (a, b) -> {
             final double[] list = new double[size];
             final AggregationFunction tanh = Neurons.tanh().getFunction();
@@ -77,6 +76,10 @@ public final class BooleanNeuron {
 
     public interface IntVarArgsFunction<T> {
         T apply(int... values);
+    }
+
+    public interface BiIntFunction<T> {
+        T apply(int a, int b);
     }
 
     public static IntVarArgsFunction<Neuron> atLeast(final int size, final int minNumber) {

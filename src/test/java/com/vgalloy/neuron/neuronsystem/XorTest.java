@@ -7,7 +7,6 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.neuron.Neurons;
 import com.vgalloy.neuron.neuronlayer.NeuronLayers;
 import com.vgalloy.neuron.util.BiBooleanFunction;
@@ -60,15 +59,15 @@ public final class XorTest {
     }
 
     private static void train(final NeuronSystem neuronSystem) {
-        final List<List<Boolean>> training = Arrays.asList(
-            Arrays.asList(Boolean.TRUE, Boolean.TRUE),
-            Arrays.asList(Boolean.TRUE, Boolean.FALSE),
-            Arrays.asList(Boolean.FALSE, Boolean.TRUE),
-            Arrays.asList(Boolean.FALSE, Boolean.FALSE)
+        final List<boolean[]> training = Arrays.asList(
+            new boolean[]{true, true},
+            new boolean[]{true, false},
+            new boolean[]{false, true},
+            new boolean[]{false, false}
         );
         for (int i = 0; i < 10_000; i++) {
             Collections.shuffle(training);
-            training.forEach(train -> neuronSystem.train(Constant.toBooleanArray(train), BiBooleanFunction.XOR.apply(train.get(0), train.get(1))));
+            training.forEach(train -> neuronSystem.train(train, BiBooleanFunction.XOR.apply(train[0], train[1])));
         }
     }
 
