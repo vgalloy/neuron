@@ -6,11 +6,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.BiFunction;
 
 import org.junit.Assert;
 
 import com.vgalloy.neuron.neuron.Neurons;
+import com.vgalloy.neuron.util.IntBiFunction;
 import com.vgalloy.neuron.util.NeuronAssert;
 
 /**
@@ -30,7 +30,7 @@ final class NeuronSystemTestHelper {
         throw new AssertionError();
     }
 
-    static void test(BiFunction<Integer, Integer, Integer> biFunction) {
+    static void test(IntBiFunction biFunction) {
         final NeuronSystem neuronSystem = new NeuronSystemBuilder(Neurons.tanh(), 4, 6)
             .addLayer(4)
             .addLayer(4)
@@ -41,21 +41,21 @@ final class NeuronSystemTestHelper {
         validate(neuronSystem, biFunction, 2);
     }
 
-    static void validate(final NeuronSystem neuronSystem, final BiFunction<Integer, Integer, Integer> biFunction, final int size) {
+    static void validate(final NeuronSystem neuronSystem, final IntBiFunction biFunction, final int size) {
         for (int i = 0; i < Math.pow(2, size); i++) {
             for (int j = 0; j < Math.pow(2, size); j++) {
                 final boolean[] result = neuronSystem.apply(toArgs(size, i, j));
-                final Integer value = toInt(result);
+                final int value = toInt(result);
                 Assert.assertEquals(biFunction.apply(i, j), value);
             }
         }
     }
 
-    static void train(final NeuronSystem neuronSystem, final BiFunction<Integer, Integer, Integer> biFunction, final int size) {
+    static void train(final NeuronSystem neuronSystem, final IntBiFunction biFunction, final int size) {
         train(neuronSystem, biFunction, size, DEFAULT_TRAINING_NUMBER);
     }
 
-    static void train(final NeuronSystem neuronSystem, final BiFunction<Integer, Integer, Integer> biFunction, final int size, final int training) {
+    static void train(final NeuronSystem neuronSystem, final IntBiFunction biFunction, final int size, final int training) {
         List<List<Integer>> trainings = buildTrainings(size);
         for (int i = 0; i < training; i++) {
             Collections.shuffle(trainings);

@@ -3,7 +3,7 @@ package com.vgalloy.neuron.neuron;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.vgalloy.neuron.util.BooleanFunction;
+import com.vgalloy.neuron.util.BiBooleanFunction;
 
 /**
  * Created by Vincent Galloy on 01/04/17.
@@ -14,22 +14,22 @@ public final class TanHNeuronTest {
 
     @Test
     public void and() {
-        NeuronTestHelper.buildTest(BooleanFunction.AND, Neurons.tanh());
+        NeuronTestHelper.buildTest(BiBooleanFunction.AND, Neurons.tanh());
     }
 
     @Test
     public void or() {
-        NeuronTestHelper.buildTest(BooleanFunction.OR, Neurons.tanh());
+        NeuronTestHelper.buildTest(BiBooleanFunction.OR, Neurons.tanh());
     }
 
     @Test
     public void first() {
-        NeuronTestHelper.buildTest(BooleanFunction.FIRST, Neurons.tanh());
+        NeuronTestHelper.buildTest(BiBooleanFunction.FIRST, Neurons.tanh());
     }
 
     @Test
     public void notSecond() {
-        NeuronTestHelper.buildTest(BooleanFunction.not(BooleanFunction.SECOND), Neurons.tanh());
+        NeuronTestHelper.buildTest(BiBooleanFunction.not(BiBooleanFunction.SECOND), Neurons.tanh());
     }
 
     @Test

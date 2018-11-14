@@ -6,7 +6,7 @@ import org.junit.Test;
 import com.vgalloy.neuron.neuron.Neurons;
 import com.vgalloy.neuron.neuronlayer.NeuronLayers;
 import com.vgalloy.neuron.util.BooleanNeuron;
-import com.vgalloy.neuron.util.IntFunction;
+import com.vgalloy.neuron.util.IntBiFunction;
 
 /**
  * Created by Vincent Galloy on 25/09/2018.
@@ -21,8 +21,8 @@ public final class NeuronSystemTest {
             .addLayer(2)
             .build();
 
-        NeuronSystemTestHelper.train(neuronSystem, IntFunction.ADD, 1);
-        NeuronSystemTestHelper.validate(neuronSystem, IntFunction.ADD, 1);
+        NeuronSystemTestHelper.train(neuronSystem, IntBiFunction.ADD, 1);
+        NeuronSystemTestHelper.validate(neuronSystem, IntBiFunction.ADD, 1);
     }
 
     @Test
@@ -31,8 +31,8 @@ public final class NeuronSystemTest {
             .addLayer(2)
             .build();
 
-        NeuronSystemTestHelper.train(neuronSystem, IntFunction.ADD_ONE, 1);
-        NeuronSystemTestHelper.validate(neuronSystem, IntFunction.ADD_ONE, 1);
+        NeuronSystemTestHelper.train(neuronSystem, IntBiFunction.ADD_ONE, 1);
+        NeuronSystemTestHelper.validate(neuronSystem, IntBiFunction.ADD_ONE, 1);
     }
 
     @Test
@@ -65,7 +65,7 @@ public final class NeuronSystemTest {
                 BooleanNeuron.one(4).apply(3)
             )
         );
-        NeuronSystemTestHelper.validate(neuronSystem, IntFunction.ADD, 2);
+        NeuronSystemTestHelper.validate(neuronSystem, IntBiFunction.ADD, 2);
     }
 
     @Test
@@ -105,8 +105,8 @@ public final class NeuronSystemTest {
             .addLayer(3)
             .build();
 
-        NeuronSystemTestHelper.train(neuronSystem, IntFunction.ADD, 2);
-        NeuronSystemTestHelper.validate(neuronSystem, IntFunction.ADD, 2);
+        NeuronSystemTestHelper.train(neuronSystem, IntBiFunction.ADD, 2);
+        NeuronSystemTestHelper.validate(neuronSystem, IntBiFunction.ADD, 2);
     }
 
     @Test
@@ -118,7 +118,7 @@ public final class NeuronSystemTest {
             .addLayer(3)
             .build();
 
-        NeuronSystemTestHelper.train(neuronSystem, IntFunction.ADD, 2);
-        NeuronSystemTestHelper.validate(neuronSystem, IntFunction.ADD, 2);
+        NeuronSystemTestHelper.train(neuronSystem, IntBiFunction.ADD, 2);
+        NeuronSystemTestHelper.validate(neuronSystem, IntBiFunction.ADD, 2);
     }
 }

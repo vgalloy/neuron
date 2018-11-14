@@ -3,7 +3,7 @@ package com.vgalloy.neuron.neuron;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.vgalloy.neuron.util.BooleanFunction;
+import com.vgalloy.neuron.util.BiBooleanFunction;
 import com.vgalloy.neuron.util.BooleanNeuron;
 
 /**
@@ -15,27 +15,27 @@ public final class BooleanNeuronTest {
 
     @Test
     public void and() {
-        NeuronTestHelper.validate(BooleanNeuron.AND, BooleanFunction.AND);
+        NeuronTestHelper.validate(BooleanNeuron.AND, BiBooleanFunction.AND);
     }
 
     @Test
     public void or() {
-        NeuronTestHelper.validate(BooleanNeuron.OR, BooleanFunction.OR);
+        NeuronTestHelper.validate(BooleanNeuron.OR, BiBooleanFunction.OR);
     }
 
     @Test
     public void first() {
-        NeuronTestHelper.validate(BooleanNeuron.FIRST, BooleanFunction.FIRST);
+        NeuronTestHelper.validate(BooleanNeuron.FIRST, BiBooleanFunction.FIRST);
     }
 
     @Test
     public void second() {
-        NeuronTestHelper.validate(BooleanNeuron.SECOND, BooleanFunction.SECOND);
+        NeuronTestHelper.validate(BooleanNeuron.SECOND, BiBooleanFunction.SECOND);
     }
 
     @Test
     public void notAnd() {
-        NeuronTestHelper.validate(BooleanNeuron.NOT_AND, BooleanFunction.NOT_AND);
+        NeuronTestHelper.validate(BooleanNeuron.NOT_AND, BiBooleanFunction.NOT_AND);
     }
 
     @Test

@@ -5,7 +5,7 @@ import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Warmup;
 
 import com.vgalloy.neuron.neuron.Neurons;
-import com.vgalloy.neuron.util.IntFunction;
+import com.vgalloy.neuron.util.IntBiFunction;
 
 /**
  * Created by Vincent Galloy on 13/10/18.
@@ -39,6 +39,6 @@ public class PerformanceTest {
             .addLayer(3)
             .build();
 
-        NeuronSystemTestHelper.train(neuronSystem, IntFunction.ADD, 2, 100);
+        NeuronSystemTestHelper.train(neuronSystem, IntBiFunction.ADD, 2, 100);
     }
 }

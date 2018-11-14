@@ -5,12 +5,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.BiFunction;
 
 import org.junit.Assert;
 
 import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.neuron.builder.LengthBuilder;
+import com.vgalloy.neuron.util.BiBooleanFunction;
 
 /**
  * Created by Vincent Galloy on 24/09/2018.
@@ -27,7 +27,7 @@ final class NeuronTestHelper {
         throw new AssertionError();
     }
 
-    static void buildTest(final BiFunction<Boolean, Boolean, Boolean> biFunction, final LengthBuilder lengthBuilder) {
+    static void buildTest(final BiBooleanFunction biFunction, final LengthBuilder lengthBuilder) {
         Objects.requireNonNull(biFunction);
         for (int i = 0; i < 8; i++) {
             final Neuron neuron = lengthBuilder.withCoefficient(i % 8 == 0, i % 4 == 0, i % 2 == 0).build();
@@ -36,7 +36,7 @@ final class NeuronTestHelper {
         }
     }
 
-    private static void train(final Neuron neuron, final BiFunction<Boolean, Boolean, Boolean> biFunction) {
+    private static void train(final Neuron neuron, final BiBooleanFunction biFunction) {
         final List<List<Boolean>> training = new ArrayList<>();
         training.add(Arrays.asList(true, true));
         training.add(Arrays.asList(true, false));
@@ -52,7 +52,7 @@ final class NeuronTestHelper {
         }
     }
 
-    static void validate(final Neuron neuron, final BiFunction<Boolean, Boolean, Boolean> biFunction) {
+    static void validate(final Neuron neuron, final BiBooleanFunction biFunction) {
         Assert.assertEquals(biFunction.apply(true, true), neuron.applyBoolean(true, true));
         Assert.assertEquals(biFunction.apply(false, true), neuron.applyBoolean(false, true));
         Assert.assertEquals(biFunction.apply(true, false), neuron.applyBoolean(true, false));

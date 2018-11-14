@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import com.vgalloy.neuron.constant.Constant;
 import com.vgalloy.neuron.neuron.builder.LengthBuilder;
-import com.vgalloy.neuron.util.BooleanFunction;
+import com.vgalloy.neuron.util.BiBooleanFunction;
 
 /**
  * Created by Vincent Galloy on 01/04/17.
@@ -140,22 +140,22 @@ public final class SimpleNeuronTest {
 
     @Test
     public void and() {
-        NeuronTestHelper.buildTest(BooleanFunction.AND, Neurons.linear());
+        NeuronTestHelper.buildTest(BiBooleanFunction.AND, Neurons.linear());
     }
 
     @Test
     public void or() {
-        NeuronTestHelper.buildTest(BooleanFunction.OR, Neurons.linear());
+        NeuronTestHelper.buildTest(BiBooleanFunction.OR, Neurons.linear());
     }
 
     @Test
     public void first() {
-        NeuronTestHelper.buildTest(BooleanFunction.FIRST, Neurons.linear());
+        NeuronTestHelper.buildTest(BiBooleanFunction.FIRST, Neurons.linear());
     }
 
     @Test
     public void notSecond() {
-        NeuronTestHelper.buildTest(BooleanFunction.not(BooleanFunction.SECOND), Neurons.linear());
+        NeuronTestHelper.buildTest(BiBooleanFunction.not(BiBooleanFunction.SECOND), Neurons.linear());
     }
 
     @Test
