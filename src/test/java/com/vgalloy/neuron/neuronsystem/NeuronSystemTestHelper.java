@@ -44,7 +44,7 @@ final class NeuronSystemTestHelper {
     static void validate(final NeuronSystem neuronSystem, final BiFunction<Integer, Integer, Integer> biFunction, final int size) {
         for (int i = 0; i < Math.pow(2, size); i++) {
             for (int j = 0; j < Math.pow(2, size); j++) {
-                final boolean[] result = neuronSystem.applyBoolean(toArgs(size, i, j));
+                final boolean[] result = neuronSystem.apply(toArgs(size, i, j));
                 final Integer value = toInt(result);
                 Assert.assertEquals(biFunction.apply(i, j), value);
             }
@@ -64,7 +64,7 @@ final class NeuronSystemTestHelper {
                 final Integer second = input.get(1);
                 final boolean[] args = toArgs(size, first, second);
                 final boolean[] result = toBoolean(biFunction.apply(first, second), size + 1);
-                neuronSystem.trainWithBoolean(args, result);
+                neuronSystem.train(args, result);
 //                System.out.println(neuronSystem);
             }
         }

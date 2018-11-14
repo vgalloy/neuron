@@ -9,9 +9,9 @@ public interface NeuronSystem {
 
     double[] apply(double... input);
 
-    boolean[] applyBoolean(boolean... booleans);
+    boolean[] apply(boolean... booleans);
 
-    void trainWithBoolean(boolean[] input, boolean... expectedSolution);
+    void train(boolean[] input, boolean... expectedSolution);
 
     int inputSize();
 

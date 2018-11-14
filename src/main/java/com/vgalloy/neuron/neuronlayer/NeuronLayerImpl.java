@@ -31,12 +31,12 @@ class NeuronLayerImpl implements NeuronLayer {
     }
 
     @Override
-    public boolean[] applyBoolean(final boolean... input) {
+    public boolean[] apply(final boolean... input) {
         return function().activation(apply(function().toDoubleArray(input)));
     }
 
     @Override
-    public double[] trainWithDouble(boolean[] input, double[] error) {
+    public double[] train(boolean[] input, double[] error) {
         NeuronAssert.state(neurons.length == error.length, "Error vector size must be equals to neuron layer size.");
 
         final double[][] coefficientCorrections = new double[neuronNumber()][];
@@ -57,13 +57,13 @@ class NeuronLayerImpl implements NeuronLayer {
     }
 
     @Override
-    public double[] trainWithBoolean(boolean[] input, boolean[] expectedSolution) {
-        final boolean[] result = applyBoolean(input);
+    public double[] train(boolean[] input, boolean[] expectedSolution) {
+        final boolean[] result = apply(input);
         final double[] diff = new double[expectedSolution.length];
         for (int i = 0; i < expectedSolution.length; i++) {
             diff[i] = Constant.toDouble(expectedSolution[i]) - Constant.toDouble(result[i]);
         }
-        return trainWithDouble(input, diff);
+        return train(input, diff);
     }
 
     @Override

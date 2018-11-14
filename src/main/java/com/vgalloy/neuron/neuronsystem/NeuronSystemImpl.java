@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import com.vgalloy.neuron.constant.Constant;
+import com.vgalloy.neuron.neuron.AggregationFunction;
 import com.vgalloy.neuron.neuronlayer.NeuronLayer;
 import com.vgalloy.neuron.util.NeuronAssert;
 
@@ -30,16 +31,16 @@ final class NeuronSystemImpl implements NeuronSystem {
     }
 
     @Override
-    public boolean[] applyBoolean(final boolean... booleans) {
+    public boolean[] apply(final boolean... booleans) {
         boolean[] list = booleans;
         for (final NeuronLayer neuronLayer : neuronLayers) {
-            list = neuronLayer.applyBoolean(list);
+            list = neuronLayer.apply(list);
         }
         return list;
     }
 
     @Override
-    public void trainWithBoolean(final boolean[] input, final boolean... expectedSolution) {
+    public void train(final boolean[] input, final boolean... expectedSolution) {
         NeuronAssert.state(outputSize() == expectedSolution.length, "Expected solutions size is : " + expectedSolution.length + " must be " + input.length);
 
         final boolean[][] middleResult = computeMiddleResult(input);
@@ -51,7 +52,7 @@ final class NeuronSystemImpl implements NeuronSystem {
             final int index = neuronLayers.length - 1 - i;
             final NeuronLayer neuronLayer = neuronLayers[index];
             final boolean[] intermediateInput = middleResult[index];
-            diff = neuronLayer.trainWithDouble(intermediateInput, diff);
+            diff = neuronLayer.train(intermediateInput, diff);
         }
     }
 
@@ -60,7 +61,7 @@ final class NeuronSystemImpl implements NeuronSystem {
         boolean[] middleInput = input.clone();
         for (int i = 0; i < neuronLayers.length; i++) {
             middleResult[i] = middleInput;
-            middleInput = neuronLayers[i].applyBoolean(middleInput);
+            middleInput = neuronLayers[i].apply(middleInput);
         }
         middleResult[neuronLayers.length] = middleInput;
         return middleResult;
@@ -82,6 +83,10 @@ final class NeuronSystemImpl implements NeuronSystem {
     @Override
     public int outputSize() {
         return neuronLayers[neuronLayers.length - 1].neuronNumber();
+    }
+
+    private AggregationFunction function() {
+        return this.neuronLayers[0].function();
     }
 
     public NeuronLayer[] getNeuronLayers() {

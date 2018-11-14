@@ -37,7 +37,7 @@ public final class NeuronLayerTest {
         final NeuronLayer layer = NeuronLayers.of(Neurons.tanh(), inputSize, layerSize);
 
         // WHEN
-        final boolean[] result = layer.applyBoolean(true, true, true, true, true);
+        final boolean[] result = layer.apply(true, true, true, true, true);
 
         // THEN
         Assert.assertEquals(layerSize, result.length);
@@ -50,7 +50,7 @@ public final class NeuronLayerTest {
         final NeuronLayer layer = NeuronLayers.of(Neurons.tanh(), inputSize, 5);
 
         // WHEN
-        layer.applyBoolean(true, true, true, true);
+        layer.apply(true, true, true, true);
 
         // THEN
         Assert.fail("exception should occurred");
@@ -64,13 +64,13 @@ public final class NeuronLayerTest {
         // WHEN
         for (int i = 0; i < 1_000; i++) {
             final boolean[] input = Constant.toBooleanArray(Stream.generate(Constant::random).limit(5).collect(Collectors.toList()));
-            layer.trainWithBoolean(input, input);
+            layer.train(input, input);
         }
 
         // THEN
         for (int i = 0; i < 100; i++) {
             final boolean[] input = Constant.toBooleanArray(Stream.generate(Constant::random).limit(5).collect(Collectors.toList()));
-            Assert.assertArrayEquals(input, layer.applyBoolean(input));
+            Assert.assertArrayEquals(input, layer.apply(input));
         }
     }
 
@@ -80,10 +80,10 @@ public final class NeuronLayerTest {
         final NeuronBuilder neuronBuilder = Neurons.tanh().inputSize(2);
         final NeuronLayer layer = NeuronLayers.of(neuronBuilder.build(), neuronBuilder.build(), neuronBuilder.build());
         final boolean[] input = new boolean[]{true, true};
-        final boolean[] result = layer.applyBoolean(input);
+        final boolean[] result = layer.apply(input);
 
         // WHEN
-        final double[] correction = layer.trainWithBoolean(input, result);
+        final double[] correction = layer.train(input, result);
 
         // THEN
         Assert.assertEquals(2, correction.length);
@@ -101,7 +101,7 @@ public final class NeuronLayerTest {
         );
 
         // WHEN
-        final double[] correction = layer.trainWithBoolean(new boolean[]{true, true}, new boolean[]{false, false, false});
+        final double[] correction = layer.train(new boolean[]{true, true}, new boolean[]{false, false, false});
 
         // THEN
         Assert.assertEquals(2, correction.length);

@@ -11,7 +11,7 @@ public interface NeuronLayer {
 
     double[] apply(double... input);
 
-    boolean[] applyBoolean(boolean... input);
+    boolean[] apply(boolean... input);
 
     /**
      * Train the current neuron layer.
@@ -20,9 +20,9 @@ public interface NeuronLayer {
      * @param error the error vector
      * @return the correction coefficients
      */
-    double[] trainWithDouble(boolean[] input, double[] error);
+    double[] train(boolean[] input, double[] error);
 
-    double[] trainWithBoolean(boolean[] input, boolean[] expectedSolution);
+    double[] train(boolean[] input, boolean[] expectedSolution);
 
     /**
      * @return number of parameter in the input list.

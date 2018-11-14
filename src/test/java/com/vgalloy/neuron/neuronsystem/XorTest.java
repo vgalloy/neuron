@@ -68,7 +68,7 @@ public final class XorTest {
         );
         for (int i = 0; i < 10_000; i++) {
             Collections.shuffle(training);
-            training.forEach(train -> neuronSystem.trainWithBoolean(Constant.toBooleanArray(train), BooleanFunction.XOR.apply(train.get(0), train.get(1))));
+            training.forEach(train -> neuronSystem.train(Constant.toBooleanArray(train), BooleanFunction.XOR.apply(train.get(0), train.get(1))));
         }
     }
 
@@ -80,6 +80,6 @@ public final class XorTest {
     }
 
     private static void validate(final NeuronSystem neuronSystem, final boolean a, final boolean b) {
-        Assert.assertEquals(BooleanFunction.XOR.apply(a, b), neuronSystem.applyBoolean(a, b)[0]);
+        Assert.assertEquals(BooleanFunction.XOR.apply(a, b), neuronSystem.apply(a, b)[0]);
     }
 }
